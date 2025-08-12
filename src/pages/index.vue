@@ -31,7 +31,8 @@ onMounted(async () => {
       creator: collection.creator,
       image: collection.logoUrl || '/images/collections/placeholder.jpg',
       floorPrice: 0, // Would need separate API call to calculate
-      items: collection.maxSupply || 0,
+      items: collection.currentSupply  || 0,
+      maxSupply: collection.maxSupply === 9007199254740991 ? "∞" : ( collection.maxSupply || 0),
       bannerImage: collection.bannerImage || '/images/collections/placeholder-banner.jpg'
     }));
   } catch (error) {
@@ -120,7 +121,7 @@ onMounted(async () => {
 
           <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div v-for="collection in featuredCollections" :key="collection.id"
-              @click="router.push('/collections?collection=' + collection.id)"
+              @click="router.push('/collection/' + collection.id)"
               class="nft-card cursor-pointer relative rounded-xl overflow-hidden group">
               
               <div class="h-48 overflow-hidden">
@@ -145,7 +146,7 @@ onMounted(async () => {
                 </div>
             <div>
                     <p class="text-xs text-gray-500">Items</p>
-                    <p class="text-lg font-bold text-white">{{ collection.items }}</p>
+                    <p class="text-lg font-bold text-white">{{ collection.items }} / {{ collection.maxSupply }}</p>
                 </div>
                 </div>
               </div>

@@ -225,7 +225,7 @@ const followUser = async () => {
           <div v-if="Object.keys(groupedCollectedNFTs).length" class="space-y-8">
             <div v-for="(collectionNFTs, collection) in groupedCollectedNFTs" :key="collection">
               <h3 class="text-xl font-bold text-white mb-4 flex items-center space-x-2">
-                <router-link :to="`/collections?collection=${collection}`" class="text-cyan-400 hover:text-cyan-300">
+                <router-link :to="`/collection/${collection}`" class="text-cyan-400 hover:text-cyan-300">
                   {{ collection }}
                 </router-link>
                 <span class="text-sm text-gray-400">({{ collectionNFTs.length }})</span>
@@ -268,7 +268,7 @@ const followUser = async () => {
           <div v-if="Object.keys(groupedCreatedNFTs).length" class="space-y-8">
             <div v-for="(collectionNFTs, collection) in groupedCreatedNFTs" :key="collection">
               <h3 class="text-xl font-bold text-white mb-4 flex items-center space-x-2">
-                <router-link :to="`/collections?collection=${collection}`" class="text-cyan-400 hover:text-cyan-300">
+                <router-link :to="`/collection/${collection}`" class="text-cyan-400 hover:text-cyan-300">
                   {{ collection }}
                 </router-link>
                 <span class="text-sm text-gray-400">({{ collectionNFTs.length }})</span>
@@ -316,7 +316,7 @@ const followUser = async () => {
               v-for="collection in userCollections" 
               :key="collection.symbol"
               class="nft-panel hover:transform hover:scale-105 transition-all cursor-pointer"
-              @click="router.push(`/collections?collection=${collection.symbol}`)"
+              @click="router.push(`/collection/${collection.symbol}`)"
             >
               <div class="h-32 mb-4 rounded-lg overflow-hidden">
                 <img 

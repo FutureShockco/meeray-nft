@@ -123,7 +123,8 @@ onMounted(async () => {
       image: collection.logoUrl || '/images/collections/placeholder.jpg',
       bannerImage: collection.bannerImage || '/images/collections/placeholder-banner.jpg',
       floorPrice: 0, // Would need separate API call to calculate
-      items: collection.maxSupply || 0,
+      items: collection.currentSupply  || 0,
+      maxSupply: collection.maxSupply === 9007199254740991 ? "∞" : ( collection.maxSupply || 0),
       description: collection.description || '',
       owners: 0, // Would need separate API call
       volume: 0, // Would need separate API call
@@ -267,7 +268,7 @@ function handleFilterChange(filters: any) {
                   </div>
                   <div>
                     <p class="text-xs text-gray-500">Items</p>
-                    <p class="text-lg font-bold text-white">{{ collection.items }}</p>
+                    <p class="text-lg font-bold text-white">{{ collection.items }} / {{ collection.maxSupply }}</p>
                   </div>
                 </div>
               </div>

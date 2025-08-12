@@ -302,7 +302,7 @@ const delistNFT = async () => {
         <div class="space-y-6">
           
           <div class="flex items-center space-x-3 text-gray-300">
-            <router-link :to="`/collections?collection=${collection}`" class="text-cyan-400 hover:text-cyan-300">
+            <router-link :to="`/collection/${collection}`" class="text-cyan-400 hover:text-cyan-300">
               {{ collectionData?.name || collection }}
             </router-link>
           </div>

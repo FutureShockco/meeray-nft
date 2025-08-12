@@ -53,7 +53,8 @@ async function loadData() {
           image: col.logoUrl || fallbackLogo,
           bannerImage: col.bannerImage || fallbackBanner,
           floorPrice: 0,
-          items: col.maxSupply || (instancesResp.data?.length || 0),
+          items: col.currentSupply || (instancesResp.data?.length || 0),
+          maxSupply: col.maxSupply === 9007199254740991 ? "∞" : col.maxSupply || (instancesResp.data?.length || 0),
           description: col.description || '',
           owners: 0,
           volume: 0,
@@ -170,7 +171,7 @@ onMounted(loadData);
               <div class="grid grid-cols-4 border-t border-gray-800">
                 <div class="p-4 text-center">
                   <p class="text-sm text-gray-400 mb-1">Items</p>
-                  <p class="text-2xl font-bold text-white">{{ collection.items }}</p>
+                  <p class="text-2xl font-bold text-white">{{ collection.items }} / {{ collection.maxSupply }}</p>
                 </div>
                 <div class="p-4 text-center">
                   <p class="text-sm text-gray-400 mb-1">Owners</p>
