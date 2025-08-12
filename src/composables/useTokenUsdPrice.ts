@@ -9,7 +9,7 @@ import { useCoinPricesStore } from '../stores/coinPrices';
 export function useTokenUsdPrice(symbol: string) {
   const api = useApiService();
   const coinPrices = useCoinPricesStore();
-  const price = ref<number|null>(null);
+  const price = ref<number | null>(null);
   const loading = ref(false);
   const error = ref('');
 

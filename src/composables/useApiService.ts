@@ -161,10 +161,10 @@ export function useApiService() {
   const fetcher = typeof globalThis !== 'undefined' && typeof (globalThis as any).$fetch === 'function'
     ? (url: string) => (globalThis as any).$fetch(url)
     : async (url: string) => {
-        const res = await fetch(url);
-        if (!res.ok) throw new Error(`API error: ${res.status}`);
-        return res.json();
-      };
+      const res = await fetch(url);
+      if (!res.ok) throw new Error(`API error: ${res.status}`);
+      return res.json();
+    };
   // --- Account Endpoints ---
   const getAccount = (account: string) => fetcher(`${API_BASE}/accounts/${account}`) as Promise<{ success: boolean; account: Account }>;
   const getAccounts = (params?: { limit?: number; offset?: number; hasToken?: string; isWitness?: string; sortBy?: string; sortDirection?: string }) => {
@@ -358,18 +358,18 @@ export function useApiService() {
     getAccounts,
     getAccountHistory,
     getAccountTokens,
-    
+
     // Token Management
     getTokens,
     getToken,
     getTokenDetails,
     searchTokensByName,
-    
+
     // NFT Collections
     getNftCollections,
     getNftCollection,
     getNftCollectionsByCreator,
-    
+
     // NFT Instances
     getNftInstances,
     getNftInstancesByCollection,
@@ -378,13 +378,13 @@ export function useApiService() {
     getNftInstanceHistory,
     getNftInstanceDelegations,
     getNftInstancesDelegatedTo,
-    
+
     // NFT Marketplace
     getNftMarketListings,
     getNftMarketListing,
     getNftMarketListingsBySeller,
     getNftMarketListingsByCollection,
-    
+
     // Blockchain Data
     getBlocks,
     getLatestBlock,

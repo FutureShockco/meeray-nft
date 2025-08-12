@@ -167,7 +167,7 @@ async function createNFT() {
       collectionSymbol: nftForm.value.collectionSymbol,
       owner: nftForm.value.owner || auth.state.username,
       properties,
-      uri: nftForm.value.coverUrl
+      coverUrl: nftForm.value.coverUrl
     };
 
     // Add instanceId if provided
@@ -179,7 +179,7 @@ async function createNFT() {
       mintData.collectionSymbol,
       mintData.owner,
       mintData.properties,
-      mintData.uri
+      mintData.coverUrl
     );
     
     result.onStatusChange((status) => {

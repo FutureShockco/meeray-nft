@@ -64,23 +64,23 @@ export const useTransactionService = () => {
   const isConnected = ref(false)
 
   // ===== KAFKA WEBSOCKET INTEGRATION =====
-  
+
   const initializeWebSocket = () => {
     try {
       const wsUrl = import.meta.env.BASE_URL || 'ws://localhost:8080/kafka-events'
-      
+
       wsConnection.value = new WebSocket(String(wsUrl))
-      
+
       wsConnection.value.onopen = () => {
         isConnected.value = true
         console.log('Connected to Kafka event stream')
-        
+
         // Subscribe to user events
         if (auth.state.username) {
           subscribeToUserEvents(auth.state.username)
         }
       }
-      
+
       wsConnection.value.onmessage = (event) => {
         try {
           const kafkaEvent: KafkaEventData = JSON.parse(event.data)
@@ -89,16 +89,16 @@ export const useTransactionService = () => {
           console.error('Failed to parse Kafka event:', error)
         }
       }
-      
+
       wsConnection.value.onerror = (error) => {
         console.error('Kafka WebSocket error:', error)
         isConnected.value = false
       }
-      
+
       wsConnection.value.onclose = () => {
         isConnected.value = false
         console.log('Disconnected from Kafka event stream')
-        
+
         // Attempt to reconnect after 5 seconds
         setTimeout(() => {
           if (!isConnected.value) {
@@ -132,13 +132,13 @@ export const useTransactionService = () => {
   const handleKafkaEvent = (event: KafkaEventData) => {
     // Match events to pending transactions by tracking ID
     const trackingId = event.data?._trackingId || event.data?.transactionId
-    
+
     if (trackingId && pendingTransactions.value.has(trackingId)) {
       const currentStatus = pendingTransactions.value.get(trackingId)!
-      
+
       // Update status based on event type
       let newStatus: TransactionStatus['status'] = currentStatus.status
-      
+
       switch (event.type) {
         case 'nft_create_collection':
         case 'nft_mint':
@@ -168,7 +168,7 @@ export const useTransactionService = () => {
       }
 
       pendingTransactions.value.set(trackingId, updatedStatus)
-      
+
       // Notify listeners
       const listener = eventListeners.value.get(trackingId)
       if (listener) {
@@ -198,7 +198,7 @@ export const useTransactionService = () => {
 
     // Generate unique tracking ID
     const trackingId = `${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
-    
+
     const customJsonOperation = {
       required_auths: [auth.state.username],
       required_posting_auths: [],
@@ -213,12 +213,10 @@ export const useTransactionService = () => {
     }
 
     try {
-      // Send to Steem blockchain
-      const steemResult = await TransactionService.send('custom_json', customJsonOperation, { 
-        requiredAuth: 'active' 
+      const steemResult = await TransactionService.send('custom_json', customJsonOperation, {
+        requiredAuth: 'active'
       })
-      
-      // Initialize tracking
+
       const initialStatus: TransactionStatus = {
         id: trackingId,
         steemTxId: steemResult.id,
@@ -226,10 +224,9 @@ export const useTransactionService = () => {
         timestamp: Date.now(),
         type: transactionType
       }
-      
+
       pendingTransactions.value.set(trackingId, initialStatus)
-      
-      // Subscribe to this specific transaction
+
       subscribeToTransaction(trackingId)
 
       return {
@@ -282,7 +279,6 @@ export const useTransactionService = () => {
     })
   }
 
-  // ===== NFT TRANSACTION METHODS =====
 
   const createCollection = async (data: NFTCollectionData) => {
     return sendNFTTransaction('nft_create_collection', {
@@ -291,12 +287,12 @@ export const useTransactionService = () => {
     }, 'CREATE_COLLECTION')
   }
 
-  const mintNFT = async (collectionSymbol: string, owner: string, properties?: any, uri?: string) => {
+  const mintNFT = async (collectionSymbol: string, owner: string, properties?: any, coverUrl?: string) => {
     return sendNFTTransaction('nft_mint', {
       collectionSymbol,
       owner,
       properties,
-      uri,
+      coverUrl,
     }, 'MINT_NFT')
   }
 
@@ -368,9 +364,6 @@ export const useTransactionService = () => {
     return Array.from(pendingTransactions.value.values()).filter(tx => tx.type === type)
   }
 
-
-
-  // Cleanup on unmount
   onUnmounted(() => {
     if (wsConnection.value) {
       wsConnection.value.close()
@@ -381,7 +374,7 @@ export const useTransactionService = () => {
     // State
     pendingTransactions: computed(() => pendingTransactions.value),
     isConnected,
-    
+
     // NFT Transaction Methods
     createCollection,
     mintNFT,
@@ -393,12 +386,12 @@ export const useTransactionService = () => {
     acceptBid,
     closeAuction,
     batchOperations,
-    
+
     // Utility Methods
     getTransactionStatus,
     getPendingTransactions,
     getPendingTransactionsByType,
-    
+
     // WebSocket Methods
     subscribeToUserEvents,
     subscribeToTransaction,

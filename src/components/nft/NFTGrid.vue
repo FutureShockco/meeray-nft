@@ -1,45 +1,9 @@
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue';
-
-// Props and interfaces
-interface NFTCollection {
-  id: string;
-  name: string;
-}
-
-interface NFTProperty {
-  trait_type: string;
-  value: string;
-}
-
-interface NFT {
-  id: number;
-  name: string;
-  description: string;
-  image: string;
-  collection: NFTCollection;
-  owner: string;
-  creator: string;
-  price?: number;
-  currency?: string;
-  isListed: boolean;
-  properties: NFTProperty[];
-  royalties: number;
-  createdAt: string;
-  likes: number;
-  views: number;
-  history: {
-    id: number;
-    type: 'mint' | 'transfer' | 'list' | 'sale' | 'offer' | 'burn';
-    from: string;
-    to?: string;
-    price?: number;
-    timestamp: string;
-  }[];
-}
+import type { UINFT } from '../../types/models';
 
 const props = defineProps<{
-  nfts: NFT[];
+  nfts: UINFT[];
   showFilters?: boolean;
   title?: string;
   emptyMessage?: string;
@@ -47,11 +11,11 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits<{
-  buy: [nft: NFT];
-  makeoffer: [nft: NFT, price: number];
-  transfer: [nft: NFT, address: string];
-  burn: [nft: NFT];
-  list: [nft: NFT, price: number, currency: string];
+  buy: [nft: UINFT];
+  makeoffer: [nft: UINFT, price: number];
+  transfer: [nft: UINFT, address: string];
+  burn: [nft: UINFT];
+  list: [nft: UINFT, price: number, currency: string];
   filter: [filters: any];
 }>();
 
@@ -67,7 +31,7 @@ const gridView = ref('grid'); // grid or list
 
 // Computed properties
 const collections = computed(() => {
-  const uniqueCollections = new Map<string, NFTCollection>();
+  const uniqueCollections = new Map<string, UINFT['collection']>();
   props.nfts.forEach(nft => {
     if (!uniqueCollections.has(nft.collection.id)) {
       uniqueCollections.set(nft.collection.id, nft.collection);
@@ -153,7 +117,7 @@ import { useRouter } from 'vue-router';
 
 const router = useRouter();
 
-function openNFTDetail(nft: NFT) {
+function openNFTDetail(nft: UINFT) {
   router.push(`/nft/${nft.collection.id}/${nft.id}`);
 }
 
@@ -181,23 +145,23 @@ function isFavorite(nftId: number) {
 }
 
 // Event handlers for NFT actions
-function handleBuy(nft: NFT) {
+function handleBuy(nft: UINFT) {
   emit('buy', nft);
 }
 
-function handleMakeOffer(nft: NFT, price: number) {
+function handleMakeOffer(nft: UINFT, price: number) {
   emit('makeoffer', nft, price);
 }
 
-function handleTransfer(nft: NFT, address: string) {
+function handleTransfer(nft: UINFT, address: string) {
   emit('transfer', nft, address);
 }
 
-function handleBurn(nft: NFT) {
+function handleBurn(nft: UINFT) {
   emit('burn', nft);
 }
 
-function handleList(nft: NFT, price: number, currency: string) {
+function handleList(nft: UINFT, price: number, currency: string) {
   emit('list', nft, price, currency);
 }
 </script>
@@ -337,7 +301,7 @@ function handleList(nft: NFT, price: number, currency: string) {
         class="nft-card cursor-pointer rounded-xl overflow-hidden bg-gray-900 border border-gray-800 hover:border-cyan-500/50 transition-all duration-300"
       >
         <div class="relative h-48 overflow-hidden group">
-          <img :src="nft.image" :alt="nft.name" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+          <img :src="nft.coverUrl" :alt="nft.name" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
           
           <button 
             @click.stop="toggleFavorite(nft.id)" 
@@ -398,7 +362,7 @@ function handleList(nft: NFT, price: number, currency: string) {
         class="nft-card cursor-pointer rounded-lg overflow-hidden border border-gray-800 hover:border-cyan-500/50 transition-all duration-300 bg-gray-900 flex"
       >
         <div class="relative h-24 w-24 sm:h-32 sm:w-32 overflow-hidden">
-          <img :src="nft.image" :alt="nft.name" class="h-full w-full object-cover hover:scale-110 transition-transform duration-500">
+          <img :src="nft.coverUrl" :alt="nft.name" class="h-full w-full object-cover hover:scale-110 transition-transform duration-500">
         </div>
         
         <div class="p-4 flex-1 flex flex-col sm:flex-row sm:items-center justify-between">

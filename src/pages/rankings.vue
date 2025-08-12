@@ -21,14 +21,35 @@ const tabs = [
 onMounted(async () => {
   try {
     loading.value = true
-    const [collectionsData, trendingData] = await Promise.all([
-      api.getNftCollections(),
-      api.getNftMarketActivity()
+    const [collectionsResp, listingsResp] = await Promise.all([
+      api.getNftCollections({ limit: 100 }),
+      api.getNftMarketListings({ limit: 100, sortBy: 'listedAt', sortDirection: 'DESC' })
     ])
-    
-    collections.value = collectionsData?.sort((a, b) => (b.volume || 0) - (a.volume || 0)) || []
-    trending.value = trendingData?.trending || []
-    
+
+    // Collections ranking (placeholder volume sorting until real volume API exists)
+    const mappedCols = (collectionsResp?.data || []).map((c: any) => ({
+      id: c.symbol,
+      name: c.name,
+      creator: c.creator,
+      image: c.logoUrl,
+      floorPrice: 0,
+      volume: 0,
+      items: c.currentSupply || c.maxSupply || 0,
+      owners: 0,
+      change24h: 0
+    }))
+    collections.value = mappedCols
+
+    // Trending NFTs approximation from recent listings
+    trending.value = (listingsResp?.data || []).slice(0, 12).map((l: any) => ({
+      id: l.instanceId,
+      name: l.name || `${l.collectionSymbol} #${l.instanceId}`,
+      image: l.coverUrl || l.uri,
+      collection: l.collectionSymbol,
+      price: l.price,
+      trending: Math.floor(Math.random() * 50) // placeholder
+    }))
+
     // TODO: Load top creators data from API when available
     topCreators.value = []
   } catch (err) {
@@ -59,36 +80,31 @@ const getChangeColor = (change: number) => {
 <template>
   <div class="nft-bg-pattern min-h-screen">
     <div class="max-w-7xl mx-auto px-4 py-8">
-      
+
       <div class="mb-8">
         <h1 class="text-3xl font-bold text-white mb-4">Rankings</h1>
         <p class="text-gray-300">Top performing collections, trending NFTs, and leading creators</p>
       </div>
 
-      
+
       <div class="flex space-x-1 mb-8">
-        <button
-          v-for="tab in tabs"
-          :key="tab.id"
-          @click="activeTab = tab.id"
-          :class="[
-            'flex items-center space-x-2 px-6 py-3 rounded-lg font-medium transition-all',
-            activeTab === tab.id
-              ? 'bg-cyan-500 text-white'
-              : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
-          ]"
-        >
+        <button v-for="tab in tabs" :key="tab.id" @click="activeTab = tab.id" :class="[
+          'flex items-center space-x-2 px-6 py-3 rounded-lg font-medium transition-all',
+          activeTab === tab.id
+            ? 'bg-cyan-500 text-white'
+            : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
+        ]">
           <span>{{ tab.icon }}</span>
           <span>{{ tab.name }}</span>
         </button>
       </div>
 
-      
+
       <div v-if="loading" class="flex justify-center py-16">
         <div class="steem-auth-spinner"></div>
       </div>
 
-      
+
       <div v-else-if="activeTab === 'collections'" class="nft-panel">
         <div class="overflow-x-auto">
           <table class="w-full">
@@ -104,25 +120,20 @@ const getChangeColor = (change: number) => {
               </tr>
             </thead>
             <tbody>
-              <tr 
-                v-for="(collection, index) in collections" 
-                :key="collection.id"
+              <tr v-for="(collection, index) in collections" :key="collection.id"
                 class="border-b border-gray-800 hover:bg-gray-800/50 transition-colors cursor-pointer"
-                @click="$router.push(`/collections/${collection.id}`)"
-              >
+                @click="$router.push(`/collections/${collection.id}`)">
                 <td class="py-4">
                   <span class="text-gray-400 font-medium">{{ index + 1 }}</span>
                 </td>
                 <td class="py-4">
                   <div class="flex items-center space-x-3">
-                    <img 
-                      :src="collection.image || '/images/collections/cryptoheroes.jpg'" 
-                      :alt="collection.name"
-                      class="w-12 h-12 rounded-lg object-cover"
-                    >
+                    <img :src="collection.logoUrl || '/images/collections/cryptoheroes.jpg'" :alt="collection.name"
+                      class="w-12 h-12 rounded-lg object-cover">
                     <div>
                       <div class="font-semibold text-white">{{ collection.name }}</div>
-                      <div class="text-sm text-gray-400">by {{ collection.creator }}</div>
+                      <div class="text-sm text-gray-400">by <router-link :to="`/profile/${collection.creator}`"
+                          class="text-cyan-400">{{ collection.creator }}</router-link></div>
                     </div>
                   </div>
                 </td>
@@ -149,20 +160,13 @@ const getChangeColor = (change: number) => {
         </div>
       </div>
 
-      
+
       <div v-else-if="activeTab === 'trending'" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div 
-          v-for="nft in trending" 
-          :key="nft.id"
+        <div v-for="nft in trending" :key="nft.id"
           class="nft-panel hover:transform hover:scale-105 transition-all cursor-pointer"
-          @click="$router.push(`/nft/${nft.collection}/${nft.id}`)"
-        >
+          @click="$router.push(`/nft/${nft.collection}/${nft.id}`)">
           <div class="aspect-square mb-4 rounded-lg overflow-hidden">
-            <img 
-              :src="nft.image || '/images/nfts/01.png'" 
-              :alt="nft.name"
-              class="w-full h-full object-cover"
-            >
+            <img :src="nft.coverUrl || '/images/nfts/01.png'" :alt="nft.name" class="w-full h-full object-cover">
           </div>
           <h3 class="font-semibold text-white mb-2">{{ nft.name }}</h3>
           <div class="text-sm text-gray-400 mb-2">{{ nft.collection }}</div>
@@ -173,7 +177,7 @@ const getChangeColor = (change: number) => {
         </div>
       </div>
 
-      
+
       <div v-else-if="activeTab === 'creators'" class="nft-panel">
         <div class="overflow-x-auto">
           <table class="w-full">
@@ -188,17 +192,15 @@ const getChangeColor = (change: number) => {
               </tr>
             </thead>
             <tbody>
-              <tr 
-                v-for="(creator, index) in topCreators" 
-                :key="creator.username"
-                class="border-b border-gray-800 hover:bg-gray-800/50 transition-colors"
-              >
+              <tr v-for="(creator, index) in topCreators" :key="creator.username"
+                class="border-b border-gray-800 hover:bg-gray-800/50 transition-colors">
                 <td class="py-4">
                   <span class="text-gray-400 font-medium">{{ index + 1 }}</span>
                 </td>
                 <td class="py-4">
                   <div class="flex items-center space-x-3">
-                    <div class="w-12 h-12 bg-gradient-to-br from-cyan-400 to-purple-600 rounded-full flex items-center justify-center">
+                    <div
+                      class="w-12 h-12 bg-gradient-to-br from-cyan-400 to-purple-600 rounded-full flex items-center justify-center">
                       <span class="text-white font-bold text-lg">{{ creator.username[0].toUpperCase() }}</span>
                     </div>
                     <div>
@@ -217,10 +219,8 @@ const getChangeColor = (change: number) => {
                   <div class="text-gray-300">{{ creator.followers }}</div>
                 </td>
                 <td class="py-4">
-                  <button 
-                    @click="$router.push(`/profile/${creator.username}`)"
-                    class="px-4 py-2 bg-cyan-500 text-white rounded-lg hover:bg-cyan-600 transition-colors"
-                  >
+                  <button @click="$router.push(`/profile/${creator.username}`)"
+                    class="px-4 py-2 bg-cyan-500 text-white rounded-lg hover:bg-cyan-600 transition-colors">
                     View Profile
                   </button>
                 </td>
@@ -230,7 +230,7 @@ const getChangeColor = (change: number) => {
         </div>
       </div>
 
-      
+
       <div v-if="!loading && collections.length === 0 && activeTab === 'collections'" class="text-center py-16">
         <div class="nft-panel p-8">
           <div class="text-6xl mb-4">🏆</div>

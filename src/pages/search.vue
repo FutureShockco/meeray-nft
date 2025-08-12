@@ -64,16 +64,22 @@ const performSearch = async () => {
     // Update URL
     router.replace({ query: { q: searchQuery.value } })
     
-    // TODO: Implement actual search API calls
-    const [nftTokens, collections] = await Promise.all([
-      api.getNftTokens({ search: searchQuery.value }),
-      api.getNftCollections({ search: searchQuery.value })
+    // Use supported endpoints to approximate search
+    const [nftResp, collectionsResp] = await Promise.all([
+      api.getNftInstances({ metadataValue: searchQuery.value, limit: 50 }),
+      api.getNftCollections({ nameSearch: searchQuery.value, limit: 50 })
     ])
     
     searchResults.value = {
-      nfts: nftTokens || [],
-      collections: collections || [],
-      users: [] // Would come from user search API
+      nfts: (nftResp?.data || []).map((inst: any) => ({
+        id: inst.instanceId,
+        name: inst.properties?.name || `${inst.collectionSymbol} #${inst.instanceId}`,
+        image: inst.uri,
+        collection: inst.collectionSymbol,
+        price: inst.price,
+      })),
+      collections: collectionsResp?.data || [],
+      users: []
     }
     
     // Update tab counts
@@ -274,7 +280,7 @@ const clearFilters = () => {
             >
               <div class="aspect-square">
                 <img 
-                  :src="nft.image || '/images/nfts/01.png'" 
+                  :src="nft.coverUrl || '/images/nfts/01.png'" 
                   :alt="nft.name"
                   class="w-full h-full object-cover"
                 >
@@ -300,13 +306,13 @@ const clearFilters = () => {
             >
               <div class="h-32 mb-4 rounded-lg overflow-hidden">
                 <img 
-                  :src="collection.bannerImage || collection.image || '/images/collections/cryptoheroes-banner.jpg'" 
+                  :src="collection.logoUrl || collection.coverUrl || '/images/collections/cryptoheroes-banner.jpg'" 
                   :alt="collection.name"
                   class="w-full h-full object-cover"
                 >
               </div>
               <h3 class="font-semibold text-white mb-2">{{ collection.name }}</h3>
-              <div class="text-sm text-gray-400 mb-2">by {{ collection.creator }}</div>
+              <div class="text-sm text-gray-400 mb-2">by <router-link :to="`/profile/${collection.creator}`" class="text-cyan-400">{{ collection.creator }}</router-link></div>
               <div class="flex justify-between items-center text-sm">
                 <span class="text-gray-400">{{ collection.items }} items</span>
                 <span v-if="collection.floorPrice" class="text-cyan-400">{{ collection.floorPrice }} STEEM</span>

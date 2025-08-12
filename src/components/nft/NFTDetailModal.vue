@@ -2,50 +2,20 @@
 import { ref, computed } from 'vue';
 
 // Props
-interface NFT {
-  id: number;
-  name: string;
-  description: string;
-  image: string;
-  collection: {
-    id: string;
-    name: string;
-  };
-  owner: string;
-  creator: string;
-  price?: number;
-  currency?: string;
-  isListed: boolean;
-  properties: {
-    trait_type: string;
-    value: string;
-  }[];
-  royalties: number;
-  createdAt: string;
-  likes: number;
-  views: number;
-  history: {
-    id: number;
-    type: 'mint' | 'transfer' | 'list' | 'sale' | 'offer' | 'burn';
-    from: string;
-    to?: string;
-    price?: number;
-    timestamp: string;
-  }[];
-}
+import type { UINFT } from '../../types/models';
 
 const props = defineProps<{
-  nft: NFT;
+  nft: UINFT;
   show?: boolean;
 }>();
 
 const emit = defineEmits<{
   close: [];
-  buy: [nft: NFT];
-  makeoffer: [nft: NFT, price: number];
-  transfer: [nft: NFT, address: string];
-  burn: [nft: NFT];
-  list: [nft: NFT, price: number, currency: string];
+  buy: [nft: UINFT];
+  makeoffer: [nft: UINFT, price: number];
+  transfer: [nft: UINFT, address: string];
+  burn: [nft: UINFT];
+  list: [nft: UINFT, price: number, currency: string];
 }>();
 
 // State
@@ -85,7 +55,7 @@ function makeoffer() {
   
   // Simulate API call
   setTimeout(() => {
-    emit('makeoffer', props.nft as NFT, parseFloat(offerPrice.value));
+    emit('makeoffer', props.nft as UINFT, parseFloat(offerPrice.value));
     offerPrice.value = '';
     isLoading.value = false;
   }, 1000);
@@ -98,7 +68,7 @@ function buy() {
   
   // Simulate API call
   setTimeout(() => {
-    emit('buy', props.nft as NFT);
+    emit('buy', props.nft as UINFT);
     isLoading.value = false;
   }, 1000);
 }
@@ -110,7 +80,7 @@ function transfer() {
   
   // Simulate API call
   setTimeout(() => {
-    emit('transfer', props.nft as NFT, transferAddress.value);
+    emit('transfer', props.nft as UINFT, transferAddress.value);
     transferAddress.value = '';
     isLoading.value = false;
   }, 1000);
@@ -123,7 +93,7 @@ function list() {
   
   // Simulate API call
   setTimeout(() => {
-    emit('list', props.nft as NFT, parseFloat(listPrice.value), listCurrency.value);
+    emit('list', props.nft as UINFT, parseFloat(listPrice.value), listCurrency.value);
     listPrice.value = '';
     isLoading.value = false;
   }, 1000);
@@ -140,7 +110,7 @@ function burn() {
   
   // Simulate API call
   setTimeout(() => {
-    emit('burn', props.nft as NFT);
+    emit('burn', props.nft as UINFT);
     showConfirmBurn.value = false;
     isLoading.value = false;
   }, 1000);
@@ -181,7 +151,7 @@ function cancelBurn() {
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <div class="rounded-lg overflow-hidden border-2 border-purple-500/50 shadow-lg shadow-purple-500/20">
-                <img :src="nft.image" :alt="nft.name" class="w-full h-auto object-cover">
+                <img :src="nft.coverUrl" :alt="nft.name" class="w-full h-auto object-cover">
               </div>
               
               <div class="mt-4 flex justify-between items-center text-sm text-gray-400">
@@ -402,32 +372,32 @@ function cancelBurn() {
                         <div class="mt-1">
                           <template v-if="event.type === 'mint'">
                             <p class="text-sm text-gray-600 dark:text-gray-300">
-                              Minted by <span class="font-medium">{{ event.from }}</span>
+                              Minted by <router-link :to="`/profile/${event.from}`" class="font-medium">{{ event.from }}</router-link>
                             </p>
                           </template>
                           <template v-else-if="event.type === 'transfer'">
                             <p class="text-sm text-gray-600 dark:text-gray-300">
-                              Transferred from <span class="font-medium">{{ event.from }}</span> to <span class="font-medium">{{ event.to }}</span>
+                              Transferred from <router-link :to="`/profile/${event.from}`" class="font-medium">{{ event.from }}</router-link> to <router-link :to="`/profile/${event.to}`" class="font-medium">{{ event.to }}</router-link>
                             </p>
                           </template>
                           <template v-else-if="event.type === 'list'">
                             <p class="text-sm text-gray-600 dark:text-gray-300">
-                              Listed by <span class="font-medium">{{ event.from }}</span> for <span class="font-medium">{{ event.price }} {{ nft.currency }}</span>
+                              Listed by <router-link :to="`/profile/${event.from}`" class="font-medium">{{ event.from }}</router-link> for <span class="font-medium">{{ event.price }} {{ nft.currency }}</span>
                             </p>
                           </template>
                           <template v-else-if="event.type === 'sale'">
                             <p class="text-sm text-gray-600 dark:text-gray-300">
-                              Sold by <span class="font-medium">{{ event.from }}</span> to <span class="font-medium">{{ event.to }}</span> for <span class="font-medium">{{ event.price }} {{ nft.currency }}</span>
+                              Sold by <router-link :to="`/profile/${event.from}`" class="font-medium">{{ event.from }}</router-link> to <router-link :to="`/profile/${event.to}`" class="font-medium">{{ event.to }}</router-link> for <span class="font-medium">{{ event.price }} {{ nft.currency }}</span>
                             </p>
                           </template>
                           <template v-else-if="event.type === 'offer'">
                             <p class="text-sm text-gray-600 dark:text-gray-300">
-                              Offer made by <span class="font-medium">{{ event.from }}</span> for <span class="font-medium">{{ event.price }} {{ nft.currency }}</span>
+                              Offer made by <router-link :to="`/profile/${event.from}`" class="font-medium">{{ event.from }}</router-link> for <span class="font-medium">{{ event.price }} {{ nft.currency }}</span>
                             </p>
                           </template>
                           <template v-else-if="event.type === 'burn'">
                             <p class="text-sm text-gray-600 dark:text-gray-300">
-                              Burned by <span class="font-medium">{{ event.from }}</span>
+                              Burned by <router-link :to="`/profile/${event.from}`" class="font-medium">{{ event.from }}</router-link>
                             </p>
                           </template>
                         </div>

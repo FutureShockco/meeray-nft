@@ -86,14 +86,25 @@ onMounted(async () => {
   try {
     loading.value = true
     
-    // TODO: Implement category-specific API endpoints
-    const [nftData, collectionData] = await Promise.all([
-      api.getNftTokens({ category: categorySlug }),
-      api.getNftCollections({ category: categorySlug })
-    ])
-    
-    nfts.value = nftData || []
-    collections.value = collectionData || []
+  // Fetch NFTs and collections related to this category using supported endpoints
+  const [nftResp, collectionResp] = await Promise.all([
+    api.getNftInstances({ limit: 200, metadataKey: 'category', metadataValue: categorySlug }),
+    api.getNftCollections({ nameSearch: categorySlug, limit: 50 })
+  ])
+  
+  // Map NFTs to a simple UI shape expected by this page
+  nfts.value = (nftResp?.data || []).map((inst: any) => ({
+    id: inst.instanceId,
+    name: inst.properties?.name || `${inst.collectionSymbol} #${inst.instanceId}`,
+    image: inst.uri,
+    collection: inst.collectionSymbol,
+    creator: inst.creator || inst.owner,
+    price: inst.price,
+    likes: inst.likes || 0,
+    createdAt: inst.createdAt
+  }))
+  
+  collections.value = collectionResp?.data || []
   } catch (err) {
     console.error('Failed to load category data:', err)
   } finally {
@@ -240,7 +251,7 @@ const allCategories = computed(() => {
           >
             <div class="h-32 mb-4 rounded-lg overflow-hidden">
               <img 
-                :src="collection.bannerImage || collection.image || '/images/collections/cryptoheroes-banner.jpg'" 
+                :src="collection.logoUrl || collection.image || '/images/collections/cryptoheroes-banner.jpg'" 
                 :alt="collection.name"
                 class="w-full h-full object-cover"
               >
@@ -267,7 +278,7 @@ const allCategories = computed(() => {
           >
             <div class="aspect-square">
               <img 
-                :src="nft.image || '/images/nfts/01.png'" 
+                :src="nft.coverUrl || '/images/nfts/01.png'" 
                 :alt="nft.name"
                 class="w-full h-full object-cover"
               >
@@ -294,7 +305,7 @@ const allCategories = computed(() => {
             <div class="flex items-center space-x-4">
               <div class="w-20 h-20 rounded-lg overflow-hidden flex-shrink-0">
                 <img 
-                  :src="nft.image || '/images/nfts/01.png'" 
+                  :src="nft.coverUrl || '/images/nfts/01.png'" 
                   :alt="nft.name"
                   class="w-full h-full object-cover"
                 >
@@ -303,7 +314,7 @@ const allCategories = computed(() => {
                 <h3 class="font-semibold text-white mb-1">{{ nft.name }}</h3>
                 <div class="text-sm text-gray-400 mb-2">{{ nft.collection }}</div>
                 <div class="flex items-center space-x-4 text-sm text-gray-400">
-                  <span>by {{ nft.creator }}</span>
+                  <span>by <router-link :to="`/profile/${nft.creator}`" class="text-cyan-400">{{ nft.creator }}</router-link></span>
                   <span v-if="nft.likes">{{ nft.likes }} likes</span>
                 </div>
               </div>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { useApiService } from '../composables/useApiService'
 
 const api = useApiService()
@@ -21,8 +21,21 @@ const filters = [
 onMounted(async () => {
   try {
     loading.value = true
-    const data = await api.getNftMarketActivity()
-    activities.value = data || []
+    // Approximate activity from latest listings (placeholder until dedicated activity API exists)
+    const listings = await api.getNftMarketListings({ limit: 100, sortBy: 'listedAt', sortDirection: 'DESC' })
+    activities.value = (listings?.data || []).map((l: any) => ({
+      id: `${l.collectionSymbol}-${l.instanceId}-${l.listedAt}`,
+      type: 'listing',
+      nftId: l.instanceId,
+      nftName: l.name || `${l.collectionSymbol} #${l.instanceId}`,
+      nftImage: l.image || l.uri,
+      collection: l.collectionSymbol,
+      collectionName: l.collectionSymbol,
+      actor: l.seller,
+      price: l.price,
+      token: l.paymentTokenSymbol,
+      timestamp: l.listedAt
+    }))
   } catch (err) {
     console.error('Failed to load activity:', err)
   } finally {

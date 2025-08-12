@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 import { useApiService } from '../composables/useApiService'
 import { useTokenUsdPrice } from '../composables/useTokenUsdPrice'
 import { useAuthStore } from 'steem-auth-vue'
@@ -9,6 +10,7 @@ const api = useApiService()
 const auth = useAuthStore()
 const meeray = useMeerayAccountStore()
 const { usdPrice } = useTokenUsdPrice('USDT')
+const router = useRouter()
 
 // State
 const tokens = ref<any[]>([])
@@ -28,7 +30,8 @@ const tabs = [
 // Load wallet data
 onMounted(async () => {
   if (!auth.state.username) {
-    return navigateTo('/marketplace')
+    router.push('/marketplace')
+    return
   }
 
   try {
@@ -51,19 +54,21 @@ onMounted(async () => {
 
 // Computed properties
 const totalPortfolioValue = computed(() => {
+  // Fallback 1 USD if we don't have per-token prices wired yet
   return tokens.value.reduce((total, token) => {
-    const usdPrice = getUsdPrice(token.symbol)
-    return total + (parseFloat(token.balance) * usdPrice)
+    const price = usdPrice?.value || 1
+    return total + (parseFloat(token.balance) * price)
   }, 0)
 })
 
-const groupedNFTs = computed(() => {
-  const grouped = {}
-  nfts.value.forEach(nft => {
-    if (!grouped[nft.collection]) {
-      grouped[nft.collection] = []
+const groupedNFTs = computed<Record<string, any[]>>(() => {
+  const grouped: Record<string, any[]> = {}
+  nfts.value.forEach((nft: any) => {
+    const collectionKey = nft.collection || nft.collectionSymbol || 'Unknown'
+    if (!grouped[collectionKey]) {
+      grouped[collectionKey] = []
     }
-    grouped[nft.collection].push(nft)
+    grouped[collectionKey].push(nft)
   })
   return grouped
 })
@@ -187,7 +192,7 @@ const getTokenIcon = (symbol: string) => {
                 <div class="text-right">
                   <div class="font-bold text-white">{{ formatBalance(parseFloat(token.balance)) }}</div>
                   <div class="text-sm text-gray-400">
-                    ${{ (parseFloat(token.balance) * getUsdPrice(token.symbol)).toFixed(2) }}
+                    ${{ (parseFloat(token.balance) * (usdPrice || 1)).toFixed(2) }}
                   </div>
                 </div>
               </div>
@@ -217,7 +222,7 @@ const getTokenIcon = (symbol: string) => {
                 >
                   <div class="aspect-square">
                     <img 
-                      :src="nft.image || '/images/nfts/01.png'" 
+                      :src="nft.coverUrl || '/images/nfts/01.png'" 
                       :alt="nft.name"
                       class="w-full h-full object-cover"
                     >

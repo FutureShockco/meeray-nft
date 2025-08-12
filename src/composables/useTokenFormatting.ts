@@ -26,10 +26,10 @@ const NATIVE_TOKENS = ['ECH', 'MEER']
 export function formatAmountToBigInt(amount: string | number, precision: number): string {
   const amountStr = amount.toString()
   const [integerPart = '0', fractionalPart = ''] = amountStr.split('.')
-  
+
   // Pad or trim fractional part to match precision
   const paddedFractional = fractionalPart.padEnd(precision, '0').slice(0, precision)
-  
+
   // Combine and convert to BigInt string
   const combinedStr = integerPart + paddedFractional
   return BigInt(combinedStr).toString()
@@ -44,18 +44,18 @@ export function formatAmountToBigInt(amount: string | number, precision: number)
 export function formatBigIntToAmount(amountBigInt: string, precision: number): string {
   const bigIntValue = BigInt(amountBigInt)
   const divisor = 10n ** BigInt(precision)
-  
+
   const integerPart = bigIntValue / divisor
   const fractionalPart = bigIntValue % divisor
-  
+
   if (fractionalPart === 0n) {
     return integerPart.toString()
   }
-  
+
   const fractionalStr = fractionalPart.toString().padStart(precision, '0')
   // Remove trailing zeros
   const trimmedFractional = fractionalStr.replace(/0+$/, '')
-  
+
   return trimmedFractional ? `${integerPart}.${trimmedFractional}` : integerPart.toString()
 }
 
@@ -71,7 +71,7 @@ export function useTokenFormatting() {
    */
   async function getTokenPrecision(symbol: string): Promise<number> {
     console.log(`[getTokenPrecision] Getting precision for token: ${symbol}`)
-    
+
     // Check cache first (might be populated by getTokenIssuer)
     if (tokenCache.has(symbol)) {
       const cachedPrecision = tokenCache.get(symbol)!.precision
@@ -135,7 +135,7 @@ export function useTokenFormatting() {
    */
   async function getTokenIssuer(symbol: string): Promise<string | undefined> {
     console.log(`[getTokenIssuer] Getting issuer for token: ${symbol}`)
-    
+
     // Check cache first
     if (tokenCache.has(symbol)) {
       const cachedIssuer = tokenCache.get(symbol)!.issuer
@@ -154,14 +154,14 @@ export function useTokenFormatting() {
       console.log(`[getTokenIssuer] Fetching token details from API for: ${symbol}`)
       const tokenData = await api.getTokenDetails(symbol)
       console.log(`[getTokenIssuer] API response for ${symbol}:`, tokenData)
-      
+
       const tokenInfo: TokenInfo = {
         symbol,
         precision: tokenData.precision ?? DEFAULT_PRECISIONS[symbol] ?? 8,
         issuer: tokenData.issuer
       }
       tokenCache.set(symbol, tokenInfo)
-      
+
       console.log(`[getTokenIssuer] Cached token info for ${symbol}:`, tokenInfo)
       return tokenInfo.issuer
     } catch (error) {

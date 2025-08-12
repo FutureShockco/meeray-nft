@@ -3,6 +3,7 @@ import { ref, computed, onMounted, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useApiService } from '../composables/useApiService';
 import NFTGrid from '../components/nft/NFTGrid.vue';
+import type { UINFT, UINFTCollection, UIUserProfile } from '../types/models';
 
 
 
@@ -13,78 +14,13 @@ const router = useRouter();
 const api = useApiService();
 
 // Interface for NFT data structure
-interface NFT {
-  id: number;
-  name: string;
-  description: string;
-  image: string;
-  collection: {
-    id: string;
-    name: string;
-  };
-  owner: string;
-  creator: string;
-  price?: number;
-  currency?: string;
-  isListed: boolean;
-  properties: {
-    trait_type: string;
-    value: string;
-  }[];
-  royalties: number;
-  createdAt: string;
-  likes: number;
-  views: number;
-  history: {
-    id: number;
-    type: 'mint' | 'transfer' | 'list' | 'sale' | 'offer' | 'burn';
-    from: string;
-    to?: string;
-    price?: number;
-    timestamp: string;
-  }[];
-}
+type NFT = UINFT;
 
 // Interface for NFT collection
-interface NFTCollection {
-  id: string;
-  title: string;
-  creator: string;
-  image: string;
-  floorPrice: number;
-  items: number;
-  bannerImage: string;
-  description: string;
-  owners: number;
-  volume: number;
-  links: {
-    website: string;
-    twitter: string;
-    discord: string;
-  }
-}
+type NFTCollection = UINFTCollection;
 
 // Interface for User Profile
-interface UserProfile {
-  username: string;
-  displayName: string;
-  avatar: string;
-  banner: string;
-  bio: string;
-  joinedDate: string;
-  socialLinks: {
-    twitter?: string;
-    instagram?: string;
-    website?: string;
-  };
-  stats: {
-    followers: number;
-    following: number;
-    created: number;
-    collected: number;
-    likes: number;
-  };
-}
+type UserProfile = UIUserProfile;
 
 
 
@@ -120,7 +56,7 @@ onMounted(async () => {
       id: collection.symbol,
       title: collection.name,
       creator: collection.creator,
-      image: collection.logoUrl || '/images/collections/placeholder.jpg',
+      logoUrl: collection.logoUrl || '/images/collections/placeholder.jpg',
       bannerImage: collection.bannerImage || '/images/collections/placeholder-banner.jpg',
       floorPrice: 0, // Would need separate API call to calculate
       items: collection.currentSupply  || 0,
@@ -142,7 +78,7 @@ onMounted(async () => {
       id: Number(inst.instanceId) || idx + 1,
       name: `${inst.collectionSymbol} #${inst.instanceId}`,
       description: '',
-      image: '/images/placeholder-logo.jpg',
+      coverUrl: inst.uri || '/images/placeholder-logo.jpg',
       collection: { id: inst.collectionSymbol, name: inst.collectionSymbol },
       owner: inst.owner || '',
       creator: inst.creator || '',
@@ -248,17 +184,17 @@ function handleFilterChange(filters: any) {
               @click="router.push(`/collection/${collection.id}`)"
               class="nft-card cursor-pointer relative rounded-xl overflow-hidden">
               <div class="h-40 overflow-hidden">
-                <img :src="collection.bannerImage" :alt="collection.title"
+                <img :src="collection.logoUrl" :alt="collection.title"
                   class="w-full h-full object-cover transform hover:scale-110 transition-transform duration-500" />
               </div>
 
               <div class="bg-gray-900 p-4 border-t-2 border-cyan-500">
                 <div class="relative -mt-12 mb-2">
-                  <img :src="collection.image" :alt="collection.title"
+                  <img :src="collection.logoUrl" :alt="collection.title"
                     class="w-16 h-16 rounded-full border-4 border-gray-900 object-cover" />
                 </div>
                 <h3 class="text-lg font-bold text-white">{{ collection.title }}</h3>
-                <p class="text-sm text-gray-400">by <span class="text-cyan-400">{{ collection.creator }}</span></p>
+                <p class="text-sm text-gray-400">by <router-link :to="`/profile/${collection.creator}`" class="text-cyan-400">{{ collection.creator }}</router-link></p>
 
                 <div class="mt-4 flex items-center justify-between">
                   <div>
@@ -288,19 +224,19 @@ function handleFilterChange(filters: any) {
             </button>
 
             <div class="h-64 w-full rounded-t-xl overflow-hidden relative">
-              <img :src="selectedCollection.bannerImage" :alt="selectedCollection.title"
+              <img :src="selectedCollection.logoUrl" :alt="selectedCollection.title"
                 class="w-full h-full object-cover" />
               <div class="absolute inset-0 bg-gradient-to-t from-gray-900/80 to-transparent"></div>
             </div>
 
             <div class="bg-gray-900/80 backdrop-blur-sm rounded-b-xl border border-purple-800/30 overflow-hidden">
               <div class="px-6 py-5 flex items-center">
-                <img :src="selectedCollection.image" :alt="selectedCollection.title"
+                <img :src="selectedCollection.logoUrl" :alt="selectedCollection.title"
                   class="w-24 h-24 rounded-lg border-4 border-gray-900 bg-gray-900 object-cover mr-4" />
                 <div>
                   <h1 class="text-3xl font-bold text-white mb-1">{{ selectedCollection.title }}</h1>
                   <div class="flex items-center">
-                    <p class="text-gray-300">by <span class="text-cyan-400">{{ selectedCollection.creator }}</span></p>
+                    <p class="text-gray-300">by <router-link :to="`/profile/${selectedCollection.creator}`" class="text-cyan-400">{{ selectedCollection.creator }}</router-link></p>
                     <div class="ml-3 px-2 py-0.5 bg-cyan-500/20 rounded-full flex items-center">
                       <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-cyan-400 mr-1" fill="none"
                         viewBox="0 0 24 24" stroke="currentColor">

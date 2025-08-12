@@ -3,6 +3,7 @@ import { onMounted, ref, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useApiService } from '../../composables/useApiService';
 import NFTGrid from '../../components/nft/NFTGrid.vue';
+import type { UINFT } from '../../types/models';
 
 const route = useRoute();
 const router = useRouter();
@@ -10,24 +11,7 @@ const api = useApiService();
 
 const collectionId = computed(() => route.params.id as string);
 
-interface GridNFT {
-  id: number;
-  name: string;
-  description: string;
-  image: string;
-  collection: { id: string; name: string };
-  owner: string;
-  creator: string;
-  price?: number;
-  currency?: string;
-  isListed: boolean;
-  properties: { trait_type: string; value: string }[];
-  royalties: number;
-  createdAt: string;
-  likes: number;
-  views: number;
-  history: Array<{ id: number; type: 'mint' | 'transfer' | 'list' | 'sale' | 'offer' | 'burn'; from: string; to?: string; price?: number; timestamp: string }>;
-}
+type GridNFT = UINFT;
 
 const isLoading = ref(true);
 const collection = ref<any | null>(null);
@@ -51,7 +35,7 @@ async function loadData() {
           title: col.name,
           creator: col.creator,
           image: col.logoUrl || fallbackLogo,
-          bannerImage: col.bannerImage || fallbackBanner,
+          bannerImage: col.logoUrl || fallbackBanner,
           floorPrice: 0,
           items: col.currentSupply || (instancesResp.data?.length || 0),
           maxSupply: col.maxSupply === 9007199254740991 ? "∞" : col.maxSupply || (instancesResp.data?.length || 0),
@@ -86,6 +70,7 @@ async function loadData() {
         name: `${collectionTitle} #${inst.instanceId}`,
         description: '',
         image: fallbackLogo,
+        coverUrl: inst.uri || fallbackLogo,
         collection: { id: symbol, name: collectionTitle },
         owner: inst.owner || '',
         creator: creatorName,
@@ -137,13 +122,13 @@ onMounted(loadData);
             </button>
 
             <div class="h-64 w-full rounded-t-xl overflow-hidden relative">
-              <img :src="collection.bannerImage" :alt="collection.title" class="w-full h-full object-cover" />
+              <img :src="collection.logoUrl" :alt="collection.title" class="w-full h-full object-cover" />
               <div class="absolute inset-0 bg-gradient-to-t from-gray-900/80 to-transparent" />
             </div>
 
             <div class="bg-gray-900/80 backdrop-blur-sm rounded-b-xl border border-purple-800/30 overflow-hidden">
               <div class="px-6 py-5 flex items-center">
-                <img :src="collection.image" :alt="collection.title"
+                <img :src="collection.logoUrl" :alt="collection.title"
                   class="w-24 h-24 rounded-lg border-4 border-gray-900 bg-gray-900 object-cover mr-4" />
                 <div>
                   <h1 class="text-3xl font-bold text-white mb-1">{{ collection.title }}</h1>

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
+import type { UINFT, UINFTCollection, UIUserProfile } from '../types/models';
 import { useApiService } from '../composables/useApiService';
 import { useTransactionService } from '../composables/useTransactionService';
 import { useAuthStore } from 'steem-auth-vue';
@@ -9,78 +10,13 @@ import NFTGrid from '../components/nft/NFTGrid.vue';
 const router = useRouter();
 
 // Interface for NFT data structure
-interface NFT {
-  id: number;
-  name: string;
-  description: string;
-  image: string;
-  collection: {
-    id: string;
-    name: string;
-  };
-  owner: string;
-  creator: string;
-  price?: number;
-  currency?: string;
-  isListed: boolean;
-  properties: {
-    trait_type: string;
-    value: string;
-  }[];
-  royalties: number;
-  createdAt: string;
-  likes: number;
-  views: number;
-  history: {
-    id: number;
-    type: 'mint' | 'transfer' | 'list' | 'sale' | 'offer' | 'burn';
-    from: string;
-    to?: string;
-    price?: number;
-    timestamp: string;
-  }[];
-}
+type NFT = UINFT;
 
 // Interface for NFT collection
-interface NFTCollection {
-  id: string;
-  title: string;
-  creator: string;
-  image: string;
-  floorPrice: number;
-  items: number;
-  bannerImage: string;
-  description: string;
-  owners: number;
-  volume: number;
-  links: {
-    website: string;
-    twitter: string;
-    discord: string;
-  }
-}
+type NFTCollection = UINFTCollection;
 
 // Interface for User Profile
-interface UserProfile {
-  username: string;
-  displayName: string;
-  avatar: string;
-  banner: string;
-  bio: string;
-  joinedDate: string;
-  socialLinks: {
-    twitter?: string;
-    instagram?: string;
-    website?: string;
-  };
-  stats: {
-    followers: number;
-    following: number;
-    created: number;
-    collected: number;
-    likes: number;
-  };
-}
+type UserProfile = UIUserProfile;
 
 // Carousel functionality
 const activeSlide = ref(0);
@@ -137,7 +73,7 @@ onMounted(async () => {
         id: listing.instanceId || listing._id,
         name: listing.name || `NFT #${listing.instanceId}`,
         description: listing.description || '',
-        image: listing.image || '/images/nfts/01.png',
+        coverUrl: listing.coverUrl || listing.uri || '/images/nfts/01.png',
         collection: {
           id: listing.collectionSymbol,
           name: listing.collectionSymbol
@@ -165,11 +101,11 @@ onMounted(async () => {
         id: collection.symbol,
         title: collection.name,
         creator: collection.creator,
-        image: collection.logoUrl || '/images/collections/placeholder.jpg',
+        logoUrl: collection.logoUrl || '/images/collections/placeholder.jpg',
         floorPrice: 0, // Would need separate API call to calculate
         items: collection.currentSupply || 0,
         maxSupply: collection.maxSupply === 9007199254740991 ? "∞" : (collection.maxSupply || 0),
-        bannerImage: collection.bannerImage || '/images/collections/placeholder-banner.jpg',
+        bannerImage: collection.logoUrl || '/images/collections/placeholder-banner.jpg',
         description: collection.description || '',
         owners: 0, // Would need separate API call to calculate
         volume: 0, // Would need separate API call to calculate
@@ -346,7 +282,7 @@ function handleFilterChange(filters: any) {
                   class="w-full flex-shrink-0 relative">
 
                   <div class="relative h-[500px]">
-                    <img :src="collection.bannerImage" :alt="collection.title" class="w-full h-full object-cover" />
+                    <img :src="collection.logoUrl" :alt="collection.title" class="w-full h-full object-cover" />
                     <div class="absolute inset-0 bg-gradient-to-r from-gray-900/95 to-gray-900/50"></div>
                   </div>
 
@@ -357,7 +293,7 @@ function handleFilterChange(filters: any) {
 
                         <div
                           class="w-40 h-40 rounded-xl overflow-hidden border-4 border-cyan-500 shadow-lg shadow-cyan-500/30">
-                          <img :src="collection.image" :alt="collection.title" class="w-full h-full object-cover" />
+                          <img :src="collection.logoUrl" :alt="collection.title" class="w-full h-full object-cover" />
                         </div>
 
 
@@ -454,14 +390,14 @@ function handleFilterChange(filters: any) {
                 class="nft-card cursor-pointer relative rounded-xl overflow-hidden">
 
                 <div class="h-40 overflow-hidden">
-                  <img :src="collection.bannerImage" :alt="collection.title"
+                  <img :src="collection.logoUrl" :alt="collection.title"
                     class="w-full h-full object-cover transform hover:scale-110 transition-transform duration-500" />
                 </div>
 
 
                 <div class="bg-gray-900 p-4 border-t-2 border-cyan-500">
                   <div class="relative -mt-12 mb-2">
-                    <img :src="collection.image" :alt="collection.title"
+                    <img :src="collection.logoUrl" :alt="collection.title"
                       class="w-16 h-16 rounded-full border-4 border-gray-900 object-cover" />
                   </div>
                   <h3 class="text-lg font-bold text-white">{{ collection.title }}</h3>

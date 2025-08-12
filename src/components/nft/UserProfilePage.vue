@@ -1,67 +1,12 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import NFTGrid from './NFTGrid.vue';
-
-// Props and interfaces
-interface NFTCollection {
-  id: string;
-  name: string;
-  image: string;
-  items: number;
-}
-
-interface UserProfile {
-  username: string;
-  displayName: string;
-  avatar: string;
-  banner: string;
-  bio: string;
-  joinedDate: string;
-  followers: number;
-  following: number;
-  links: {
-    website?: string;
-    twitter?: string;
-    instagram?: string;
-  };
-}
-
-interface NFT {
-  id: number;
-  name: string;
-  description: string;
-  image: string;
-  collection: {
-    id: string;
-    name: string;
-  };
-  owner: string;
-  creator: string;
-  price?: number;
-  currency?: string;
-  isListed: boolean;
-  properties: {
-    trait_type: string;
-    value: string;
-  }[];
-  royalties: number;
-  createdAt: string;
-  likes: number;
-  views: number;
-  history: {
-    id: number;
-    type: 'mint' | 'transfer' | 'list' | 'sale' | 'offer' | 'burn';
-    from: string;
-    to?: string;
-    price?: number;
-    timestamp: string;
-  }[];
-}
+import type { UINFT, UINFTCollection, UIUserProfile } from '../../types/models';
 
 const props = defineProps<{
-  user: UserProfile;
-  nfts: NFT[];
-  collections: NFTCollection[];
+  user: UIUserProfile;
+  nfts: UINFT[];
+  collections: UINFTCollection[];
   isLoading?: boolean;
 }>();
 
@@ -152,13 +97,13 @@ function handleNFTAction(action: string, ...args: any[]) {
           <div class="mt-4">
             <p v-if="user.bio" class="text-gray-600 dark:text-gray-300 max-w-2xl">{{ user.bio }}</p>
             
-            <div class="mt-4 flex items-center space-x-6">
+             <div class="mt-4 flex items-center space-x-6">
               <div class="flex items-center">
-                <span class="font-medium text-gray-900 dark:text-white">{{ user.followers }}</span>
+                <span class="font-medium text-gray-900 dark:text-white">{{ user.stats.followers }}</span>
                 <span class="ml-1 text-gray-500 dark:text-gray-400">Followers</span>
               </div>
               <div class="flex items-center">
-                <span class="font-medium text-gray-900 dark:text-white">{{ user.following }}</span>
+                <span class="font-medium text-gray-900 dark:text-white">{{ user.stats.following }}</span>
                 <span class="ml-1 text-gray-500 dark:text-gray-400">Following</span>
               </div>
               <div class="flex items-center">
@@ -167,10 +112,10 @@ function handleNFTAction(action: string, ...args: any[]) {
               </div>
             </div>
             
-            <div v-if="user.links" class="mt-4 flex space-x-4">
+             <div v-if="user.socialLinks" class="mt-4 flex space-x-4">
               <a 
-                v-if="user.links.website" 
-                :href="user.links.website" 
+                v-if="user.socialLinks.website" 
+                :href="user.socialLinks.website" 
                 target="_blank" 
                 class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
               >
@@ -179,8 +124,8 @@ function handleNFTAction(action: string, ...args: any[]) {
                 </svg>
               </a>
               <a 
-                v-if="user.links.twitter" 
-                :href="user.links.twitter" 
+                v-if="user.socialLinks.twitter" 
+                :href="user.socialLinks.twitter" 
                 target="_blank" 
                 class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
               >
@@ -189,8 +134,8 @@ function handleNFTAction(action: string, ...args: any[]) {
                 </svg>
               </a>
               <a 
-                v-if="user.links.instagram" 
-                :href="user.links.instagram" 
+                v-if="user.socialLinks.instagram" 
+                :href="user.socialLinks.instagram" 
                 target="_blank" 
                 class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
               >
@@ -336,10 +281,10 @@ function handleNFTAction(action: string, ...args: any[]) {
               class="bg-white dark:bg-gray-900 rounded-xl shadow-sm overflow-hidden border border-gray-200 dark:border-gray-800 hover:shadow-md transition cursor-pointer"
             >
               <div class="w-full h-40 bg-gray-100 dark:bg-gray-800">
-                <img :src="collection.image" :alt="collection.name" class="w-full h-full object-cover" />
+                <img :src="collection.logoUrl" :alt="collection.title" class="w-full h-full object-cover" />
               </div>
               <div class="p-4">
-                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">{{ collection.name }}</h3>
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">{{ collection.title }}</h3>
                 <p class="text-gray-500 dark:text-gray-400 mt-1">{{ collection.items }} items</p>
               </div>
             </div>

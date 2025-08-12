@@ -275,7 +275,7 @@ const delistNFT = async () => {
           
           <div class="nft-panel p-0 overflow-hidden">
             <img 
-              :src="nft.image || '/images/nfts/01.png'" 
+              :src="nft.coverUrl || '/images/nfts/01.png'" 
               :alt="nft.name"
               class="w-full aspect-square object-cover"
             >
@@ -297,17 +297,12 @@ const delistNFT = async () => {
             <div v-else class="text-gray-400">No properties defined</div>
           </div>
         </div>
-
-        
         <div class="space-y-6">
-          
           <div class="flex items-center space-x-3 text-gray-300">
             <router-link :to="`/collection/${collection}`" class="text-cyan-400 hover:text-cyan-300">
               {{ collectionData?.name || collection }}
             </router-link>
           </div>
-
-          
           <div>
             <h1 class="text-3xl font-bold text-white mb-2">{{ nft.name || `${collection} #${nftId}` }}</h1>
             <div class="flex items-center space-x-4 text-gray-300">
@@ -591,7 +586,7 @@ const delistNFT = async () => {
                     v-model="listingForm.price" 
                     type="number" 
                     step="0.001"
-                    :placeholder="0.00"
+                    placeholder="0.00"
                     class="steem-auth-input w-16"
                   >
                   <select v-model="listingForm.paymentToken" class="steem-auth-input w-16">

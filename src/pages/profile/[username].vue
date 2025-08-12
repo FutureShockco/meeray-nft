@@ -240,7 +240,7 @@ const followUser = async () => {
                 >
                   <div class="aspect-square">
                     <img 
-                      :src="nft.image || '/images/nfts/01.png'" 
+                      :src="nft.coverUrl || '/images/nfts/01.png'" 
                       :alt="nft.name"
                       class="w-full h-full object-cover"
                     >
@@ -283,7 +283,7 @@ const followUser = async () => {
                 >
                   <div class="aspect-square">
                     <img 
-                      :src="nft.image || '/images/nfts/01.png'" 
+                      :src="nft.coverUrl || '/images/nfts/01.png'" 
                       :alt="nft.name"
                       class="w-full h-full object-cover"
                     >
@@ -320,7 +320,7 @@ const followUser = async () => {
             >
               <div class="h-32 mb-4 rounded-lg overflow-hidden">
                 <img 
-                  :src="collection.bannerImage || collection.logoUrl || '/images/collections/placeholder-banner.jpg'" 
+                  :src="collection.logoUrl || collection.logoUrl || '/images/collections/placeholder-banner.jpg'" 
                   :alt="collection.name"
                   class="w-full h-full object-cover"
                 >
