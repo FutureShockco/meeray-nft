@@ -9,7 +9,8 @@ export default ({ mode }: { mode: string }) => {
   const env = loadEnv(mode, process.cwd())
   return defineConfig({
     server: {
-      port: Number(env.VITE_PORT) || 3000
+      port: Number(env.VITE_PORT) || 3000,
+      allowedHosts: true
     },
     plugins: [
       vue(),
