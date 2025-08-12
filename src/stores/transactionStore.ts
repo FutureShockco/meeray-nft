@@ -27,32 +27,32 @@ export const useTransactionStore = defineStore('transactions', () => {
   }>>([])
 
   // Getters
-  const completedTransactions = computed(() => 
+  const completedTransactions = computed(() =>
     transactionHistory.value.filter(tx => tx.status === 'COMPLETED')
   )
 
-  const failedTransactions = computed(() => 
+  const failedTransactions = computed(() =>
     transactionHistory.value.filter(tx => tx.status === 'FAILED')
   )
 
-  const pendingTransactionsList = computed(() => 
+  const pendingTransactionsList = computed(() =>
     Array.from(globalPendingTransactions.value.values())
   )
 
-  const unreadNotifications = computed(() => 
+  const unreadNotifications = computed(() =>
     notifications.value.filter(n => !n.read)
   )
 
   const transactionsByType = computed(() => {
     const grouped: Record<string, TransactionHistory[]> = {}
-    
+
     transactionHistory.value.forEach(tx => {
       if (!grouped[tx.type]) {
         grouped[tx.type] = []
       }
       grouped[tx.type].push(tx)
     })
-    
+
     return grouped
   })
 
@@ -66,7 +66,7 @@ export const useTransactionStore = defineStore('transactions', () => {
     if (existing) {
       const updated = { ...existing, ...updates }
       globalPendingTransactions.value.set(txId, updated)
-      
+
       // Move to history if completed or failed
       if (updated.status === 'COMPLETED' || updated.status === 'FAILED') {
         moveToHistory(updated)
@@ -86,9 +86,9 @@ export const useTransactionStore = defineStore('transactions', () => {
       steemTxId: transaction.steemTxId,
       sidechainTxId: transaction.sidechainTxId
     }
-    
+
     transactionHistory.value.unshift(historyEntry)
-    
+
     // Keep only last 100 transactions
     if (transactionHistory.value.length > 100) {
       transactionHistory.value = transactionHistory.value.slice(0, 100)
@@ -113,9 +113,9 @@ export const useTransactionStore = defineStore('transactions', () => {
       timestamp: Date.now(),
       read: false
     }
-    
+
     notifications.value.unshift(newNotification)
-    
+
     // Keep only last 50 notifications
     if (notifications.value.length > 50) {
       notifications.value = notifications.value.slice(0, 50)
@@ -145,7 +145,7 @@ export const useTransactionStore = defineStore('transactions', () => {
     // Check pending first
     const pending = globalPendingTransactions.value.get(txId)
     if (pending) return pending
-    
+
     // Check history
     return transactionHistory.value.find(tx => tx.id === txId) || null
   }
@@ -165,8 +165,8 @@ export const useTransactionStore = defineStore('transactions', () => {
         case 'LIST_NFT':
           return `NFT listed for ${transaction.result?.price} ${transaction.result?.paymentTokenSymbol}`
         case 'BUY_NFT':
-          return transaction.result?.bidAmount 
-            ? `Bid placed for ${transaction.result.bidAmount}` 
+          return transaction.result?.bidAmount
+            ? `Bid placed for ${transaction.result.bidAmount}`
             : 'NFT purchased successfully'
         case 'DELIST_NFT':
           return 'NFT delisted successfully'
@@ -188,54 +188,51 @@ export const useTransactionStore = defineStore('transactions', () => {
 
   // Persistence (save to localStorage)
   const saveToStorage = () => {
-    if (process.client) {
-      try {
-        localStorage.setItem('nft-transaction-history', JSON.stringify(transactionHistory.value))
-        localStorage.setItem('nft-notifications', JSON.stringify(notifications.value))
-      } catch (error) {
-        console.error('Failed to save transaction data to localStorage:', error)
-      }
+    try {
+      localStorage.setItem('nft-transaction-history', JSON.stringify(transactionHistory.value))
+      localStorage.setItem('nft-notifications', JSON.stringify(notifications.value))
+    } catch (error) {
+      console.error('Failed to save transaction data to localStorage:', error)
     }
+
   }
 
   const loadFromStorage = () => {
-    if (process.client) {
-      try {
-        const savedHistory = localStorage.getItem('nft-transaction-history')
-        if (savedHistory) {
-          transactionHistory.value = JSON.parse(savedHistory)
-        }
-        
-        const savedNotifications = localStorage.getItem('nft-notifications')
-        if (savedNotifications) {
-          notifications.value = JSON.parse(savedNotifications)
-        }
-      } catch (error) {
-        console.error('Failed to load transaction data from localStorage:', error)
+    try {
+      const savedHistory = localStorage.getItem('nft-transaction-history')
+      if (savedHistory) {
+        transactionHistory.value = JSON.parse(savedHistory)
       }
+
+      const savedNotifications = localStorage.getItem('nft-notifications')
+      if (savedNotifications) {
+        notifications.value = JSON.parse(savedNotifications)
+      }
+    } catch (error) {
+      console.error('Failed to load transaction data from localStorage:', error)
     }
+
   }
 
   // Watch for changes and save to storage
-  if (process.client) {
-    watch([transactionHistory, notifications], () => {
-      saveToStorage()
-    }, { deep: true })
-  }
+  watch([transactionHistory, notifications], () => {
+    saveToStorage()
+  }, { deep: true })
+
 
   return {
     // State
     transactionHistory: readonly(transactionHistory),
     globalPendingTransactions: readonly(globalPendingTransactions),
     notifications: readonly(notifications),
-    
+
     // Getters
     completedTransactions,
     failedTransactions,
     pendingTransactionsList,
     unreadNotifications,
     transactionsByType,
-    
+
     // Actions
     addPendingTransaction,
     updateTransactionStatus,
