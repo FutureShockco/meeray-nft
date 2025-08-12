@@ -26,7 +26,7 @@ onMounted(async () => {
       id: collection.symbol,
       title: collection.name,
       creator: collection.creator,
-      image: collection.logoUrl || '/images/collections/placeholder.jpg',
+      logoUrl: collection.logoUrl || '/images/collections/placeholder.jpg',
       floorPrice: 0, // Would need separate API call to calculate
       items: collection.currentSupply || 0,
       maxSupply: collection.maxSupply === 9007199254740991 ? "∞" : (collection.maxSupply || 0),
