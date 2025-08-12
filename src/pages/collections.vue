@@ -98,7 +98,7 @@ const selectedCollection = computed<NFTCollection | null>(() => {
 
 const selectedCollectionNFTs = computed<NFT[]>(() => {
   if (!selectedCollection.value) return [];
-  return nftsData.value.filter(nft => nft.collection.id === selectedCollection.value?.id);
+  return nftsData.value.filter((nft: any) => nft?.collection?.id === selectedCollection.value?.id);
 });
 
 // Data loading states
@@ -136,7 +136,25 @@ onMounted(async () => {
     
     // Load NFT instances from API
     const nftsResponse = await api.getNftInstances({ limit: 100 });
-    nftsData.value = nftsResponse.data || [];
+    // Map API instances to grid-friendly shape to avoid undefined errors
+    nftsData.value = (nftsResponse.data || []).map((inst: any, idx: number) => ({
+      id: Number(inst.instanceId) || idx + 1,
+      name: `${inst.collectionSymbol} #${inst.instanceId}`,
+      description: '',
+      image: '/images/placeholder-logo.jpg',
+      collection: { id: inst.collectionSymbol, name: inst.collectionSymbol },
+      owner: inst.owner || '',
+      creator: inst.creator || '',
+      price: undefined,
+      currency: undefined,
+      isListed: false,
+      properties: [],
+      royalties: 0,
+      createdAt: inst.createdAt || new Date().toISOString(),
+      likes: 0,
+      views: 0,
+      history: []
+    }));
     
   } catch (error) {
     console.error('Failed to load collections data:', error);
@@ -224,9 +242,9 @@ function handleFilterChange(filters: any) {
             </h2>
           </div>
 
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             <div v-for="collection in nftCollections" :key="collection.id"
-              @click="router.push({ query: { collection: collection.id } })"
+              @click="router.push(`/collection/${collection.id}`)"
               class="nft-card cursor-pointer relative rounded-xl overflow-hidden">
               <div class="h-40 overflow-hidden">
                 <img :src="collection.bannerImage" :alt="collection.title"

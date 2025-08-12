@@ -39,7 +39,7 @@ const nftForm = ref({
   owner: '',
   name: '',
   description: '',
-  uri: '',
+  coverUrl: '',
   properties: {}
 });
 
@@ -53,9 +53,10 @@ onMounted(async () => {
   if (auth.state.username) {
     try {
       const collections = await api.getNftCollections({ creator: auth.state.username });
-      nftCollections.value = collections?.data || collections || [];
+      nftCollections.value = collections?.data ?? [];
     } catch (error) {
       console.error('Failed to load collections:', error);
+      nftCollections.value = [];
     }
   }
 });
@@ -166,7 +167,7 @@ async function createNFT() {
       collectionSymbol: nftForm.value.collectionSymbol,
       owner: nftForm.value.owner || auth.state.username,
       properties,
-      uri: nftForm.value.uri
+      uri: nftForm.value.coverUrl
     };
 
     // Add instanceId if provided
@@ -191,7 +192,7 @@ async function createNFT() {
           owner: '',
           name: '',
           description: '',
-          uri: '',
+          coverUrl: '',
           properties: {}
         };
         nftProperties.value = [{ trait_type: '', value: '' }];
@@ -342,9 +343,9 @@ function removeProperty(index: number) {
 
  
               <div>
-                <label class="block text-sm font-medium text-gray-300 mb-1">Image/Media URL</label>
+                <label class="block text-sm font-medium text-gray-300 mb-1">Cover URL</label>
                 <input 
-                  v-model="nftForm.uri"
+                  v-model="nftForm.coverUrl"
                   type="url" 
                   placeholder="https://example.com/image.png"
                   class="w-full px-4 py-2 border-2 border-purple-800/50 focus:border-cyan-500 rounded-lg bg-gray-900/80 text-white placeholder-gray-500 focus:outline-none">
