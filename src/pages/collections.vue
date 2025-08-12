@@ -78,7 +78,7 @@ onMounted(async () => {
       id: Number(inst.instanceId) || idx + 1,
       name: `${inst.collectionSymbol} #${inst.instanceId}`,
       description: '',
-      coverUrl: inst.uri || '/images/placeholder-logo.jpg',
+      coverUrl: inst.coverUrl || '/images/placeholder-logo.jpg',
       collection: { id: inst.collectionSymbol, name: inst.collectionSymbol },
       owner: inst.owner || '',
       creator: inst.creator || '',
