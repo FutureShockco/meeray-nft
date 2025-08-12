@@ -205,7 +205,6 @@ function handleFilterChange(filters: any) {
   <div class="pb-16">
     <div class="nft-bg-pattern min-h-screen">
       <div class="max-w-7xl mx-auto px-4 py-8">
-        <!-- Loading State -->
         <div v-if="isLoading" class="flex flex-col items-center justify-center py-20">
           <div
             class="w-16 h-16 border-4 border-t-cyan-400 border-r-purple-600 border-b-cyan-400 border-l-purple-600 rounded-full animate-spin">
@@ -213,7 +212,6 @@ function handleFilterChange(filters: any) {
           <p class="mt-4 text-gray-400 text-lg">Loading the NFT collections...</p>
         </div>
 
-        <!-- ===== COLLECTIONS TAB ===== -->
         <div v-else-if="!selectedCollection" class="nft-panel">
           <div class="flex justify-between items-center mb-8">
             <h2 class="text-2xl font-bold text-white flex items-center">
@@ -226,18 +224,15 @@ function handleFilterChange(filters: any) {
             </h2>
           </div>
 
-          <!-- Collections Grid -->
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             <div v-for="collection in nftCollections" :key="collection.id"
               @click="router.push({ query: { collection: collection.id } })"
               class="nft-card cursor-pointer relative rounded-xl overflow-hidden">
-              <!-- Collection Banner Image -->
               <div class="h-40 overflow-hidden">
                 <img :src="collection.bannerImage" :alt="collection.title"
                   class="w-full h-full object-cover transform hover:scale-110 transition-transform duration-500" />
               </div>
 
-              <!-- Collection Info -->
               <div class="bg-gray-900 p-4 border-t-2 border-cyan-500">
                 <div class="relative -mt-12 mb-2">
                   <img :src="collection.image" :alt="collection.title"
@@ -262,11 +257,8 @@ function handleFilterChange(filters: any) {
           </div>
         </div>
 
-        <!-- ===== COLLECTION DETAIL PAGE ===== -->
         <div v-else-if="selectedCollection" class="mb-16">
-          <!-- Collection Header -->
           <section class="relative mb-8">
-            <!-- Back button -->
             <button @click="closeCollectionDetail"
               class="absolute top-4 left-4 z-10 flex items-center px-3 py-1.5 bg-gray-900/70 rounded-lg text-gray-100 hover:bg-gray-800 transition-colors backdrop-blur-sm">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24"
@@ -276,16 +268,13 @@ function handleFilterChange(filters: any) {
               Back
             </button>
 
-            <!-- Banner Image -->
             <div class="h-64 w-full rounded-t-xl overflow-hidden relative">
               <img :src="selectedCollection.bannerImage" :alt="selectedCollection.title"
                 class="w-full h-full object-cover" />
               <div class="absolute inset-0 bg-gradient-to-t from-gray-900/80 to-transparent"></div>
             </div>
 
-            <!-- Collection Info Main Block -->
             <div class="bg-gray-900/80 backdrop-blur-sm rounded-b-xl border border-purple-800/30 overflow-hidden">
-              <!-- Collection Avatar and Title Section -->
               <div class="px-6 py-5 flex items-center">
                 <img :src="selectedCollection.image" :alt="selectedCollection.title"
                   class="w-24 h-24 rounded-lg border-4 border-gray-900 bg-gray-900 object-cover mr-4" />
@@ -303,7 +292,6 @@ function handleFilterChange(filters: any) {
                   </div>
                 </div>
 
-                <!-- Social Links -->
                 <div class="ml-auto flex space-x-3">
                   <a v-if="selectedCollection.links.website" :href="selectedCollection.links.website" target="_blank"
                     class="w-10 h-10 flex items-center justify-center bg-gray-800 hover:bg-gray-700 rounded-full text-gray-400 hover:text-white transition-colors">
@@ -332,7 +320,6 @@ function handleFilterChange(filters: any) {
                 </div>
               </div>
 
-              <!-- Collection Stats Section -->
               <div class="grid grid-cols-4 border-t border-gray-800">
                 <div class="p-4 text-center">
                   <p class="text-sm text-gray-400 mb-1">Items</p>
@@ -356,19 +343,15 @@ function handleFilterChange(filters: any) {
             </div>
           </section>
 
-          <!-- Collection Content Area - Description & Items -->
           <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
-            <!-- Left Column - Description -->
             <div class="lg:col-span-1">
               <div class="bg-gray-900/70 rounded-xl p-6 border border-purple-800/30 mb-6">
                 <h2 class="text-xl font-bold text-white mb-4">About {{ selectedCollection.title }}</h2>
                 <p class="text-gray-300">{{ selectedCollection.description }}</p>
               </div>
 
-              <!-- Activity Insights Panel -->
               <div class="bg-gray-900/70 rounded-xl p-6 border border-purple-800/30">
                 <h2 class="text-xl font-bold text-white mb-4">Activity</h2>
-                <!-- Activity Chart Placeholder -->
                 <div class="h-40 bg-gray-800/50 rounded-lg flex items-center justify-center mb-4">
                   <p class="text-gray-500">Price History Chart</p>
                 </div>
@@ -385,12 +368,9 @@ function handleFilterChange(filters: any) {
               </div>
             </div>
 
-            <!-- Right Column - Items -->
             <div class="lg:col-span-3">
-              <!-- Filter Bar OpenSea Style -->
               <div
                 class="bg-gray-900/70 rounded-xl p-4 border border-purple-800/30 mb-6 flex flex-wrap items-center justify-between">
-                <!-- Filter Left Side -->
                 <div class="flex space-x-2">
                   <div class="relative">
                     <button class="px-3 py-2 bg-gray-800 hover:bg-gray-700 rounded-lg text-gray-300 flex items-center">
@@ -413,7 +393,6 @@ function handleFilterChange(filters: any) {
                   </div>
                 </div>
 
-                <!-- Filter Right Side -->
                 <div class="flex space-x-2 mt-2 sm:mt-0">
                   <div class="relative">
                     <select
@@ -449,7 +428,6 @@ function handleFilterChange(filters: any) {
                 </div>
               </div>
 
-              <!-- Collection NFTs Grid -->
               <NFTGrid :nfts="selectedCollectionNFTs" :loading="isLoading" :show-filters="false"
                 :empty-message="`No items found in ${selectedCollection.title}`" @buy="handleBuyNFT"
                 @makeoffer="handleMakeOffer" @transfer="handleTransferNFT" @burn="handleBurnNFT" @list="handleListNFT"
@@ -459,8 +437,5 @@ function handleFilterChange(filters: any) {
         </div>
       </div>
     </div>
-
-    <!-- Modals -->
-
   </div>
 </template>

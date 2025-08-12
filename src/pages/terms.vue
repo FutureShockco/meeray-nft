@@ -7,7 +7,7 @@ const lastUpdated = '2024-01-15'
 <template>
   <div class="nft-bg-pattern min-h-screen">
     <div class="max-w-4xl mx-auto px-4 py-8">
-      <!-- Header -->
+      
       <div class="text-center mb-12">
         <h1 class="text-4xl font-bold text-white mb-4">Terms of Service</h1>
         <p class="text-gray-300">Last updated: {{ lastUpdated }}</p>
@@ -15,7 +15,7 @@ const lastUpdated = '2024-01-15'
 
       <div class="nft-panel prose prose-invert max-w-none">
         <div class="space-y-8">
-          <!-- Introduction -->
+          
           <section>
             <h2 class="text-2xl font-bold text-white mb-4">1. Introduction</h2>
             <p class="text-gray-300 leading-relaxed">
@@ -23,7 +23,7 @@ const lastUpdated = '2024-01-15'
             </p>
           </section>
 
-          <!-- Acceptance -->
+          
           <section>
             <h2 class="text-2xl font-bold text-white mb-4">2. Acceptance of Terms</h2>
             <p class="text-gray-300 leading-relaxed mb-4">
@@ -31,7 +31,7 @@ const lastUpdated = '2024-01-15'
             </p>
           </section>
 
-          <!-- Account Responsibilities -->
+          
           <section>
             <h2 class="text-2xl font-bold text-white mb-4">3. Account Responsibilities</h2>
             <div class="space-y-4 text-gray-300">
@@ -45,7 +45,7 @@ const lastUpdated = '2024-01-15'
             </div>
           </section>
 
-          <!-- NFT Creation and Ownership -->
+          
           <section>
             <h2 class="text-2xl font-bold text-white mb-4">4. NFT Creation and Ownership</h2>
             <div class="space-y-4 text-gray-300">
@@ -62,7 +62,7 @@ const lastUpdated = '2024-01-15'
             </div>
           </section>
 
-          <!-- Trading and Transactions -->
+          
           <section>
             <h2 class="text-2xl font-bold text-white mb-4">5. Trading and Transactions</h2>
             <div class="space-y-4 text-gray-300">
@@ -77,7 +77,7 @@ const lastUpdated = '2024-01-15'
             </div>
           </section>
 
-          <!-- Prohibited Activities -->
+          
           <section>
             <h2 class="text-2xl font-bold text-white mb-4">6. Prohibited Activities</h2>
             <div class="space-y-4 text-gray-300">
@@ -93,7 +93,7 @@ const lastUpdated = '2024-01-15'
             </div>
           </section>
 
-          <!-- Disclaimers -->
+          
           <section>
             <h2 class="text-2xl font-bold text-white mb-4">7. Disclaimers</h2>
             <div class="space-y-4 text-gray-300">
@@ -108,7 +108,7 @@ const lastUpdated = '2024-01-15'
             </div>
           </section>
 
-          <!-- Limitation of Liability -->
+          
           <section>
             <h2 class="text-2xl font-bold text-white mb-4">8. Limitation of Liability</h2>
             <p class="text-gray-300 leading-relaxed">
@@ -116,7 +116,7 @@ const lastUpdated = '2024-01-15'
             </p>
           </section>
 
-          <!-- Modifications -->
+          
           <section>
             <h2 class="text-2xl font-bold text-white mb-4">9. Modifications to Terms</h2>
             <p class="text-gray-300 leading-relaxed">
@@ -124,7 +124,7 @@ const lastUpdated = '2024-01-15'
             </p>
           </section>
 
-          <!-- Termination -->
+          
           <section>
             <h2 class="text-2xl font-bold text-white mb-4">10. Termination</h2>
             <p class="text-gray-300 leading-relaxed">
@@ -132,7 +132,7 @@ const lastUpdated = '2024-01-15'
             </p>
           </section>
 
-          <!-- Governing Law -->
+          
           <section>
             <h2 class="text-2xl font-bold text-white mb-4">11. Governing Law</h2>
             <p class="text-gray-300 leading-relaxed">
@@ -140,7 +140,7 @@ const lastUpdated = '2024-01-15'
             </p>
           </section>
 
-          <!-- Contact -->
+          
           <section>
             <h2 class="text-2xl font-bold text-white mb-4">12. Contact Information</h2>
             <p class="text-gray-300 leading-relaxed">
@@ -153,7 +153,7 @@ const lastUpdated = '2024-01-15'
         </div>
       </div>
 
-      <!-- Back to Home -->
+      
       <div class="text-center mt-12">
         <router-link to="/" class="nft-btn">
           Back to Homepage

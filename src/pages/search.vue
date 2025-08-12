@@ -141,11 +141,11 @@ const clearFilters = () => {
 <template>
   <div class="nft-bg-pattern min-h-screen">
     <div class="max-w-7xl mx-auto px-4 py-8">
-      <!-- Search Header -->
+      
       <div class="mb-8">
         <h1 class="text-3xl font-bold text-white mb-4">Search Results</h1>
         
-        <!-- Search Input -->
+        
         <div class="flex gap-4 mb-6">
           <div class="flex-1 relative">
             <input 
@@ -166,16 +166,16 @@ const clearFilters = () => {
           </div>
         </div>
 
-        <!-- Query Display -->
+        
         <div v-if="searchQuery" class="text-gray-300">
           Searching for: <span class="text-white font-semibold">"{{ searchQuery }}"</span>
         </div>
       </div>
 
-      <!-- Filters & Sort -->
+      
       <div class="nft-panel mb-8">
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
-          <!-- Category Filter -->
+          
           <div>
             <label class="block text-sm font-medium text-gray-300 mb-2">Category</label>
             <select v-model="filters.category" class="steem-auth-select">
@@ -185,7 +185,7 @@ const clearFilters = () => {
             </select>
           </div>
 
-          <!-- Status Filter -->
+          
           <div>
             <label class="block text-sm font-medium text-gray-300 mb-2">Status</label>
             <select v-model="filters.status" class="steem-auth-select">
@@ -195,7 +195,7 @@ const clearFilters = () => {
             </select>
           </div>
 
-          <!-- Price Range -->
+          
           <div>
             <label class="block text-sm font-medium text-gray-300 mb-2">Min Price</label>
             <input 
@@ -216,7 +216,7 @@ const clearFilters = () => {
             >
           </div>
 
-          <!-- Sort By -->
+          
           <div>
             <label class="block text-sm font-medium text-gray-300 mb-2">Sort By</label>
             <select v-model="filters.sortBy" class="steem-auth-select">
@@ -237,7 +237,7 @@ const clearFilters = () => {
         </div>
       </div>
 
-      <!-- Results Tabs -->
+      
       <div class="flex space-x-1 mb-8">
         <button
           v-for="tab in tabs"
@@ -255,14 +255,14 @@ const clearFilters = () => {
         </button>
       </div>
 
-      <!-- Loading State -->
+      
       <div v-if="loading" class="flex justify-center py-16">
         <div class="steem-auth-spinner"></div>
       </div>
 
-      <!-- Search Results -->
+      
       <div v-else-if="searchQuery">
-        <!-- NFTs Results -->
+        
         <div v-if="filteredResults.nfts?.length && (activeTab === 'all' || activeTab === 'nfts')" class="mb-12">
           <h2 v-if="activeTab === 'all'" class="text-xl font-bold text-white mb-6">NFTs</h2>
           <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
@@ -288,7 +288,7 @@ const clearFilters = () => {
           </div>
         </div>
 
-        <!-- Collections Results -->
+        
         <div v-if="filteredResults.collections?.length && (activeTab === 'all' || activeTab === 'collections')" class="mb-12">
           <h2 v-if="activeTab === 'all'" class="text-xl font-bold text-white mb-6">Collections</h2>
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -315,7 +315,7 @@ const clearFilters = () => {
           </div>
         </div>
 
-        <!-- Users Results -->
+        
         <div v-if="filteredResults.users?.length && (activeTab === 'all' || activeTab === 'users')" class="mb-12">
           <h2 v-if="activeTab === 'all'" class="text-xl font-bold text-white mb-6">Users</h2>
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -338,7 +338,7 @@ const clearFilters = () => {
           </div>
         </div>
 
-        <!-- No Results -->
+        
         <div v-if="!filteredResults.nfts?.length && !filteredResults.collections?.length && !filteredResults.users?.length">
           <div class="text-center py-16">
             <div class="nft-panel p-8">
@@ -353,7 +353,7 @@ const clearFilters = () => {
         </div>
       </div>
 
-      <!-- Initial State -->
+      
       <div v-else class="text-center py-16">
         <div class="nft-panel p-8">
           <div class="text-6xl mb-4">🔍</div>

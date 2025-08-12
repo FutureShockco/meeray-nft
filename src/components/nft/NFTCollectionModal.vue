@@ -130,10 +130,8 @@ defineExpose({
 <template>
   <div v-if="isOpen" class="fixed inset-0 z-50 overflow-y-auto">
     <div class="flex min-h-screen items-center justify-center px-4 pt-4 pb-20 text-center sm:block sm:p-0">
-      <!-- Background overlay -->
       <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" @click="close"></div>
 
-      <!-- Modal panel -->
       <div class="inline-block align-bottom bg-white dark:bg-gray-900 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-2xl sm:w-full">
         <div class="px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
           <div class="flex justify-between items-center mb-4">
@@ -146,7 +144,6 @@ defineExpose({
           </div>
 
           <div class="space-y-6">
-            <!-- Banner Image Upload -->
             <div>
               <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Banner Image</label>
               <div 
@@ -172,7 +169,6 @@ defineExpose({
             </div>
 
             <div class="flex gap-6 items-start">
-              <!-- Logo Upload -->
               <div class="w-1/3">
                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Logo</label>
                 <div 
@@ -197,7 +193,6 @@ defineExpose({
                 </div>
               </div>
 
-              <!-- Collection Info -->
               <div class="w-2/3 space-y-4">
                 <div>
                   <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Name</label>
@@ -234,12 +229,10 @@ defineExpose({
               </div>
             </div>
 
-            <!-- Links Section -->
             <div class="pt-4 border-t border-gray-200 dark:border-gray-700">
               <h4 class="text-lg font-medium text-gray-900 dark:text-white mb-3">Links</h4>
               
               <div class="space-y-3">
-                <!-- Website -->
                 <div class="flex items-center">
                   <div class="w-10 h-10 flex-shrink-0 flex items-center justify-center mr-3">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -254,7 +247,6 @@ defineExpose({
                   >
                 </div>
 
-                <!-- Twitter -->
                 <div class="flex items-center">
                   <div class="w-10 h-10 flex-shrink-0 flex items-center justify-center mr-3">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -269,7 +261,6 @@ defineExpose({
                   >
                 </div>
 
-                <!-- Discord -->
                 <div class="flex items-center">
                   <div class="w-10 h-10 flex-shrink-0 flex items-center justify-center mr-3">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -288,7 +279,6 @@ defineExpose({
           </div>
         </div>
 
-        <!-- Footer with actions -->
         <div class="bg-gray-50 dark:bg-gray-800 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
           <button 
             @click="createCollection" 

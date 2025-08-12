@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
-import { useApiService } from '../composables/useApiService'
+import { useApiService } from '../../composables/useApiService'
 
 const route = useRoute()
 const api = useApiService()
@@ -17,7 +17,14 @@ const sortBy = ref('newest')
 const viewMode = ref('grid')
 
 // Category definitions
-const categories = {
+type CategoryKey = 'art' | 'gaming' | 'music' | 'sports' | 'collectibles' | 'photography'
+type Category = {
+  name: string
+  description: string
+  icon: string
+  color: string
+}
+const categories: Record<CategoryKey, Category> = {
   art: {
     name: 'Digital Art',
     description: 'Unique digital artworks and creative expressions',
@@ -50,14 +57,14 @@ const categories = {
   },
   photography: {
     name: 'Photography',
-    description: 'Digital photography and visual art',
-    icon: '📸',
-    color: 'from-indigo-500 to-purple-600'
+    description: 'Stunning photographs and visual stories',
+    icon: '📷',
+    color: 'from-yellow-500 to-gray-600'
   }
 }
 
 const currentCategory = computed(() => {
-  return categories[categorySlug] || {
+  return categories[categorySlug as CategoryKey] || {
     name: 'Category',
     description: 'Browse items in this category',
     icon: '📦',
@@ -126,7 +133,7 @@ const allCategories = computed(() => {
 <template>
   <div class="nft-bg-pattern min-h-screen">
     <div class="max-w-7xl mx-auto px-4 py-8">
-      <!-- Category Header -->
+      
       <div class="mb-8">
         <div :class="['text-center py-16 rounded-2xl bg-gradient-to-r', currentCategory.color]">
           <div class="text-6xl mb-4">{{ currentCategory.icon }}</div>
@@ -135,7 +142,7 @@ const allCategories = computed(() => {
         </div>
       </div>
 
-      <!-- Category Navigation -->
+      
       <div class="nft-panel mb-8">
         <h3 class="text-lg font-bold text-white mb-4">Browse Categories</h3>
         <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
@@ -156,7 +163,7 @@ const allCategories = computed(() => {
         </div>
       </div>
 
-      <!-- Stats -->
+      
       <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
         <div class="nft-panel text-center">
           <div class="text-2xl font-bold text-cyan-400">{{ nfts.length }}</div>
@@ -176,7 +183,7 @@ const allCategories = computed(() => {
         </div>
       </div>
 
-      <!-- Controls -->
+      
       <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
         <div class="flex items-center space-x-4">
           <div>
@@ -216,12 +223,12 @@ const allCategories = computed(() => {
         </div>
       </div>
 
-      <!-- Loading State -->
+      
       <div v-if="loading" class="flex justify-center py-16">
         <div class="steem-auth-spinner"></div>
       </div>
 
-      <!-- Collections Section -->
+      
       <div v-else-if="collections.length" class="mb-12">
         <h2 class="text-2xl font-bold text-white mb-6">Featured Collections</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -248,7 +255,7 @@ const allCategories = computed(() => {
         </div>
       </div>
 
-      <!-- NFTs Grid View -->
+      
       <div v-if="viewMode === 'grid' && sortedNFTs.length">
         <h2 class="text-2xl font-bold text-white mb-6">All Items</h2>
         <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
@@ -274,7 +281,7 @@ const allCategories = computed(() => {
         </div>
       </div>
 
-      <!-- NFTs List View -->
+      
       <div v-else-if="viewMode === 'list' && sortedNFTs.length">
         <h2 class="text-2xl font-bold text-white mb-6">All Items</h2>
         <div class="space-y-4">
@@ -308,7 +315,7 @@ const allCategories = computed(() => {
         </div>
       </div>
 
-      <!-- Empty State -->
+      
       <div v-else-if="!loading && !sortedNFTs.length">
         <div class="text-center py-16">
           <div class="nft-panel p-8">

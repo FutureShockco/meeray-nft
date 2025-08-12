@@ -1,15 +1,11 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { useRouter } from 'vue-router';
 import { useApiService } from '../composables/useApiService';
 import { useTransactionService } from '../composables/useTransactionService';
 import { useAuthStore } from 'steem-auth-vue';
 import NFTGrid from '../components/nft/NFTGrid.vue';
 
-
-
-// Get route and router to handle navigation
-const route = useRoute();
 const router = useRouter();
 
 // Interface for NFT data structure
@@ -328,7 +324,7 @@ function handleFilterChange(filters: any) {
   <div class="pb-16">
     <div class="nft-bg-pattern min-h-screen">
       <div class="max-w-7xl mx-auto px-4 py-8">
-        <!-- Loading State -->
+        
         <div v-if="isLoading" class="flex flex-col items-center justify-center py-20">
           <div
             class="w-16 h-16 border-4 border-t-cyan-400 border-r-purple-600 border-b-cyan-400 border-l-purple-600 rounded-full animate-spin">
@@ -336,36 +332,36 @@ function handleFilterChange(filters: any) {
           <p class="mt-4 text-gray-400 text-lg">Loading the NFT marketplace...</p>
         </div>
 
-        <!-- ===== MARKETPLACE/EXPLORE CONTENT ===== -->
+        
         <div v-else>
-          <!-- Hero Section - Featured Collections Carousel -->
+          
           <section class="mb-16 -mx-4 lg:-mx-8 relative">
-            <!-- Full Width Carousel Container -->
+            
             <div class="relative overflow-hidden">
-              <!-- Carousel Slides -->
+              
               <div class="flex transition-transform duration-500 ease-in-out"
                   :style="{ transform: `translateX(-${activeSlide * 100}%)` }">
                 <div v-for="(collection, index) in nftCollections" :key="collection.id"
                     class="w-full flex-shrink-0 relative">
-                  <!-- Collection Banner as Background -->
+                  
                   <div class="relative h-[500px]">
                     <img :src="collection.bannerImage" :alt="collection.title"
                         class="w-full h-full object-cover" />
                     <div class="absolute inset-0 bg-gradient-to-r from-gray-900/95 to-gray-900/50"></div>
                   </div>
 
-                  <!-- Collection Info Overlay -->
+                  
                   <div class="absolute inset-0 flex items-center">
                     <div class="max-w-7xl mx-auto px-4 w-full">
                       <div class="flex flex-col md:flex-row items-center md:items-start gap-8">
-                        <!-- Collection Image -->
+                        
                         <div
                             class="w-40 h-40 rounded-xl overflow-hidden border-4 border-cyan-500 shadow-lg shadow-cyan-500/30">
                           <img :src="collection.image" :alt="collection.title"
                               class="w-full h-full object-cover" />
                         </div>
 
-                        <!-- Collection Info -->
+                        
                         <div class="text-center md:text-left max-w-lg">
                           <h2 class="text-3xl md:text-5xl font-black text-white mb-2">
                             {{ collection.title }}
@@ -375,7 +371,7 @@ function handleFilterChange(filters: any) {
                             {{ collection.description.substring(0, 120) }}...
                           </p>
 
-                          <!-- Collection Stats -->
+                          
                           <div class="flex flex-wrap justify-center md:justify-start gap-6 mb-8">
                             <div class="text-center">
                               <p class="text-sm text-gray-400">Items</p>
@@ -394,7 +390,7 @@ function handleFilterChange(filters: any) {
                             </div>
                           </div>
 
-                          <!-- Action Button -->
+                          
                           <button @click="router.push('/collections?collection=' + collection.id)"
                               class="bg-gradient-to-r from-cyan-500 to-purple-600 text-white px-8 py-3 rounded-xl font-bold text-lg hover:shadow-lg hover:shadow-purple-500/30 transition-all">
                             Explore Collection
@@ -406,7 +402,7 @@ function handleFilterChange(filters: any) {
                 </div>
               </div>
 
-              <!-- Carousel Navigation -->
+              
               <div class="absolute inset-0 flex items-center justify-between p-4">
                 <button @click="prevSlide"
                     class="w-12 h-12 rounded-full bg-gray-900/50 backdrop-blur-sm text-white flex items-center justify-center hover:bg-gray-900/80 transition-colors"
@@ -426,7 +422,7 @@ function handleFilterChange(filters: any) {
                 </button>
               </div>
 
-              <!-- Carousel Indicators -->
+              
               <div class="absolute bottom-6 left-0 right-0 flex justify-center space-x-2">
                 <button v-for="(collection, index) in nftCollections" :key="`indicator-${index}`"
                     @click="setActiveSlide(index)" class="w-3 h-3 rounded-full transition-colors"
@@ -436,7 +432,7 @@ function handleFilterChange(filters: any) {
             </div>
           </section>
 
-          <!-- Notable Drops Section -->
+          
           <section class="mb-16">
             <div class="flex items-center justify-between mb-6">
               <h2 class="text-2xl font-bold text-white flex items-center">
@@ -450,18 +446,18 @@ function handleFilterChange(filters: any) {
               <router-link to="/collections" class="text-cyan-400 hover:text-cyan-300 text-sm font-medium">View All</router-link>
             </div>
 
-            <!-- Collection Carousel -->
+            
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               <div v-for="collection in nftCollections.slice(0, 3)" :key="collection.id"
                   @click="router.push('/collections?collection=' + collection.id)"
                   class="nft-card cursor-pointer relative rounded-xl overflow-hidden">
-                <!-- Collection Banner Image -->
+                
                 <div class="h-40 overflow-hidden">
                   <img :src="collection.bannerImage" :alt="collection.title"
                       class="w-full h-full object-cover transform hover:scale-110 transition-transform duration-500" />
                 </div>
 
-                <!-- Collection Info -->
+                
                 <div class="bg-gray-900 p-4 border-t-2 border-cyan-500">
                   <div class="relative -mt-12 mb-2">
                     <img :src="collection.image" :alt="collection.title"
@@ -487,7 +483,7 @@ function handleFilterChange(filters: any) {
             </div>
           </section>
 
-          <!-- Trending Section -->
+          
           <section class="mb-16">
             <div class="flex items-center justify-between mb-6">
               <h2 class="text-2xl font-bold text-white flex items-center">
@@ -515,7 +511,7 @@ function handleFilterChange(filters: any) {
                 @filter="handleFilterChange" />
           </section>
 
-          <!-- Marketplace Section -->
+          
           <section>
             <div class="flex items-center justify-between mb-6">
               <h2 class="text-2xl font-bold text-white flex items-center">

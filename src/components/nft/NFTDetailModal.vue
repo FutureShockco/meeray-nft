@@ -154,12 +154,9 @@ function cancelBurn() {
 <template>
   <div v-if="nft" class="fixed inset-0 z-50 overflow-y-auto">
     <div class="flex min-h-screen items-center justify-center px-4 pt-4 pb-20 text-center sm:block sm:p-0">
-      <!-- Background overlay -->
       <div class="fixed inset-0 bg-gray-900/80 backdrop-blur-sm transition-opacity" @click="close"></div>
 
-      <!-- Modal panel -->
       <div class="inline-block align-bottom gaming-panel rounded-lg text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-5xl sm:w-full border border-cyan-500/30">
-        <!-- Header with decorative elements -->
         <div class="relative">
           <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500"></div>
           <div class="absolute -top-24 -right-24 w-48 h-48 bg-cyan-500/20 rounded-full blur-3xl"></div>
@@ -182,13 +179,11 @@ function cancelBurn() {
           </div>
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <!-- Left side (NFT Image) -->
             <div>
               <div class="rounded-lg overflow-hidden border-2 border-purple-500/50 shadow-lg shadow-purple-500/20">
                 <img :src="nft.image" :alt="nft.name" class="w-full h-auto object-cover">
               </div>
               
-              <!-- Stats below image -->
               <div class="mt-4 flex justify-between items-center text-sm text-gray-400">
                 <div class="flex items-center">
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1 text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -206,9 +201,7 @@ function cancelBurn() {
               </div>
             </div>
             
-            <!-- Right side (NFT Info) -->
             <div>
-              <!-- Tabs for info, properties, history, offers -->
               <div class="border-b border-gray-700 mb-4">
                 <div class="flex -mb-px">
                   <button 
@@ -258,8 +251,6 @@ function cancelBurn() {
                 </div>
               </div>
               
-              <!-- Tab Contents -->
-              <!-- Info Tab -->
               <div v-if="activeTab === 'info'" class="space-y-4">
                 <div>
                   <h4 class="text-sm font-medium text-gray-400 mb-1">Description</h4>
@@ -365,7 +356,6 @@ function cancelBurn() {
                 </div>
               </div>
               
-              <!-- Properties Tab -->
               <div v-if="activeTab === 'properties'" class="space-y-4">
                 <div v-if="nft.properties && nft.properties.length > 0" class="grid grid-cols-2 sm:grid-cols-3 gap-3">
                   <div 
@@ -382,7 +372,6 @@ function cancelBurn() {
                 </div>
               </div>
 
-              <!-- History Tab -->
               <div v-if="activeTab === 'history'" class="space-y-4">
                 <div v-if="nft.history && nft.history.length > 0" class="space-y-3">
                   <div 
@@ -454,14 +443,12 @@ function cancelBurn() {
                 </div>
               </div>
 
-              <!-- Offers Tab -->
               <div v-if="activeTab === 'offers'" class="space-y-4">
                 <div class="text-center py-8">
                   <p class="text-gray-500 dark:text-gray-400">No active offers found</p>
                 </div>
               </div>
 
-              <!-- Burn Confirmation Dialog -->
               <div v-if="showConfirmBurn" class="mt-4 p-4 bg-red-900/20 border border-red-500/40 rounded-lg">
                 <p class="text-white mb-4">Are you sure you want to burn this NFT? This action cannot be undone.</p>
                 <div class="flex justify-end space-x-3">

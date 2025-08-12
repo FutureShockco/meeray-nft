@@ -204,10 +204,8 @@ function handleList(nft: NFT, price: number, currency: string) {
 
 <template>
   <div>
-    <!-- Filters section -->
     <div v-if="showFilters" class="mb-8 border border-gray-700 rounded-lg p-4 bg-gray-900/50 backdrop-blur-sm">
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <!-- Search filter -->
         <div>
           <label class="block text-sm text-gray-400 mb-2">Search</label>
           <div class="relative">
@@ -225,7 +223,6 @@ function handleList(nft: NFT, price: number, currency: string) {
           </div>
         </div>
 
-        <!-- Collection filter -->
         <div>
           <label class="block text-sm text-gray-400 mb-2">Collection</label>
           <select
@@ -239,7 +236,6 @@ function handleList(nft: NFT, price: number, currency: string) {
           </select>
         </div>
 
-        <!-- Price range filter -->
         <div>
           <label class="block text-sm text-gray-400 mb-2">Price Range (STEEM)</label>
           <div class="grid grid-cols-2 gap-2">
@@ -266,7 +262,6 @@ function handleList(nft: NFT, price: number, currency: string) {
           </div>
         </div>
 
-        <!-- Sort filter -->
         <div>
           <label class="block text-sm text-gray-400 mb-2">Sort By</label>
           <select
@@ -283,7 +278,6 @@ function handleList(nft: NFT, price: number, currency: string) {
         </div>
       </div>
 
-      <!-- Clear filters button -->
       <div class="mt-4 flex justify-end">
         <button
           @click="resetFilters"
@@ -293,12 +287,10 @@ function handleList(nft: NFT, price: number, currency: string) {
       </div>
     </div>
 
-    <!-- Title and view controls -->
     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6">
       <h2 v-if="title" class="text-xl font-bold text-white mb-4 sm:mb-0 neon-text">{{ title }}</h2>
       
       <div class="flex items-center space-x-4">
-        <!-- Grid view toggle -->
         <div class="flex rounded-lg border border-gray-700 overflow-hidden">
           <button 
             @click="gridView = 'grid'" 
@@ -326,12 +318,10 @@ function handleList(nft: NFT, price: number, currency: string) {
       </div>
     </div>
 
-    <!-- Loading state -->
     <div v-if="loading" class="py-10 flex justify-center items-center">
       <div class="w-12 h-12 border-4 border-t-cyan-400 border-r-purple-600 border-b-cyan-400 border-l-purple-600 rounded-full animate-spin"></div>
     </div>
 
-    <!-- Empty state -->
     <div v-else-if="filteredNFTs.length === 0" class="text-center py-10">
       <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M12 20h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -339,7 +329,6 @@ function handleList(nft: NFT, price: number, currency: string) {
       <p class="mt-4 text-xl text-gray-300">{{ emptyMessage || 'No NFTs found' }}</p>
     </div>
 
-    <!-- Grid View -->
     <div v-else-if="gridView === 'grid'" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
       <div 
         v-for="nft in filteredNFTs" 
@@ -347,11 +336,9 @@ function handleList(nft: NFT, price: number, currency: string) {
         @click="openNFTDetail(nft)"
         class="nft-card cursor-pointer rounded-xl overflow-hidden bg-gray-900 border border-gray-800 hover:border-cyan-500/50 transition-all duration-300"
       >
-        <!-- NFT Image -->
         <div class="relative h-48 overflow-hidden group">
           <img :src="nft.image" :alt="nft.name" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
           
-          <!-- Favorite button -->
           <button 
             @click.stop="toggleFavorite(nft.id)" 
             class="absolute top-2 right-2 h-8 w-8 flex items-center justify-center rounded-full bg-black/50 backdrop-blur-sm text-white hover:text-pink-500"
@@ -368,13 +355,11 @@ function handleList(nft: NFT, price: number, currency: string) {
             </svg>
           </button>
           
-          <!-- Listed badge -->
           <div v-if="nft.isListed" class="absolute top-2 left-2 px-2 py-1 text-xs font-medium rounded bg-gradient-to-r from-cyan-500 to-purple-600 text-white">
             For Sale
           </div>
         </div>
         
-        <!-- NFT Info -->
         <div class="p-4">
           <div class="flex justify-between items-start mb-2">
             <div>
@@ -405,7 +390,6 @@ function handleList(nft: NFT, price: number, currency: string) {
       </div>
     </div>
 
-    <!-- List View -->
     <div v-else class="space-y-4">
       <div 
         v-for="nft in filteredNFTs" 
@@ -413,12 +397,10 @@ function handleList(nft: NFT, price: number, currency: string) {
         @click="openNFTDetail(nft)"
         class="nft-card cursor-pointer rounded-lg overflow-hidden border border-gray-800 hover:border-cyan-500/50 transition-all duration-300 bg-gray-900 flex"
       >
-        <!-- NFT Image -->
         <div class="relative h-24 w-24 sm:h-32 sm:w-32 overflow-hidden">
           <img :src="nft.image" :alt="nft.name" class="h-full w-full object-cover hover:scale-110 transition-transform duration-500">
         </div>
         
-        <!-- NFT Info -->
         <div class="p-4 flex-1 flex flex-col sm:flex-row sm:items-center justify-between">
           <div>
             <h3 class="font-bold text-white">{{ nft.name }}</h3>

@@ -82,13 +82,11 @@ const timeAgo = (timestamp: string) => {
 <template>
   <div class="nft-bg-pattern min-h-screen">
     <div class="max-w-6xl mx-auto px-4 py-8">
-      <!-- Header -->
       <div class="mb-8">
         <h1 class="text-3xl font-bold text-white mb-4">Activity</h1>
         <p class="text-gray-300">Latest marketplace activity across all collections</p>
       </div>
 
-      <!-- Filters -->
       <div class="nft-panel mb-8">
         <div class="flex flex-wrap gap-3">
           <button
@@ -107,12 +105,10 @@ const timeAgo = (timestamp: string) => {
         </div>
       </div>
 
-      <!-- Loading State -->
       <div v-if="loading" class="flex justify-center py-16">
         <div class="steem-auth-spinner"></div>
       </div>
 
-      <!-- Activity List -->
       <div v-else-if="filteredActivities.length" class="space-y-4">
         <div 
           v-for="activity in filteredActivities" 
@@ -121,7 +117,6 @@ const timeAgo = (timestamp: string) => {
           @click="$router.push(`/nft/${activity.collection}/${activity.nftId}`)"
         >
           <div class="flex items-center space-x-4">
-            <!-- NFT Image -->
             <div class="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
               <img 
                 :src="activity.nftImage || '/images/nfts/01.png'" 
@@ -130,7 +125,6 @@ const timeAgo = (timestamp: string) => {
               >
             </div>
 
-            <!-- Activity Details -->
             <div class="flex-1 min-w-0">
               <div class="flex items-center space-x-2 mb-1">
                 <span class="text-lg">{{ getActivityIcon(activity.type) }}</span>
@@ -162,13 +156,11 @@ const timeAgo = (timestamp: string) => {
               </div>
             </div>
 
-            <!-- Price -->
             <div v-if="activity.price" class="text-right flex-shrink-0">
               <div class="font-bold text-white">{{ activity.price }} {{ activity.token || 'STEEM' }}</div>
               <div v-if="activity.usdValue" class="text-sm text-gray-400">${{ activity.usdValue }}</div>
             </div>
 
-            <!-- Action Arrow -->
             <div class="text-gray-400">
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
@@ -178,7 +170,6 @@ const timeAgo = (timestamp: string) => {
         </div>
       </div>
 
-      <!-- Empty State -->
       <div v-else class="text-center py-16">
         <div class="nft-panel p-8">
           <div class="text-6xl mb-4">📊</div>

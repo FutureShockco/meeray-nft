@@ -106,27 +106,23 @@ function viewCollection(collectionId: string) {
 
 function handleNFTAction(action: string, ...args: any[]) {
   // Just pass along any NFT actions to parent
-  emit(action as any, ...args);
+  emit(action as any, args[0]);
 }
 </script>
 
 <template>
   <div>
-    <!-- Profile Banner -->
     <div class="w-full h-64 bg-gray-200 dark:bg-gray-800 relative">
       <img v-if="user.banner" :src="user.banner" alt="Profile banner" class="w-full h-full object-cover" />
       <div class="absolute bottom-0 left-0 w-full h-16 bg-gradient-to-t from-black/50 to-transparent"></div>
     </div>
     
-    <!-- Profile Info -->
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex flex-col md:flex-row items-start md:items-end -mt-16 md:-mt-20 relative z-10 pb-5 border-b border-gray-200 dark:border-gray-800">
-        <!-- Avatar -->
         <div class="h-32 w-32 md:h-40 md:w-40 rounded-full overflow-hidden border-4 border-white dark:border-gray-900 bg-white dark:bg-gray-800">
           <img :src="user.avatar" alt="Profile avatar" class="w-full h-full object-cover" />
         </div>
         
-        <!-- User Info -->
         <div class="mt-4 md:mt-0 md:ml-6 flex-1">
           <div class="flex flex-col md:flex-row md:items-center justify-between">
             <div>
@@ -134,7 +130,6 @@ function handleNFTAction(action: string, ...args: any[]) {
               <p class="text-gray-500 dark:text-gray-400">@{{ user.username }}</p>
             </div>
             
-            <!-- Follow Button -->
             <div class="mt-4 md:mt-0 flex space-x-4">
               <button 
                 @click="toggleFollow" 
@@ -154,7 +149,6 @@ function handleNFTAction(action: string, ...args: any[]) {
             </div>
           </div>
           
-          <!-- Bio & Stats -->
           <div class="mt-4">
             <p v-if="user.bio" class="text-gray-600 dark:text-gray-300 max-w-2xl">{{ user.bio }}</p>
             
@@ -173,7 +167,6 @@ function handleNFTAction(action: string, ...args: any[]) {
               </div>
             </div>
             
-            <!-- Social Links -->
             <div v-if="user.links" class="mt-4 flex space-x-4">
               <a 
                 v-if="user.links.website" 
@@ -210,7 +203,6 @@ function handleNFTAction(action: string, ...args: any[]) {
         </div>
       </div>
       
-      <!-- Tab Navigation -->
       <div class="border-b border-gray-200 dark:border-gray-800">
         <nav class="flex -mb-px space-x-8">
           <button 
@@ -261,9 +253,7 @@ function handleNFTAction(action: string, ...args: any[]) {
         </nav>
       </div>
       
-      <!-- Tab Content -->
       <div class="py-6">
-        <!-- Collected NFTs Tab -->
         <div v-if="activeTab === 'collected'">
           <div class="flex justify-between items-center mb-6">
             <h2 class="text-xl font-bold text-gray-900 dark:text-white">Collected NFTs</h2>
@@ -296,7 +286,6 @@ function handleNFTAction(action: string, ...args: any[]) {
           />
         </div>
         
-        <!-- Created NFTs Tab -->
         <div v-if="activeTab === 'created'">
           <div class="flex justify-between items-center mb-6">
             <h2 class="text-xl font-bold text-gray-900 dark:text-white">Created NFTs</h2>
@@ -329,7 +318,6 @@ function handleNFTAction(action: string, ...args: any[]) {
           />
         </div>
         
-        <!-- Collections Tab -->
         <div v-if="activeTab === 'collections'">
           <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-6">Collections</h2>
           
@@ -358,7 +346,6 @@ function handleNFTAction(action: string, ...args: any[]) {
           </div>
         </div>
         
-        <!-- Favorites Tab -->
         <div v-if="activeTab === 'favorites'">
           <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-6">Favorites</h2>
           
@@ -370,7 +357,6 @@ function handleNFTAction(action: string, ...args: any[]) {
           </div>
         </div>
         
-        <!-- Activity Tab -->
         <div v-if="activeTab === 'activity'">
           <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-6">Activity</h2>
           

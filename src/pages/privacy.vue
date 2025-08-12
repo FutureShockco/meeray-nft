@@ -5,7 +5,7 @@ const lastUpdated = '2024-01-15'
 <template>
   <div class="nft-bg-pattern min-h-screen">
     <div class="max-w-4xl mx-auto px-4 py-8">
-      <!-- Header -->
+      
       <div class="text-center mb-12">
         <h1 class="text-4xl font-bold text-white mb-4">Privacy Policy</h1>
         <p class="text-gray-300">Last updated: {{ lastUpdated }}</p>
@@ -13,7 +13,7 @@ const lastUpdated = '2024-01-15'
 
       <div class="nft-panel prose prose-invert max-w-none">
         <div class="space-y-8">
-          <!-- Introduction -->
+          
           <section>
             <h2 class="text-2xl font-bold text-white mb-4">1. Introduction</h2>
             <p class="text-gray-300 leading-relaxed">
@@ -21,7 +21,7 @@ const lastUpdated = '2024-01-15'
             </p>
           </section>
 
-          <!-- Information We Collect -->
+          
           <section>
             <h2 class="text-2xl font-bold text-white mb-4">2. Information We Collect</h2>
             <div class="space-y-4 text-gray-300">
@@ -49,7 +49,7 @@ const lastUpdated = '2024-01-15'
             </div>
           </section>
 
-          <!-- How We Use Information -->
+          
           <section>
             <h2 class="text-2xl font-bold text-white mb-4">3. How We Use Your Information</h2>
             <div class="space-y-4 text-gray-300">
@@ -65,7 +65,7 @@ const lastUpdated = '2024-01-15'
             </div>
           </section>
 
-          <!-- Information Sharing -->
+          
           <section>
             <h2 class="text-2xl font-bold text-white mb-4">4. Information Sharing</h2>
             <div class="space-y-4 text-gray-300">
@@ -87,7 +87,7 @@ const lastUpdated = '2024-01-15'
             </div>
           </section>
 
-          <!-- Data Security -->
+          
           <section>
             <h2 class="text-2xl font-bold text-white mb-4">5. Data Security</h2>
             <div class="space-y-4 text-gray-300">
@@ -104,7 +104,7 @@ const lastUpdated = '2024-01-15'
             </div>
           </section>
 
-          <!-- Your Rights -->
+          
           <section>
             <h2 class="text-2xl font-bold text-white mb-4">6. Your Rights and Choices</h2>
             <div class="space-y-4 text-gray-300">
@@ -124,7 +124,7 @@ const lastUpdated = '2024-01-15'
             </div>
           </section>
 
-          <!-- Cookies and Tracking -->
+          
           <section>
             <h2 class="text-2xl font-bold text-white mb-4">7. Cookies and Tracking</h2>
             <div class="space-y-4 text-gray-300">
@@ -141,7 +141,7 @@ const lastUpdated = '2024-01-15'
             </div>
           </section>
 
-          <!-- Data Retention -->
+          
           <section>
             <h2 class="text-2xl font-bold text-white mb-4">8. Data Retention</h2>
             <p class="text-gray-300 leading-relaxed">
@@ -149,7 +149,7 @@ const lastUpdated = '2024-01-15'
             </p>
           </section>
 
-          <!-- International Transfers -->
+          
           <section>
             <h2 class="text-2xl font-bold text-white mb-4">9. International Data Transfers</h2>
             <p class="text-gray-300 leading-relaxed">
@@ -157,7 +157,7 @@ const lastUpdated = '2024-01-15'
             </p>
           </section>
 
-          <!-- Children's Privacy -->
+          
           <section>
             <h2 class="text-2xl font-bold text-white mb-4">10. Children's Privacy</h2>
             <p class="text-gray-300 leading-relaxed">
@@ -165,7 +165,7 @@ const lastUpdated = '2024-01-15'
             </p>
           </section>
 
-          <!-- Changes to Privacy Policy -->
+          
           <section>
             <h2 class="text-2xl font-bold text-white mb-4">11. Changes to This Privacy Policy</h2>
             <p class="text-gray-300 leading-relaxed">
@@ -173,7 +173,7 @@ const lastUpdated = '2024-01-15'
             </p>
           </section>
 
-          <!-- Contact Information -->
+          
           <section>
             <h2 class="text-2xl font-bold text-white mb-4">12. Contact Us</h2>
             <p class="text-gray-300 leading-relaxed">
@@ -187,7 +187,7 @@ const lastUpdated = '2024-01-15'
         </div>
       </div>
 
-      <!-- Back to Home -->
+      
       <div class="text-center mt-12">
         <router-link to="/" class="nft-btn">
           Back to Homepage

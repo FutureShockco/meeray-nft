@@ -254,12 +254,12 @@ const delistNFT = async () => {
 <template>
   <div class="nft-bg-pattern min-h-screen">
     <div class="max-w-7xl mx-auto px-4 py-8">
-      <!-- Loading State -->
+      
       <div v-if="loading" class="flex justify-center items-center h-64">
         <div class="steem-auth-spinner"></div>
       </div>
 
-      <!-- Error State -->
+      
       <div v-else-if="error" class="text-center py-16">
         <div class="nft-panel p-8">
           <h2 class="text-2xl font-bold text-red-400 mb-4">Error Loading NFT</h2>
@@ -268,11 +268,11 @@ const delistNFT = async () => {
         </div>
       </div>
 
-      <!-- NFT Details -->
+      
       <div v-else-if="nft" class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <!-- Left Column - Image -->
+        
         <div class="space-y-6">
-          <!-- Main Image -->
+          
           <div class="nft-panel p-0 overflow-hidden">
             <img 
               :src="nft.image || '/images/nfts/01.png'" 
@@ -281,7 +281,7 @@ const delistNFT = async () => {
             >
           </div>
 
-          <!-- Traits/Properties -->
+          
           <div class="nft-panel">
             <h3 class="text-lg font-bold text-white mb-4">Properties</h3>
             <div v-if="nft.properties?.length" class="grid grid-cols-2 md:grid-cols-3 gap-3">
@@ -298,16 +298,16 @@ const delistNFT = async () => {
           </div>
         </div>
 
-        <!-- Right Column - Details & Actions -->
+        
         <div class="space-y-6">
-          <!-- Collection Info -->
+          
           <div class="flex items-center space-x-3 text-gray-300">
             <router-link :to="`/collections?collection=${collection}`" class="text-cyan-400 hover:text-cyan-300">
               {{ collectionData?.name || collection }}
             </router-link>
           </div>
 
-          <!-- NFT Title & Creator -->
+          
           <div>
             <h1 class="text-3xl font-bold text-white mb-2">{{ nft.name || `${collection} #${nftId}` }}</h1>
             <div class="flex items-center space-x-4 text-gray-300">
@@ -325,7 +325,7 @@ const delistNFT = async () => {
             </div>
           </div>
 
-          <!-- Price & Actions -->
+          
           <div class="nft-panel">
             <div v-if="nft.isListed" class="mb-6">
               <div class="text-sm text-gray-400 mb-2">Current Price</div>
@@ -334,9 +334,9 @@ const delistNFT = async () => {
               </div>
             </div>
 
-            <!-- Action Buttons -->
+            
             <div class="space-y-3">
-              <!-- Buy Button -->
+              
               <button 
                 v-if="canBuy" 
                 @click="buyNFT"
@@ -345,7 +345,7 @@ const delistNFT = async () => {
                 Buy for {{ nft.price }} {{ nft.paymentToken || 'STEEM' }}
               </button>
 
-              <!-- Bid Button -->
+              
               <button 
                 v-if="canBid" 
                 @click="showBidModal = true"
@@ -354,7 +354,7 @@ const delistNFT = async () => {
                 Place Bid
               </button>
 
-              <!-- Owner Actions -->
+              
               <div v-if="isOwner" class="space-y-3">
                 <button 
                   v-if="!nft.isListed"
@@ -380,7 +380,7 @@ const delistNFT = async () => {
                 </button>
               </div>
 
-              <!-- Offer Button (for non-owners) -->
+              
               <button 
                 v-if="!isOwner && auth.state.isAuthenticated"
                 @click="showOfferModal = true"
@@ -391,7 +391,7 @@ const delistNFT = async () => {
             </div>
           </div>
 
-          <!-- Tabs -->
+          
           <div class="nft-panel">
             <div class="flex border-b border-gray-700 mb-4">
               <button 
@@ -409,9 +409,9 @@ const delistNFT = async () => {
               </button>
             </div>
 
-            <!-- Tab Content -->
+            
             <div class="space-y-4">
-              <!-- Details Tab -->
+              
               <div v-if="activeTab === 'details'">
                 <p v-if="nft.description" class="text-gray-300 mb-4">{{ nft.description }}</p>
                 <div class="space-y-2 text-sm">
@@ -434,7 +434,7 @@ const delistNFT = async () => {
                 </div>
               </div>
 
-              <!-- History Tab -->
+              
               <div v-if="activeTab === 'history'">
                 <div v-if="nft.history?.length" class="space-y-3">
                   <div 
@@ -458,7 +458,7 @@ const delistNFT = async () => {
                 <div v-else class="text-gray-400">No transaction history available</div>
               </div>
 
-              <!-- Offers Tab -->
+              
               <div v-if="activeTab === 'offers'">
                 <div class="text-gray-400">No offers available</div>
               </div>
@@ -468,7 +468,7 @@ const delistNFT = async () => {
       </div>
     </div>
 
-    <!-- Bid Modal -->
+    
     <div v-if="showBidModal" class="steem-auth-modal-overlay" @click="showBidModal = false">
       <div class="steem-auth-modal-content" @click.stop>
         <div class="steem-auth-modal-header">
@@ -496,7 +496,7 @@ const delistNFT = async () => {
       </div>
     </div>
 
-    <!-- Transfer Modal -->
+    
     <div v-if="showTransferModal" class="steem-auth-modal-overlay" @click="showTransferModal = false">
       <div class="steem-auth-modal-content" @click.stop>
         <div class="steem-auth-modal-header">
@@ -523,7 +523,7 @@ const delistNFT = async () => {
       </div>
     </div>
 
-    <!-- List NFT Modal -->
+    
     <div v-if="showListModal" class="steem-auth-modal-overlay" @click="showListModal = false">
       <div class="steem-auth-modal-content max-w-lg" @click.stop>
         <div class="steem-auth-modal-header">
@@ -532,7 +532,7 @@ const delistNFT = async () => {
         </div>
         <div class="steem-auth-modal-body">
           <div class="space-y-6">
-            <!-- Listing Type -->
+            
             <div>
               <label class="block text-sm font-medium text-gray-300 mb-3">Listing Type</label>
               <div class="grid grid-cols-1 gap-3">
@@ -560,7 +560,7 @@ const delistNFT = async () => {
               </div>
             </div>
 
-            <!-- Price (for Fixed Price or Reserve Price) -->
+            
             <div v-if="listingForm.listingType === 'FIXED_PRICE'">
               <label class="block text-sm font-medium text-gray-300 mb-2">Sale Price</label>
               <div class="flex space-x-3">
@@ -579,9 +579,9 @@ const delistNFT = async () => {
               </div>
             </div>
 
-            <!-- Auction Settings -->
+            
             <div v-if="listingForm.listingType === 'AUCTION' || listingForm.listingType === 'RESERVE_AUCTION'">
-              <!-- Starting Price -->
+              
               <div>
                 <label class="block text-sm font-medium text-gray-300 mb-2">
                   {{ listingForm.listingType === 'AUCTION' ? 'Starting Price' : 'Starting Bid' }}
@@ -602,7 +602,7 @@ const delistNFT = async () => {
                 </div>
               </div>
 
-              <!-- Reserve Price (Reserve Auction only) -->
+              
               <div v-if="listingForm.listingType === 'RESERVE_AUCTION'">
                 <label class="block text-sm font-medium text-gray-300 mb-2">Reserve Price</label>
                 <input 
@@ -614,7 +614,7 @@ const delistNFT = async () => {
                 >
               </div>
 
-              <!-- Auction End Time -->
+              
               <div>
                 <label class="block text-sm font-medium text-gray-300 mb-2">Auction End Time</label>
                 <input 
@@ -624,7 +624,7 @@ const delistNFT = async () => {
                 >
               </div>
 
-              <!-- Minimum Bid Increment -->
+              
               <div>
                 <label class="block text-sm font-medium text-gray-300 mb-2">Minimum Bid Increment</label>
                 <input 
@@ -636,7 +636,7 @@ const delistNFT = async () => {
                 >
               </div>
 
-              <!-- Allow Buy Now -->
+              
               <div class="flex items-center space-x-3">
                 <input 
                   v-model="listingForm.allowBuyNow" 
@@ -647,7 +647,7 @@ const delistNFT = async () => {
               </div>
             </div>
 
-            <!-- Action Buttons -->
+            
             <div class="flex space-x-3 pt-4">
               <button @click="listNFT" class="nft-btn flex-1" :disabled="!listingForm.price">
                 {{ listingForm.listingType === 'FIXED_PRICE' ? 'List for Sale' : 'Start Auction' }}

@@ -227,13 +227,13 @@ function removeProperty(index: number) {
   <div class="pb-16">
     <div class="nft-bg-pattern min-h-screen">
       <div class="max-w-7xl mx-auto px-4 py-8">
-        <!-- ===== CREATE TAB ===== -->
+ 
         <div class="mx-auto max-w-3xl">
           <h2 class="text-2xl font-bold text-white mb-6">Create</h2>
 
-          <!-- Create Options -->
+ 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
-            <!-- Create NFT Option -->
+ 
             <div
               class="bg-gray-900/70 rounded-xl border border-purple-800/30 p-6 cursor-pointer hover:border-cyan-500/50 transition-all group"
               :class="{ 'border-cyan-500': createMode === 'nft' }" @click="createMode = 'nft'">
@@ -251,7 +251,7 @@ function removeProperty(index: number) {
               <p class="text-gray-400 mb-4">Create a unique NFT item to sell or trade on the marketplace.</p>
             </div>
 
-            <!-- Create Collection Option -->
+ 
             <div
               class="bg-gray-900/70 rounded-xl border border-purple-800/30 p-6 cursor-pointer hover:border-cyan-500/50 transition-all group"
               :class="{ 'border-cyan-500': createMode === 'collection' }" @click="createMode = 'collection'">
@@ -270,12 +270,12 @@ function removeProperty(index: number) {
             </div>
           </div>
 
-          <!-- Create NFT Form -->
+ 
           <div v-if="createMode === 'nft'" class="bg-gray-900/70 rounded-xl border border-purple-800/30 p-6">
             <h3 class="text-xl font-bold text-white mb-6">Create New NFT</h3>
-            <!-- Create NFT Form -->
+ 
             <div class="grid grid-cols-1 gap-6">
-              <!-- NFT Image Upload -->
+ 
               <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-300 mb-1">NFT Image</label>
                 <div
@@ -297,7 +297,7 @@ function removeProperty(index: number) {
                 </div>
               </div>
 
-              <!-- NFT Name -->
+ 
               <div>
                 <label class="block text-sm font-medium text-gray-300 mb-1">Name</label>
                 <input 
@@ -307,7 +307,7 @@ function removeProperty(index: number) {
                   class="w-full px-4 py-2 border-2 border-purple-800/50 focus:border-cyan-500 rounded-lg bg-gray-900/80 text-white placeholder-gray-500 focus:outline-none">
               </div>
 
-              <!-- NFT Description -->
+ 
               <div>
                 <label class="block text-sm font-medium text-gray-300 mb-1">Description</label>
                 <textarea 
@@ -317,7 +317,7 @@ function removeProperty(index: number) {
                   class="w-full px-4 py-2 border-2 border-purple-800/50 focus:border-cyan-500 rounded-lg bg-gray-900/80 text-white placeholder-gray-500 focus:outline-none"></textarea>
               </div>
 
-              <!-- NFT Collection -->
+ 
               <div>
                 <label class="block text-sm font-medium text-gray-300 mb-1">Collection</label>
                 <select
@@ -329,7 +329,7 @@ function removeProperty(index: number) {
                 </select>
               </div>
 
-              <!-- Instance ID -->
+ 
               <div>
                 <label class="block text-sm font-medium text-gray-300 mb-1">Instance ID (Optional)</label>
                 <input 
@@ -340,7 +340,7 @@ function removeProperty(index: number) {
                 <p class="mt-1 text-xs text-gray-500">Unique identifier for this NFT within the collection</p>
               </div>
 
-              <!-- Image/Media URI -->
+ 
               <div>
                 <label class="block text-sm font-medium text-gray-300 mb-1">Image/Media URL</label>
                 <input 
@@ -350,7 +350,7 @@ function removeProperty(index: number) {
                   class="w-full px-4 py-2 border-2 border-purple-800/50 focus:border-cyan-500 rounded-lg bg-gray-900/80 text-white placeholder-gray-500 focus:outline-none">
               </div>
 
-              <!-- Properties Section -->
+ 
               <div>
                 <label class="block text-sm font-medium text-gray-300 mb-3">Properties</label>
                 
@@ -395,7 +395,7 @@ function removeProperty(index: number) {
 
 
 
-              <!-- Create Button -->
+ 
               <div class="pt-4">
                 <button 
                   @click="createNFT"
@@ -408,13 +408,13 @@ function removeProperty(index: number) {
             </div>
           </div>
 
-          <!-- Create Collection Form -->
+ 
           <div v-else-if="createMode === 'collection'"
             class="bg-gray-900/70 rounded-xl border border-purple-800/30 p-6">
             <h3 class="text-xl font-bold text-white mb-6">Create Collection</h3>
 
             <div class="space-y-6">
-              <!-- Banner Image Upload -->
+ 
               <div>
                 <label class="block text-sm font-medium text-gray-300 mb-1">Banner Image</label>
                 <div
@@ -429,7 +429,7 @@ function removeProperty(index: number) {
               </div>
 
               <div class="flex gap-6 items-start">
-                <!-- Logo Upload -->
+ 
                 <div class="w-1/3">
                   <label class="block text-sm font-medium text-gray-300 mb-1">Logo</label>
                   <div
@@ -443,7 +443,7 @@ function removeProperty(index: number) {
                   </div>
                 </div>
 
-                <!-- Collection Info -->
+ 
                 <div class="w-2/3 space-y-4">
                   <div>
                     <label class="block text-sm font-medium text-gray-300 mb-1">Name</label>
@@ -527,12 +527,12 @@ function removeProperty(index: number) {
                 </div>
               </div>
 
-              <!-- Links Section -->
+ 
               <div class="pt-4 border-t border-gray-800">
                 <h4 class="text-lg font-medium text-white mb-3">Links</h4>
 
                 <div class="space-y-3">
-                  <!-- Website -->
+ 
                   <div class="flex items-center">
                     <div class="w-10 h-10 flex-shrink-0 flex items-center justify-center mr-3">
                       <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none"
@@ -548,7 +548,7 @@ function removeProperty(index: number) {
                       class="w-full px-3 py-2 border-2 border-purple-800/50 focus:border-cyan-500 rounded-lg bg-gray-900/80 text-white placeholder-gray-500 focus:outline-none" />
                   </div>
 
-                  <!-- Twitter -->
+ 
                   <div class="flex items-center">
                     <div class="w-10 h-10 flex-shrink-0 flex items-center justify-center mr-3">
                       <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none"
@@ -561,7 +561,7 @@ function removeProperty(index: number) {
                       class="w-full px-3 py-2 border-2 border-purple-800/50 focus:border-cyan-500 rounded-lg bg-gray-900/80 text-white placeholder-gray-500 focus:outline-none" />
                   </div>
 
-                  <!-- Discord -->
+ 
                   <div class="flex items-center">
                     <div class="w-10 h-10 flex-shrink-0 flex items-center justify-center mr-3">
                       <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none"
@@ -576,7 +576,7 @@ function removeProperty(index: number) {
                 </div>
               </div>
 
-              <!-- Collection Settings -->
+ 
               <div class="pt-4 border-t border-gray-800">
                 <h4 class="text-lg font-medium text-white mb-3">Collection Settings</h4>
                 
@@ -614,7 +614,7 @@ function removeProperty(index: number) {
                 </p>
               </div>
 
-              <!-- Create Button -->
+ 
               <div class="pt-4">
                 <button 
                   @click="createCollection"

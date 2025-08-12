@@ -108,10 +108,8 @@ defineExpose({
 <template>
   <div v-if="isOpen" class="fixed inset-0 z-50 overflow-y-auto">
     <div class="flex min-h-screen items-center justify-center px-4 pt-4 pb-20 text-center sm:block sm:p-0">
-      <!-- Background overlay -->
       <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" @click="close"></div>
 
-      <!-- Modal panel -->
       <div class="inline-block align-bottom bg-white dark:bg-gray-900 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-2xl sm:w-full">
         <div class="px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
           <div class="flex justify-between items-center mb-4">
@@ -123,7 +121,6 @@ defineExpose({
             </button>
           </div>
 
-          <!-- Tabs -->
           <div class="flex border-b border-gray-200 dark:border-gray-700 mb-6">
             <button 
               @click="activeTab = 'basic'" 
@@ -160,10 +157,8 @@ defineExpose({
             </button>
           </div>
 
-          <!-- Basic Info Tab -->
           <div v-if="activeTab === 'basic'" class="space-y-4">
             <div class="flex gap-6">
-              <!-- Image Upload -->
               <div class="w-1/3">
                 <div 
                   class="border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-lg h-40 flex flex-col items-center justify-center cursor-pointer overflow-hidden"
@@ -187,7 +182,6 @@ defineExpose({
                 </div>
               </div>
 
-              <!-- NFT Info -->
               <div class="w-2/3 space-y-4">
                 <div>
                   <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Name</label>
@@ -225,7 +219,6 @@ defineExpose({
             </div>
           </div>
 
-          <!-- Properties Tab -->
           <div v-if="activeTab === 'properties'" class="space-y-4">
             <div class="flex justify-between items-center">
               <h4 class="text-lg font-medium text-gray-900 dark:text-white">Properties</h4>
@@ -266,7 +259,6 @@ defineExpose({
             </div>
           </div>
 
-          <!-- Royalties Tab -->
           <div v-if="activeTab === 'royalties'" class="space-y-4">
             <h4 class="text-lg font-medium text-gray-900 dark:text-white">Royalties</h4>
             <p class="text-sm text-gray-500 dark:text-gray-400">
@@ -293,7 +285,6 @@ defineExpose({
           </div>
         </div>
 
-        <!-- Footer with actions -->
         <div class="bg-gray-50 dark:bg-gray-800 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
           <button 
             @click="mintNFT" 

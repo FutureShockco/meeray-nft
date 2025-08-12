@@ -59,13 +59,13 @@ const getChangeColor = (change: number) => {
 <template>
   <div class="nft-bg-pattern min-h-screen">
     <div class="max-w-7xl mx-auto px-4 py-8">
-      <!-- Header -->
+      
       <div class="mb-8">
         <h1 class="text-3xl font-bold text-white mb-4">Rankings</h1>
         <p class="text-gray-300">Top performing collections, trending NFTs, and leading creators</p>
       </div>
 
-      <!-- Tabs -->
+      
       <div class="flex space-x-1 mb-8">
         <button
           v-for="tab in tabs"
@@ -83,12 +83,12 @@ const getChangeColor = (change: number) => {
         </button>
       </div>
 
-      <!-- Loading State -->
+      
       <div v-if="loading" class="flex justify-center py-16">
         <div class="steem-auth-spinner"></div>
       </div>
 
-      <!-- Top Collections Tab -->
+      
       <div v-else-if="activeTab === 'collections'" class="nft-panel">
         <div class="overflow-x-auto">
           <table class="w-full">
@@ -149,7 +149,7 @@ const getChangeColor = (change: number) => {
         </div>
       </div>
 
-      <!-- Trending Tab -->
+      
       <div v-else-if="activeTab === 'trending'" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <div 
           v-for="nft in trending" 
@@ -173,7 +173,7 @@ const getChangeColor = (change: number) => {
         </div>
       </div>
 
-      <!-- Top Creators Tab -->
+      
       <div v-else-if="activeTab === 'creators'" class="nft-panel">
         <div class="overflow-x-auto">
           <table class="w-full">
@@ -230,7 +230,7 @@ const getChangeColor = (change: number) => {
         </div>
       </div>
 
-      <!-- Empty States -->
+      
       <div v-if="!loading && collections.length === 0 && activeTab === 'collections'" class="text-center py-16">
         <div class="nft-panel p-8">
           <div class="text-6xl mb-4">🏆</div>

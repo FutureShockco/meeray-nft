@@ -5,13 +5,15 @@ const auth = useAuthStore();
 
 // Redirect based on authentication status
 onMounted(() => {
+  const router = useRouter();
   if (auth.state.isAuthenticated && auth.state.username) {
     // Redirect to user's profile
-    navigateTo(`/profile/${auth.state.username}`);
+    router.push(`/profile/${auth.state.username}`);
   } else {
     // Redirect to marketplace if not authenticated
-    navigateTo('/marketplace');
+    router.push('/marketplace');
   }
+
 });
 </script>
 

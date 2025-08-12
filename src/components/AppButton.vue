@@ -10,8 +10,8 @@ const emit = defineEmits<{
 }>();
 
 const getButtonClasses = (
-  variant: string = 'primary',
-  size: string = 'md',
+  variant: 'primary' | 'secondary' | 'outline' = 'primary',
+  size: 'sm' | 'md' | 'lg' = 'md',
   disabled: boolean = false
 ) => {
   const baseClasses = 'rounded font-medium transition-colors duration-200';

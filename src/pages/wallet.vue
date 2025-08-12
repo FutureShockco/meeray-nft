@@ -90,7 +90,7 @@ const getTokenIcon = (symbol: string) => {
 <template>
   <div class="nft-bg-pattern min-h-screen">
     <div class="max-w-7xl mx-auto px-4 py-8">
-      <!-- Redirect if not authenticated -->
+      
       <div v-if="!auth.state.isAuthenticated" class="text-center py-16">
         <div class="nft-panel p-8">
           <h2 class="text-2xl font-bold text-white mb-4">Authentication Required</h2>
@@ -102,34 +102,34 @@ const getTokenIcon = (symbol: string) => {
       </div>
 
       <template v-else>
-        <!-- Header -->
+        
         <div class="mb-8">
           <h1 class="text-3xl font-bold text-white mb-2">My Wallet</h1>
           <p class="text-gray-300">Manage your tokens and NFTs</p>
         </div>
 
-        <!-- Portfolio Overview -->
+        
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <!-- Total Value -->
+          
           <div class="nft-panel">
             <div class="text-sm text-gray-400 mb-2">Total Portfolio Value</div>
             <div class="text-2xl font-bold text-white">${{ totalPortfolioValue.toFixed(2) }}</div>
           </div>
 
-          <!-- Token Count -->
+          
           <div class="nft-panel">
             <div class="text-sm text-gray-400 mb-2">Token Types</div>
             <div class="text-2xl font-bold text-cyan-400">{{ tokens.length }}</div>
           </div>
 
-          <!-- NFT Count -->
+          
           <div class="nft-panel">
             <div class="text-sm text-gray-400 mb-2">Owned NFTs</div>
             <div class="text-2xl font-bold text-purple-400">{{ nfts.length }}</div>
           </div>
         </div>
 
-        <!-- Quick Actions -->
+        
         <div class="flex flex-wrap gap-4 mb-8">
           <button @click="showDepositModal = true" class="nft-btn">
             💰 Deposit
@@ -142,7 +142,7 @@ const getTokenIcon = (symbol: string) => {
           </button>
         </div>
 
-        <!-- Tabs -->
+        
         <div class="flex space-x-1 mb-8">
           <button
             v-for="tab in tabs"
@@ -160,12 +160,12 @@ const getTokenIcon = (symbol: string) => {
           </button>
         </div>
 
-        <!-- Loading State -->
+        
         <div v-if="loading" class="flex justify-center py-16">
           <div class="steem-auth-spinner"></div>
         </div>
 
-        <!-- Tokens Tab -->
+        
         <div v-else-if="activeTab === 'tokens'">
           <div class="nft-panel">
             <h3 class="text-xl font-bold text-white mb-6">Token Balances</h3>
@@ -199,7 +199,7 @@ const getTokenIcon = (symbol: string) => {
           </div>
         </div>
 
-        <!-- NFTs Tab -->
+        
         <div v-else-if="activeTab === 'nfts'">
           <div v-if="Object.keys(groupedNFTs).length" class="space-y-8">
             <div v-for="(collectionNFTs, collection) in groupedNFTs" :key="collection">
@@ -243,7 +243,7 @@ const getTokenIcon = (symbol: string) => {
           </div>
         </div>
 
-        <!-- Activity Tab -->
+        
         <div v-else-if="activeTab === 'activity'">
           <div class="nft-panel">
             <h3 class="text-xl font-bold text-white mb-6">Recent Activity</h3>
@@ -255,7 +255,7 @@ const getTokenIcon = (symbol: string) => {
       </template>
     </div>
 
-    <!-- Deposit Modal -->
+    
     <div v-if="showDepositModal" class="steem-auth-modal-overlay" @click="showDepositModal = false">
       <div class="steem-auth-modal-content" @click.stop>
         <div class="steem-auth-modal-header">
@@ -271,7 +271,7 @@ const getTokenIcon = (symbol: string) => {
       </div>
     </div>
 
-    <!-- Withdraw Modal -->
+    
     <div v-if="showWithdrawModal" class="steem-auth-modal-overlay" @click="showWithdrawModal = false">
       <div class="steem-auth-modal-content" @click.stop>
         <div class="steem-auth-modal-header">

@@ -6,17 +6,7 @@ import { useRoute, useRouter } from 'vue-router';
 const auth = useAuthStore();
 const route = useRoute();
 const router = useRouter();
-const menuItems = [
-  { label: 'Explore', href: '/' },
-  { label: 'Collections', href: 'collections' },
-  { label: 'Stats', href: 'stats' },
-  {
-    label: 'Farms', href: 'farms', dropdown: true, children: [
-      { label: 'Native Farms', href: 'farms?native=true' },
-      { label: 'User Farms', href: 'farms?native=false' }
-    ]
-  }
-];
+
 const searchQuery = ref('');
 
 
@@ -38,9 +28,7 @@ const handleThemeChange = (isDark: boolean): void => {
   <header class="border-b border-gray-800 py-4">
     <div class="max-w-7xl mx-auto px-4">
       <div class="flex items-center justify-between">
-        <!-- Logo and Primary Navigation -->
         <div class="flex items-center space-x-10">
-          <!-- Logo -->
           <router-link to="/" class="flex items-center">
             <div
               class="w-10 h-10 rounded-lg bg-gradient-to-br from-cyan-400 to-purple-600 flex items-center justify-center">
@@ -53,7 +41,6 @@ const handleThemeChange = (isDark: boolean): void => {
             <h1 class="ml-2 text-xl font-bold text-white">MeeRayNFT</h1>
           </router-link>
 
-          <!-- Main Navigation -->
           <nav class="hidden md:flex space-x-8">
             <router-link to="/marketplace" :class="['px-3 py-2 text-sm font-medium transition-colors',
               route.path === '/marketplace'
@@ -88,7 +75,6 @@ const handleThemeChange = (isDark: boolean): void => {
           </nav>
         </div>
 
-        <!-- Search Bar -->
         <div class="hidden md:flex flex-1 max-w-md mx-8">
           <div class="relative w-full">
             <input v-model="searchQuery" type="text" placeholder="Search items, collections, and accounts"
@@ -104,12 +90,10 @@ const handleThemeChange = (isDark: boolean): void => {
           </div>
         </div>
 
-        <!-- User Actions -->
         <div class="flex items-center space-x-4">
           <SteemAuth @theme-change="handleThemeChange" appName="future.app" displayDarkModeToggle
             callbackURL="https://nft.meeray.com" steemApi="https://testapi.moecki.online"
             :steemApiOptions="{ addressPrefix: 'MTN', chainId: '1aa939649afcc54c67e01a809967f75b8bee5d928aa6bdf237d0d5d6bfbc5c22' }" />
-          <!-- User Profile -->
           <router-link :to="`/profile/${auth.state.username}`" class="relative" v-if="auth.state.isAuthenticated">
             <img :src="`https://steemit.com/avatar/${auth.state.username}`" alt="Profile"
               class="w-10 h-10 rounded-full border-2 border-purple-600" />

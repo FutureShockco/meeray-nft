@@ -116,12 +116,12 @@ const followUser = async () => {
 <template>
   <div class="nft-bg-pattern min-h-screen">
     <div class="max-w-6xl mx-auto px-4 py-8">
-      <!-- Loading State -->
+      
       <div v-if="loading" class="flex justify-center items-center h-64">
         <div class="steem-auth-spinner"></div>
       </div>
 
-      <!-- Error State -->
+      
       <div v-else-if="error" class="text-center py-16">
         <div class="nft-panel p-8">
           <h2 class="text-2xl font-bold text-red-400 mb-4">Profile Not Found</h2>
@@ -132,18 +132,18 @@ const followUser = async () => {
         </div>
       </div>
 
-      <!-- Profile Content -->
+      
       <div v-else-if="user">
-        <!-- Profile Header -->
+        
         <div class="nft-panel mb-8">
-          <!-- Banner/Cover Image -->
+          
           <div class="h-48 -m-6 mb-0 rounded-t-lg bg-gradient-to-r from-cyan-500 to-purple-600 relative">
             <div class="absolute inset-0 bg-black/20"></div>
           </div>
           
-          <!-- Profile Info -->
+          
           <div class="relative px-6 pb-6">
-            <!-- Avatar -->
+            
             <div class="flex flex-col md:flex-row items-start md:items-end space-y-4 md:space-y-0 md:space-x-6 -mt-16">
               <div class="relative">
                 <div class="w-32 h-32 bg-gradient-to-br from-cyan-400 to-purple-600 rounded-full flex items-center justify-center border-4 border-gray-900">
@@ -156,7 +156,7 @@ const followUser = async () => {
                 <h1 class="text-3xl font-bold text-white mb-2">{{ user.displayName || username }}</h1>
                 <p class="text-cyan-400 mb-3">@{{ username }}</p>
                 
-                <!-- Stats -->
+                
                 <div class="flex flex-wrap gap-6 text-sm text-gray-300 mb-4">
                   <div><span class="font-semibold text-white">{{ user.stats.followers }}</span> followers</div>
                   <div><span class="font-semibold text-white">{{ user.stats.following }}</span> following</div>
@@ -165,10 +165,10 @@ const followUser = async () => {
                   <div>Joined {{ formatDate(user.joinedDate) }}</div>
                 </div>
 
-                <!-- Bio -->
+                
                 <p v-if="user.bio" class="text-gray-300 mb-4 max-w-2xl">{{ user.bio }}</p>
 
-                <!-- Social Links -->
+                
                 <div v-if="user.socialLinks" class="flex space-x-4 mb-4">
                   <a v-if="user.socialLinks.website" :href="user.socialLinks.website" target="_blank" class="text-cyan-400 hover:text-cyan-300">
                     🌐 Website
@@ -179,7 +179,7 @@ const followUser = async () => {
                 </div>
               </div>
 
-              <!-- Action Buttons -->
+              
               <div v-if="!isOwnProfile" class="flex space-x-3">
                 <button @click="followUser" class="nft-btn">
                   Follow
@@ -200,7 +200,7 @@ const followUser = async () => {
           </div>
         </div>
 
-        <!-- Tabs -->
+        
         <div class="flex space-x-1 mb-8">
           <button
             v-for="tab in tabs"
@@ -218,9 +218,9 @@ const followUser = async () => {
           </button>
         </div>
 
-        <!-- Tab Content -->
         
-        <!-- Collected NFTs -->
+        
+        
         <div v-if="activeTab === 'collected'">
           <div v-if="Object.keys(groupedCollectedNFTs).length" class="space-y-8">
             <div v-for="(collectionNFTs, collection) in groupedCollectedNFTs" :key="collection">
@@ -263,7 +263,7 @@ const followUser = async () => {
           </div>
         </div>
 
-        <!-- Created NFTs -->
+        
         <div v-else-if="activeTab === 'created'">
           <div v-if="Object.keys(groupedCreatedNFTs).length" class="space-y-8">
             <div v-for="(collectionNFTs, collection) in groupedCreatedNFTs" :key="collection">
@@ -309,7 +309,7 @@ const followUser = async () => {
           </div>
         </div>
 
-        <!-- Collections -->
+        
         <div v-else-if="activeTab === 'collections'">
           <div v-if="userCollections.length" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <div 
@@ -346,7 +346,7 @@ const followUser = async () => {
           </div>
         </div>
 
-        <!-- Activity -->
+        
         <div v-else-if="activeTab === 'activity'">
           <div class="nft-panel">
             <h3 class="text-xl font-bold text-white mb-6">Recent Activity</h3>
@@ -358,7 +358,7 @@ const followUser = async () => {
       </div>
     </div>
 
-    <!-- Transfer Modal -->
+    
     <div v-if="showTransferModal" class="steem-auth-modal-overlay" @click="showTransferModal = false">
       <div class="steem-auth-modal-content" @click.stop>
         <div class="steem-auth-modal-header">

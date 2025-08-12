@@ -61,14 +61,14 @@ const faqs = {
 <template>
   <div class="nft-bg-pattern min-h-screen">
     <div class="max-w-7xl mx-auto px-4 py-8">
-      <!-- Header -->
+      
       <div class="text-center mb-12">
         <h1 class="text-4xl font-bold text-white mb-4">Help Center</h1>
         <p class="text-xl text-gray-300">Find answers to common questions and get support</p>
       </div>
 
       <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
-        <!-- Sidebar -->
+        
         <div class="lg:col-span-1">
           <div class="nft-panel p-6 sticky top-8">
             <h3 class="text-lg font-bold text-white mb-4">Topics</h3>
@@ -91,9 +91,9 @@ const faqs = {
           </div>
         </div>
 
-        <!-- Content -->
+        
         <div class="lg:col-span-3">
-          <!-- Getting Started -->
+          
           <div v-if="activeSection === 'getting-started'" class="space-y-6">
             <div class="nft-panel">
               <h2 class="text-2xl font-bold text-white mb-6">🚀 Getting Started</h2>
@@ -106,7 +106,7 @@ const faqs = {
             </div>
           </div>
 
-          <!-- Buying & Selling -->
+          
           <div v-else-if="activeSection === 'buying-selling'" class="space-y-6">
             <div class="nft-panel">
               <h2 class="text-2xl font-bold text-white mb-6">💰 Buying & Selling</h2>
@@ -119,7 +119,7 @@ const faqs = {
             </div>
           </div>
 
-          <!-- Creating NFTs -->
+          
           <div v-else-if="activeSection === 'creating'" class="space-y-6">
             <div class="nft-panel">
               <h2 class="text-2xl font-bold text-white mb-6">✨ Creating NFTs</h2>
@@ -132,7 +132,7 @@ const faqs = {
             </div>
           </div>
 
-          <!-- Wallet & Security -->
+          
           <div v-else-if="activeSection === 'wallet'" class="space-y-6">
             <div class="nft-panel">
               <h2 class="text-2xl font-bold text-white mb-6">🔒 Wallet & Security</h2>
@@ -153,7 +153,7 @@ const faqs = {
             </div>
           </div>
 
-          <!-- Technical Support -->
+          
           <div v-else-if="activeSection === 'technical'" class="space-y-6">
             <div class="nft-panel">
               <h2 class="text-2xl font-bold text-white mb-6">🔧 Technical Support</h2>
@@ -174,7 +174,7 @@ const faqs = {
             </div>
           </div>
 
-          <!-- Contact Us -->
+          
           <div v-else-if="activeSection === 'contact'" class="space-y-6">
             <div class="nft-panel">
               <h2 class="text-2xl font-bold text-white mb-6">📞 Contact Us</h2>

@@ -16,16 +16,7 @@ const stats = ref({
 });
 
 // Featured collections data - will be loaded from API
-interface FeaturedCollection {
-  id: string;
-  title: string;
-  creator: string;
-  image: string;
-  floorPrice: number;
-  items: number;
-  bannerImage: string;
-}
-const featuredCollections = ref<FeaturedCollection[]>([]);
+const featuredCollections = ref([]);
 
 // Load featured collections on mount
 onMounted(async () => {
@@ -53,10 +44,10 @@ onMounted(async () => {
 <template>
   <div class="pb-16">
     <div class="nft-bg-pattern min-h-screen">
-      <!-- ===== HERO SECTION ===== -->
+      
       <section class="relative overflow-hidden py-20 px-4">
         <div class="max-w-7xl mx-auto text-center">
-          <!-- Main heading -->
+          
           <h1 class="text-4xl md:text-6xl font-black text-white mb-6 leading-tight">
             Discover, Create & Trade
             <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-600">NFTs</span>
@@ -64,13 +55,13 @@ onMounted(async () => {
             on the Steem Blockchain
           </h1>
           
-          <!-- Subtitle -->
+          
           <p class="text-xl text-gray-300 mb-8 max-w-3xl mx-auto">
             The premier NFT marketplace where digital creativity meets blockchain technology. 
             Mint, collect, and trade unique digital assets with the gaming community.
           </p>
 
-          <!-- CTA Buttons -->
+          
           <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <button @click="router.push('/marketplace')"
               class="px-8 py-4 bg-gradient-to-r from-cyan-500 to-purple-600 text-white font-bold rounded-xl text-lg hover:shadow-lg hover:shadow-purple-500/30 transition-all">
@@ -83,7 +74,7 @@ onMounted(async () => {
                   </div>
                 </div>
 
-        <!-- Floating NFT Images for Visual Appeal -->
+        
         <div class="absolute top-20 left-10 w-20 h-20 opacity-20 rotate-12 hidden lg:block">
           <img src="/images/nfts/01.png" alt="NFT" class="w-full h-full object-cover rounded-lg" />
                 </div>
@@ -95,7 +86,7 @@ onMounted(async () => {
             </div>
           </section>
 
-      <!-- ===== STATS SECTION ===== -->
+      
       <section class="py-16 px-4">
         <div class="max-w-7xl mx-auto">
           <div class="grid grid-cols-2 lg:grid-cols-4 gap-8">
@@ -119,7 +110,7 @@ onMounted(async () => {
               </div>
       </section>
 
-      <!-- ===== FEATURED COLLECTIONS SECTION ===== -->
+      
       <section class="py-16 px-4">
         <div class="max-w-7xl mx-auto">
           <div class="text-center mb-12">
@@ -131,13 +122,13 @@ onMounted(async () => {
             <div v-for="collection in featuredCollections" :key="collection.id"
               @click="router.push('/collections?collection=' + collection.id)"
               class="nft-card cursor-pointer relative rounded-xl overflow-hidden group">
-              <!-- Collection Banner Image -->
+              
               <div class="h-48 overflow-hidden">
                 <img :src="collection.bannerImage" :alt="collection.title"
                   class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500" />
               </div>
 
-              <!-- Collection Info -->
+              
               <div class="bg-gray-900 p-6 border-t-2 border-cyan-500">
                 <div class="relative -mt-12 mb-4">
                   <img :src="collection.image" :alt="collection.title"
@@ -170,7 +161,7 @@ onMounted(async () => {
                 </div>
       </section>
 
-      <!-- ===== HOW IT WORKS SECTION ===== -->
+      
       <section class="py-16 px-4">
         <div class="max-w-7xl mx-auto">
           <div class="text-center mb-12">
@@ -179,7 +170,7 @@ onMounted(async () => {
                     </div>
 
           <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <!-- Step 1 -->
+            
             <div class="text-center">
               <div class="w-16 h-16 bg-cyan-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -190,7 +181,7 @@ onMounted(async () => {
               <p class="text-gray-400">Connect your Steem wallet to start trading and creating NFTs</p>
               </div>
 
-            <!-- Step 2 -->
+            
             <div class="text-center">
               <div class="w-16 h-16 bg-purple-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -201,7 +192,7 @@ onMounted(async () => {
               <p class="text-gray-400">Create your own NFTs or browse the marketplace for unique collectibles</p>
             </div>
 
-            <!-- Step 3 -->
+            
             <div class="text-center">
               <div class="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -215,7 +206,7 @@ onMounted(async () => {
                 </div>
       </section>
 
-      <!-- ===== CTA SECTION ===== -->
+      
       <section class="py-16 px-4">
         <div class="max-w-4xl mx-auto text-center">
           <div class="bg-gradient-to-r from-cyan-500/10 to-purple-600/10 rounded-2xl p-12 border border-cyan-500/20">
