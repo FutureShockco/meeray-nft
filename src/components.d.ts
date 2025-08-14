@@ -11,7 +11,6 @@ declare module 'vue' {
     AccountInfo: typeof import('./components/AccountInfo.vue')['default']
     AppButton: typeof import('./components/AppButton.vue')['default']
     AppNavbar: typeof import('./components/AppNavbar.vue')['default']
-    HelloWorld: typeof import('./components/HelloWorld.vue')['default']
     NFTCollectionModal: typeof import('./components/nft/NFTCollectionModal.vue')['default']
     NFTCreateModal: typeof import('./components/nft/NFTCreateModal.vue')['default']
     NFTDetailModal: typeof import('./components/nft/NFTDetailModal.vue')['default']
@@ -19,7 +18,6 @@ declare module 'vue' {
     NoSidechainAccountModal: typeof import('./components/NoSidechainAccountModal.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    TransferModal: typeof import('./components/TransferModal.vue')['default']
     UserProfilePage: typeof import('./components/nft/UserProfilePage.vue')['default']
   }
 }
