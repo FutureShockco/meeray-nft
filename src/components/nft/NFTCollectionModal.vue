@@ -10,13 +10,19 @@ const bannerFileInput = ref<HTMLInputElement | null>(null);
 
 // Form data
 const collectionData = ref({
+  symbol: '',
   name: '',
   description: '',
+  maxSupply: '',
+  mintable: true,
+  burnable: true,
+  transferable: true,
+  creatorFee: 0,
   logo: null as File | null,
   banner: null as File | null,
   category: '',
+  websiteUrl: '',
   links: {
-    website: '',
     twitter: '',
     discord: ''
   }
@@ -36,11 +42,20 @@ const categories = ref([
 
 // Computed validation state
 const isFormValid = computed(() => {
-  return collectionData.value.name && 
-         collectionData.value.description && 
+  const maxSupplyStr = collectionData.value.maxSupply;
+  const maxSupplyNum = Number(maxSupplyStr);
+  // Accept only if maxSupply is a non-empty string, a number, and a positive integer
+  return collectionData.value.symbol &&
+         collectionData.value.name &&
+         collectionData.value.description &&
          previewImage.value &&
          bannerImage.value &&
-         collectionData.value.category;
+         collectionData.value.category &&
+         maxSupplyStr !== '' &&
+         !isNaN(maxSupplyNum) &&
+         maxSupplyNum > 0 &&
+         Number.isInteger(maxSupplyNum) &&
+         collectionData.value.creatorFee >= 0;
 });
 
 // Methods
@@ -52,13 +67,19 @@ function close() {
   isOpen.value = false;
   // Reset form
   collectionData.value = {
+    symbol: '',
     name: '',
     description: '',
+    maxSupply: '',
+    mintable: true,
+    burnable: true,
+    transferable: true,
+    creatorFee: 0,
     logo: null,
     banner: null,
     category: '',
+    websiteUrl: '',
     links: {
-      website: '',
       twitter: '',
       discord: ''
     }
@@ -67,13 +88,13 @@ function close() {
   bannerImage.value = '';
 }
 
+
 function handleLogoUpload(event: Event) {
   const target = event.target as HTMLInputElement;
   if (!target.files?.length) return;
-  
   const file = target.files[0];
-  collectionData.value.logo = file;
-  
+  // Use Vue's set to ensure reactivity
+  collectionData.value = { ...collectionData.value, logo: file };
   // Create preview
   const reader = new FileReader();
   reader.onload = (e) => {
@@ -82,13 +103,13 @@ function handleLogoUpload(event: Event) {
   reader.readAsDataURL(file);
 }
 
+
 function handleBannerUpload(event: Event) {
   const target = event.target as HTMLInputElement;
   if (!target.files?.length) return;
-  
   const file = target.files[0];
-  collectionData.value.banner = file;
-  
+  // Use Vue's set to ensure reactivity
+  collectionData.value = { ...collectionData.value, banner: file };
   // Create preview
   const reader = new FileReader();
   reader.onload = (e) => {
@@ -99,20 +120,21 @@ function handleBannerUpload(event: Event) {
 
 async function createCollection() {
   if (!isFormValid.value) return;
-  
   try {
     isLoading.value = true;
-    
+    // Prepare data with correct types
+    const submitData = {
+      ...collectionData.value,
+      maxSupply: Number(collectionData.value.maxSupply),
+      creatorFee: Number(collectionData.value.creatorFee),
+    };
     // TODO: Connect to blockchain for actual collection creation
     // This is a placeholder for the actual implementation
-    console.log('Creating collection with data:', collectionData.value);
-    
+    console.log('Creating collection with data:', submitData);
     // Simulate blockchain delay
     await new Promise(resolve => setTimeout(resolve, 1500));
-    
     // Close modal after successful creation
     close();
-    
   } catch (error) {
     console.error('Error creating collection:', error);
   } finally {
@@ -195,7 +217,16 @@ defineExpose({
 
               <div class="w-2/3 space-y-4">
                 <div>
-                  <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Name</label>
+                  <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Symbol <span class="text-red-500">*</span></label>
+                  <input 
+                    v-model="collectionData.symbol" 
+                    type="text" 
+                    class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-800 dark:text-white"
+                    placeholder="Unique Symbol (e.g. TESTNFT)"
+                  >
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Name <span class="text-red-500">*</span></label>
                   <input 
                     v-model="collectionData.name" 
                     type="text" 
@@ -203,9 +234,8 @@ defineExpose({
                     placeholder="Collection Name"
                   >
                 </div>
-                
                 <div>
-                  <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Category</label>
+                  <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Category <span class="text-red-500">*</span></label>
                   <select 
                     v-model="collectionData.category" 
                     class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 bg-white dark:bg-gray-800 dark:text-white"
@@ -216,15 +246,61 @@ defineExpose({
                     </option>
                   </select>
                 </div>
-                
                 <div>
-                  <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Description</label>
+                  <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Description <span class="text-red-500">*</span></label>
                   <textarea 
                     v-model="collectionData.description" 
                     rows="3" 
                     class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-800 dark:text-white"
                     placeholder="Describe your collection"
                   ></textarea>
+                </div>
+                <div class="flex gap-4">
+                  <div class="flex-1">
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Max Supply <span class="text-red-500">*</span></label>
+                    <input 
+                      v-model="collectionData.maxSupply"
+                      :value="collectionData.maxSupply"
+                      @input="e => collectionData.value.maxSupply = e.target.value.replace(/[^\d]/g, '')"
+                      inputmode="numeric"
+                      pattern="[0-9]*"
+                      min="1"
+                      class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-800 dark:text-white"
+                      placeholder="1000"
+                    >
+                  </div>
+                  <div class="flex-1">
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Creator Fee (%)</label>
+                    <input 
+                      v-model="collectionData.creatorFee" 
+                      type="number" min="0" max="100"
+                      class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-800 dark:text-white"
+                      placeholder="5"
+                    >
+                  </div>
+                </div>
+                <div class="flex gap-4">
+                  <div class="flex-1 flex items-center gap-2">
+                    <input type="checkbox" v-model="collectionData.mintable" id="mintable">
+                    <label for="mintable" class="text-sm text-gray-700 dark:text-gray-300">Mintable</label>
+                  </div>
+                  <div class="flex-1 flex items-center gap-2">
+                    <input type="checkbox" v-model="collectionData.burnable" id="burnable">
+                    <label for="burnable" class="text-sm text-gray-700 dark:text-gray-300">Burnable</label>
+                  </div>
+                  <div class="flex-1 flex items-center gap-2">
+                    <input type="checkbox" v-model="collectionData.transferable" id="transferable">
+                    <label for="transferable" class="text-sm text-gray-700 dark:text-gray-300">Transferable</label>
+                  </div>
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Website URL</label>
+                  <input 
+                    v-model="collectionData.websiteUrl" 
+                    type="url" 
+                    class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-800 dark:text-white"
+                    placeholder="https://example.com"
+                  >
                 </div>
               </div>
             </div>
