@@ -36,8 +36,7 @@ export interface NFTListingData {
   collectionSymbol: string
   instanceId: string
   price: string
-  paymentTokenSymbol: string
-  paymentTokenIssuer?: string
+  paymentToken: string
   listingType?: 'FIXED_PRICE' | 'AUCTION' | 'RESERVE_AUCTION'
   auctionEndTime?: string
   reservePrice?: string
