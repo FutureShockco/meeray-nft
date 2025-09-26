@@ -64,10 +64,9 @@ async function loadData() {
         }
       }
 
-      const idNum = Number(inst.instanceId) || 0;
       return {
-        id: idNum,
-        name: `${collectionTitle} #${inst.instanceId}`,
+        id: inst.tokenId || inst.instanceId || inst._id || '',
+        name: `${collectionTitle} #${inst.tokenId || inst.instanceId}`,
         description: '',
         image: fallbackLogo,
         coverUrl: inst.coverUrl || fallbackLogo,

@@ -236,7 +236,7 @@ const followUser = async () => {
                   v-for="nft in collectionNFTs" 
                   :key="nft._id"
                   class="nft-panel p-0 overflow-hidden hover:transform hover:scale-105 transition-all cursor-pointer"
-                  @click="router.push(`/nft/${collection}/${nft.instanceId}`)"
+                  @click="router.push(`/nft/${collection}/${nft.tokenId}`)"
                 >
                   <div class="aspect-square">
                     <img 
@@ -279,7 +279,7 @@ const followUser = async () => {
                   v-for="nft in collectionNFTs" 
                   :key="nft._id"
                   class="nft-panel p-0 overflow-hidden hover:transform hover:scale-105 transition-all cursor-pointer"
-                  @click="router.push(`/nft/${collection}/${nft.instanceId}`)"
+                  @click="router.push(`/nft/${collection}/${nft.tokenId}`)"
                 >
                   <div class="aspect-square">
                     <img 
