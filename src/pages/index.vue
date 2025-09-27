@@ -128,7 +128,7 @@ onMounted(async () => {
                 <div class="flex items-center justify-between">
                   <div>
                     <p class="text-xs text-gray-500">Floor Price</p>
-                    <p class="text-lg font-bold text-white">{{ $formatNumber(collection.floorPrice, 'TESTS') }} <span
+                    <p class="text-lg font-bold text-white">{{ collection.floorPrice }} <span
                         class="text-sm text-cyan-400">STEEM</span></p>
                   </div>
                   <div>
