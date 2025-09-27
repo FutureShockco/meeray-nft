@@ -28,7 +28,7 @@ async function loadData() {
       api.getNftCollection(symbol).catch(() => null),
       api.getNftInstancesByCollection(symbol, { limit: 200 }).catch(() => ({ data: [] }))
     ]);
-
+    console.log('Collection data:', col);
     collection.value = col
       ? {
           id: col.symbol,
@@ -36,12 +36,12 @@ async function loadData() {
           creator: col.creator,
           logoUrl: col.logoUrl || fallbackLogo,
           coverUrl: col.coverUrl || fallbackBanner,
-          floorPrice: 0,
+          floorPrice: col.floorPrice || 0,
           items: col.currentSupply || (instancesResp.data?.length || 0),
           maxSupply: col.maxSupply === 9007199254740991 ? "∞" : col.maxSupply || (instancesResp.data?.length || 0),
           description: col.description || '',
           owners: 0,
-          volume: 0,
+          volume: col.totalVolume || col.volume || 0,
           links: {
             website: col.websiteUrl || '',
             twitter: '',
