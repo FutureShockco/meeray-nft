@@ -23,6 +23,7 @@ const collectionData = ref({
   category: '',
   websiteUrl: '',
   links: {
+    website: '',
     twitter: '',
     discord: ''
   }
@@ -80,6 +81,7 @@ function close() {
     category: '',
     websiteUrl: '',
     links: {
+      website: '',
       twitter: '',
       discord: ''
     }
@@ -261,7 +263,7 @@ defineExpose({
                     <input 
                       v-model="collectionData.maxSupply"
                       :value="collectionData.maxSupply"
-                      @input="e => collectionData.value.maxSupply = e.target.value.replace(/[^\d]/g, '')"
+                      @input="e => collectionData.maxSupply = ((e.target as HTMLInputElement).value.replace(/[^\d]/g, ''))"
                       inputmode="numeric"
                       pattern="[0-9]*"
                       min="1"
