@@ -232,12 +232,12 @@ const formatPrice = (raw, symbol) => {
               <div v-else-if="activity.action === 'mint'">
                 <span class="text-sm text-gray-400">Token:</span>
                 <span class="text-white">{{ activity.data.fullInstanceId }}</span>
-                <span v-if="activity.data.properties?.name || activity.data.metadata?.attributes?.rarity"
+                <span v-if="activity.data.properties?.name || activity.data.metadata?.rarity"
                   class="text-sm text-gray-400 ml-4">Name:</span>
                 <span v-if="activity.data.properties?.name" class="text-white">{{ activity.data.properties.name
                   }}</span>
-                <span v-else-if="activity.data.metadata?.attributes?.rarity" class="text-white">{{
-                  activity.data.metadata.attributes.rarity }}</span>
+                <span v-else-if="activity.data.metadata?.rarity" class="text-white">{{
+                  activity.data.metadata.rarity }}</span>
               </div>
               <div v-else-if="activity.action === 'transfer'">
                 <span class="text-sm text-gray-400">From:</span>

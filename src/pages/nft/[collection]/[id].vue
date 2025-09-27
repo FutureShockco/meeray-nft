@@ -262,8 +262,8 @@ const delistNFT = async () => {
 
           <div class="nft-panel">
             <h3 class="text-lg font-bold text-white mb-4">Metadata</h3>
-            <div v-if="nft.metadata && nft.metadata.attributes" class="grid grid-cols-2 md:grid-cols-3 gap-3">
-              <div v-for="(value, key) in nft.metadata.attributes" :key="key"
+            <div v-if="nft.metadata && nft.metadata" class="grid grid-cols-2 md:grid-cols-3 gap-3">
+              <div v-for="(value, key) in nft.metadata" :key="key"
                 class="bg-gray-800 rounded-lg p-3 text-center">
                 <div class="text-sm font-semibold text-white">{{ key }}</div>
                 <div class="text-sm font-semibold text-white">{{ value }}</div>
