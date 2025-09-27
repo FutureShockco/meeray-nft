@@ -5,6 +5,7 @@ import { useApiService } from '../../../composables/useApiService'
 import { useTransactionService } from '../../../composables/useTransactionService'
 import { useTokenFormatting } from '../../../composables/useTokenFormatting'
 import { useAuthStore } from 'steem-auth-vue'
+import { useTokenListStore } from '../../../stores/useTokenList'
 
 const route = useRoute()
 const router = useRouter()
@@ -12,10 +13,11 @@ const api = useApiService()
 const txService = useTransactionService()
 const tokenFormatting = useTokenFormatting()
 const auth = useAuthStore()
+const useTokenList = useTokenListStore()
 
 // Route params using bracket notation (Nuxt 3 format)
 const collection = route.params.collection as string
-const nftId = route.params.id as string
+const nftId = Number(route.params.id) as number
 
 // State
 const nft = ref<any>(null)
@@ -27,9 +29,15 @@ const showOfferModal = ref(false)
 const showTransferModal = ref(false)
 const showListModal = ref(false)
 const bidAmount = ref('')
-const offerAmount = ref('')
 const transferTo = ref('')
 const activeTab = ref('details')
+// Map tokenList to only symbol and decimals (precision)
+const tokenOptions = computed(() =>
+  (useTokenList.tokens || []).map(token => ({
+    symbol: token.symbol,
+    decimals: token.precision
+  }))
+)
 
 // Listing form data
 const listingForm = ref({
@@ -77,8 +85,8 @@ onMounted(async () => {
   try {
     loading.value = true
     const [nftData, collectionInfo] = await Promise.all([
-      api.getNftInstance(`${collection}-${nftId}`), // Using getNftInstance with proper ID format
-      api.getNftCollection(collection)
+      api.getNftInstance(`${collection}_${nftId}`), // Using getNftInstance with proper ID format
+      api.getNftCollection(collection),
     ])
     nft.value = nftData
     collectionData.value = collectionInfo
@@ -110,11 +118,7 @@ const buyNFT = async () => {
       bidAmount: formattedBuyAmount
     })
 
-    result.onStatusChange((status) => {
-      if (status.status === 'COMPLETED') {
-        window.location.reload()
-      }
-    })
+
   } catch (err) {
     console.error('Failed to buy NFT:', err)
   }
@@ -135,13 +139,7 @@ const placeBid = async () => {
       bidAmount: formattedBidAmount
     })
 
-    result.onStatusChange((status) => {
-      if (status.status === 'COMPLETED') {
-        showBidModal.value = false
-        bidAmount.value = ''
-        window.location.reload()
-      }
-    })
+
   } catch (err) {
     console.error('Failed to place bid:', err)
   }
@@ -153,13 +151,7 @@ const transferNFT = async () => {
   try {
     const result = await txService.transferNFT(collection, nftId, transferTo.value)
 
-    result.onStatusChange((status) => {
-      if (status.status === 'COMPLETED') {
-        showTransferModal.value = false
-        transferTo.value = ''
-        router.push(`/profile/${transferTo.value}`)
-      }
-    })
+
   } catch (err) {
     console.error('Failed to transfer NFT:', err)
   }
@@ -184,7 +176,7 @@ const listNFT = async () => {
       collectionSymbol: collection,
       instanceId: nftId,
       price: formattedPrice,
-      paymentTokenSymbol: listingForm.value.paymentToken,
+      paymentToken: listingForm.value.paymentToken,
       listingType: listingForm.value.listingType
     }
 
@@ -220,15 +212,10 @@ const listNFT = async () => {
 
       listingData.allowBuyNow = listingForm.value.allowBuyNow
     }
-
+    console.log(`[listNFT] Final listing data before submission:`, listingData)
     const result = await txService.listNFT(listingData)
 
-    result.onStatusChange((status) => {
-      if (status.status === 'COMPLETED') {
-        showListModal.value = false
-        window.location.reload()
-      }
-    })
+
   } catch (err) {
     console.error('Failed to list NFT:', err)
   }
@@ -240,11 +227,7 @@ const delistNFT = async () => {
   try {
     const result = await txService.delistNFT(nft.value.listingId)
 
-    result.onStatusChange((status) => {
-      if (status.status === 'COMPLETED') {
-        window.location.reload()
-      }
-    })
+
   } catch (err) {
     console.error('Failed to delist NFT:', err)
   }
@@ -258,7 +241,6 @@ const delistNFT = async () => {
       <div v-if="loading" class="flex justify-center items-center h-64">
         <div class="steem-auth-spinner"></div>
       </div>
-
 
       <div v-else-if="error" class="text-center py-16">
         <div class="nft-panel p-8">
@@ -314,33 +296,72 @@ const delistNFT = async () => {
           </div>
 
 
-          <div class="nft-panel">
-            <div v-if="nft.isListed" class="mb-6">
-              <div class="text-sm text-gray-400 mb-2">Current Price</div>
-              <div class="text-3xl font-bold text-white">
-                {{ nft.price }} {{ nft.paymentToken || 'STEEM' }}
-              </div>
-            </div>
 
+          <div class="nft-panel">
+            <template v-if="nft.listing">
+              <div class="mb-6">
+                <div class="text-sm text-gray-400 mb-2">Listing Type</div>
+                <div class="text-lg font-semibold text-white mb-2">
+                  {{ nft.listing.listingType.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase()) }}
+                </div>
+                <div class="text-sm text-gray-400 mb-2">Price</div>
+                <div class="text-3xl font-bold text-white mb-2">
+                  {{ Number(nft.listing.price) / Math.pow(10, (tokenOptions.find(t => t.symbol === nft.listing.paymentToken)?.decimals || 3)) }}
+                  {{ nft.listing.paymentToken }}
+                </div>
+                <div v-if="nft.listing.listingType === 'RESERVE_AUCTION' && nft.listing.reservePrice" class="mb-2">
+                  <div class="text-sm text-gray-400">Reserve Price</div>
+                  <div class="text-white">
+                    {{ Number(nft.listing.reservePrice) / Math.pow(10, (tokenOptions.find(t => t.symbol === nft.listing.paymentToken)?.decimals || 3)) }}
+                    {{ nft.listing.paymentToken }}
+                  </div>
+                </div>
+                <div v-if="nft.listing.listingType === 'AUCTION' || nft.listing.listingType === 'RESERVE_AUCTION'">
+                  <div class="text-sm text-gray-400">Auction End Time</div>
+                  <div class="text-white mb-2">{{ nft.listing.auctionEndTime ? new Date(nft.listing.auctionEndTime).toLocaleString() : 'N/A' }}</div>
+                  <div class="text-sm text-gray-400">Minimum Bid Increment</div>
+                  <div class="text-white mb-2">
+                    {{ Number(nft.listing.minimumBidIncrement) / Math.pow(10, (tokenOptions.find(t => t.symbol === nft.listing.paymentToken)?.decimals || 3)) }}
+                    {{ nft.listing.paymentToken }}
+                  </div>
+                  <div class="text-sm text-gray-400">Allow Buy Now</div>
+                  <div class="text-white mb-2">{{ nft.listing.allowBuyNow ? 'Yes' : 'No' }}</div>
+                </div>
+                <div v-if="nft.listing.listingType === 'AUCTION' || nft.listing.listingType === 'RESERVE_AUCTION'">
+                  <div class="text-sm text-gray-400">Current Highest Bid</div>
+                  <div class="text-white mb-2">
+                    <template v-if="nft.listing.currentHighestBid">
+                      {{ Number(nft.listing.currentHighestBid) / Math.pow(10, (tokenOptions.find(t => t.symbol === nft.listing.paymentToken)?.decimals || 3)) }}
+                      {{ nft.listing.paymentToken }}
+                    </template>
+                    <template v-else>
+                      No bids yet
+                    </template>
+                  </div>
+                  <div class="text-sm text-gray-400">Total Bids</div>
+                  <div class="text-white mb-2">{{ nft.listing.totalBids }}</div>
+                </div>
+              </div>
+            </template>
+            <template v-else>
+              <div class="mb-6 text-gray-400">Not listed for sale</div>
+            </template>
 
             <div class="space-y-3">
-
               <button v-if="canBuy" @click="buyNFT" class="nft-btn w-full py-4 text-lg">
-                Buy for {{ nft.price }} {{ nft.paymentToken || 'STEEM' }}
+                Buy for {{ nft.listing ? (Number(nft.listing.price) / Math.pow(10, (tokenOptions.find(t => t.symbol === nft.listing.paymentToken)?.decimals || 3))) : '' }} {{ nft.listing?.paymentToken || '' }}
               </button>
-
 
               <button v-if="canBid" @click="showBidModal = true" class="nft-btn w-full py-4 text-lg bg-purple-600">
                 Place Bid
               </button>
 
-
               <div v-if="isOwner" class="space-y-3">
-                <button v-if="!nft.isListed" @click="showListModal = true" class="nft-btn w-full py-3">
+                <button v-if="!nft.listing" @click="showListModal = true" class="nft-btn w-full py-3">
                   List for Sale
                 </button>
 
-                <button v-if="nft.isListed" @click="delistNFT" class="nft-btn w-full py-3 bg-red-600">
+                <button v-if="nft.listing" @click="delistNFT" class="nft-btn w-full py-3 bg-red-600">
                   Remove from Sale
                 </button>
 
@@ -348,7 +369,6 @@ const delistNFT = async () => {
                   Transfer
                 </button>
               </div>
-
 
               <button v-if="!isOwner && auth.state.isAuthenticated" @click="showOfferModal = true"
                 class="nft-btn w-full py-3 bg-gray-600">
@@ -515,9 +535,9 @@ const delistNFT = async () => {
                 <input v-model="listingForm.price" type="number" step="0.001" placeholder="0.00"
                   class=" steem-auth-input w-16">
                 <select v-model="listingForm.paymentToken" class="steem-auth-input w-16">
-                  <option value="STEEM">STEEM</option>
-                  <option value="SBD">SBD</option>
-                  <option value="MEER">MEER</option>
+                  <option v-for="token in tokenOptions" :key="token.symbol" :value="token.symbol">
+                    {{ token.symbol }}
+                  </option>
                 </select>
               </div>
             </div>
@@ -533,9 +553,9 @@ const delistNFT = async () => {
                   <input v-model="listingForm.price" type="number" step="0.001" placeholder="0.00"
                     class="steem-auth-input w-16">
                   <select v-model="listingForm.paymentToken" class="steem-auth-input w-16">
-                    <option value="STEEM">STEEM</option>
-                    <option value="SBD">SBD</option>
-                    <option value="MEER">MEER</option>
+                    <option v-for="token in tokenOptions" :key="token.symbol" :value="token.symbol">
+                      {{ token.symbol }}
+                    </option>
                   </select>
                 </div>
               </div>

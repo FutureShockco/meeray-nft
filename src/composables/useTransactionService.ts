@@ -34,7 +34,7 @@ export interface NFTCollectionData {
 
 export interface NFTListingData {
   collectionSymbol: string
-  instanceId: string
+  instanceId: number
   price: string
   paymentToken: string
   listingType?: 'FIXED_PRICE' | 'AUCTION' | 'RESERVE_AUCTION'
@@ -195,8 +195,6 @@ export const useTransactionService = () => {
       throw new Error('User not authenticated')
     }
 
-    // Generate unique tracking ID
-    const trackingId = `${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
 
     const customJsonOperation = {
       required_auths: [auth.state.username],
@@ -206,7 +204,6 @@ export const useTransactionService = () => {
         contract,
         payload: {
           ...payload,
-          _trackingId: trackingId
         },
       }),
     }
@@ -216,25 +213,9 @@ export const useTransactionService = () => {
         requiredAuth: 'active'
       })
 
-      const initialStatus: TransactionStatus = {
-        id: trackingId,
-        steemTxId: steemResult.id,
-        status: 'STEEM_CONFIRMED',
-        timestamp: Date.now(),
-        type: transactionType
-      }
-
-      pendingTransactions.value.set(trackingId, initialStatus)
-
-      subscribeToTransaction(trackingId)
 
       return {
-        txId: trackingId,
         steemTxId: steemResult.id,
-        onStatusChange: (callback: (status: TransactionStatus) => void) => {
-          eventListeners.value.set(trackingId, callback)
-        },
-        waitForCompletion: (timeout = 60000) => waitForTransactionCompletion(trackingId, timeout)
       }
     } catch (error) {
       console.error(`Failed to send ${transactionType} transaction:`, error)
@@ -312,7 +293,7 @@ export const useTransactionService = () => {
     }, 'DELIST_NFT')
   }
 
-  const transferNFT = async (collectionSymbol: string, instanceId: string, to: string) => {
+  const transferNFT = async (collectionSymbol: string, instanceId: number, to: string) => {
     return sendNFTTransaction('nft_transfer', {
       collectionSymbol,
       instanceId,

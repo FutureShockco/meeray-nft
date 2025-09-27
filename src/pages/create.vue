@@ -104,28 +104,7 @@ async function createCollection() {
 
     const result = await txService.createCollection(collectionData);
     
-    result.onStatusChange((status) => {
-      if (status.status === 'COMPLETED') {
-        alert('Collection created successfully!');
-        // Reset form
-        collectionForm.value = {
-          symbol: '',
-          name: '',
-          description: '',
-          maxSupply: '',
-          royaltyBps: '',
-          logoUrl: '',
-          websiteUrl: '',
-          transferable: true,
-          burnable: true,
-          mintable: true
-        };
-        // Reload collections
-        location.reload();
-      } else if (status.status === 'FAILED') {
-        alert('Failed to create collection: ' + (status.error || 'Unknown error'));
-      }
-    });
+   
   } catch (error) {
     console.error('Failed to create collection:', error);
     alert('Failed to create collection');
@@ -182,24 +161,7 @@ async function createNFT() {
       mintData.coverUrl
     );
     
-    result.onStatusChange((status) => {
-      if (status.status === 'COMPLETED') {
-        alert('NFT created successfully!');
-        // Reset form
-        nftForm.value = {
-          collectionSymbol: '',
-          instanceId: '',
-          owner: '',
-          name: '',
-          description: '',
-          coverUrl: '',
-          metadata: {}
-        };
-        nftMetadata.value = [{ trait_type: '', value: '' }];
-      } else if (status.status === 'FAILED') {
-        alert('Failed to create NFT: ' + (status.error || 'Unknown error'));
-      }
-    });
+
   } catch (error) {
     console.error('Failed to create NFT:', error);
     alert('Failed to create NFT');

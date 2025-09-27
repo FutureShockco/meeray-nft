@@ -120,7 +120,7 @@ export interface NFTMarketListing {
   instanceId: string;
   seller: string;
   price: number;
-  paymentTokenSymbol: string;
+  paymentToken: string;
   paymentTokenIssuer?: string;
   listedAt: string;
   status: 'ACTIVE' | 'SOLD' | 'CANCELLED';
@@ -309,6 +309,19 @@ export function useApiService() {
     return fetcher(`${API_BASE}/nfts/instances/delegatedto/${userName}?${query.toString()}`) as Promise<{ data: NFTInstance[]; total: number; limit: number; skip: number }>;
   };
 
+  const getEvents = (params: {
+    category?: string;
+    type?: string;
+    actor?: string;
+    transactionId?: string;
+    poolId?: string;
+    startTime?: string;
+    endTime?: string;
+    sortDirection?: 'asc' | 'desc';
+    limit?: number;
+    offset?: number;
+  } = {}) => fetcher(`${API_BASE}/events?${new URLSearchParams(Object.entries(params).filter(([_, v]) => v !== undefined) as any).toString()}`) as Promise<{ data: any[]; total: number; limit: number; offset: number }>;
+
   // --- NFT Marketplace Endpoints ---
   const getNftMarketListings = (params?: {
     limit?: number;
@@ -415,5 +428,6 @@ export function useApiService() {
     getBlockTransactions,
 
     getSteemPrice,
+    getEvents,
   };
 }

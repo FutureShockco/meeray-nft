@@ -81,7 +81,7 @@ onMounted(async () => {
         owner: listing.seller,
         creator: listing.creator || '',
         price: listing.price ? parseFloat(listing.price) : undefined,
-        currency: listing.paymentTokenSymbol || 'STEEM',
+        currency: listing.paymentToken || 'STEEM',
         isListed: listing.status === 'ACTIVE',
         metadata: listing.metadata || [],
         royalties: listing.royalties || 0,
@@ -147,15 +147,7 @@ async function handleBuyNFT(nft: NFT) {
       bidAmount: nft.price.toString()
     });
 
-    result.onStatusChange((status) => {
-      if (status.status === 'COMPLETED') {
-        alert('NFT purchased successfully!');
-        // Refresh the NFT list
-        location.reload();
-      } else if (status.status === 'FAILED') {
-        alert('Purchase failed: ' + (status.error || 'Unknown error'));
-      }
-    });
+
   } catch (error) {
     console.error('Failed to buy NFT:', error);
     alert('Failed to buy NFT');
@@ -175,13 +167,6 @@ async function handleMakeOffer(nft: NFT, price: number) {
       bidType: 'BID'
     });
 
-    result.onStatusChange((status) => {
-      if (status.status === 'COMPLETED') {
-        alert('Offer placed successfully!');
-      } else if (status.status === 'FAILED') {
-        alert('Failed to place offer: ' + (status.error || 'Unknown error'));
-      }
-    });
   } catch (error) {
     console.error('Failed to make offer:', error);
     alert('Failed to make offer');
@@ -200,17 +185,9 @@ async function handleTransferNFT(nft: NFT, address: string) {
   }
 
   try {
-    const result = await txService.transferNFT(nft.collection.id, nft.id.toString(), address);
+    const result = await txService.transferNFT(nft.collection.id, nft.id, address);
 
-    result.onStatusChange((status) => {
-      if (status.status === 'COMPLETED') {
-        alert('NFT transferred successfully!');
-        // Remove from local state
-        nftsData.value = nftsData.value.filter(item => item.id !== nft.id);
-      } else if (status.status === 'FAILED') {
-        alert('Transfer failed: ' + (status.error || 'Unknown error'));
-      }
-    });
+
   } catch (error) {
     console.error('Failed to transfer NFT:', error);
     alert('Failed to transfer NFT');

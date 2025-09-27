@@ -163,7 +163,7 @@ export const useTransactionStore = defineStore('transactions', () => {
         case 'MINT_NFT':
           return `NFT minted successfully in collection "${transaction.result?.collectionSymbol}"`
         case 'LIST_NFT':
-          return `NFT listed for ${transaction.result?.price} ${transaction.result?.paymentTokenSymbol}`
+          return `NFT listed for ${transaction.result?.price} ${transaction.result?.paymentToken}`
         case 'BUY_NFT':
           return transaction.result?.bidAmount
             ? `Bid placed for ${transaction.result.bidAmount}`

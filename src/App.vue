@@ -14,7 +14,8 @@ onMounted(() => {
       console.error('Failed to load Meeray account:', error);
     });
   }
- 
+  tokenListStore.fetchTokens();
+
   coinPrices.fetchPrices();
   if (!tokenListStore.tokens.length) tokenListStore.fetchTokens();
 
