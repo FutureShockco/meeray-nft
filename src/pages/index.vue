@@ -28,6 +28,7 @@ onMounted(async () => {
       creator: collection.creator,
       logoUrl: collection.logoUrl || '/images/collections/placeholder.jpg',
       floorPrice: collection.floorPrice || 0, 
+      volume: collection.totalVolume || collection.volume || 0,
       items: collection.currentSupply || 0,
       maxSupply: collection.maxSupply === 9007199254740991 ? "∞" : (collection.maxSupply || 0),
       bannerImage: collection.logoUrl || '/images/collections/placeholder-banner.jpg'
