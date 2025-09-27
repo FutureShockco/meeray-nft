@@ -52,12 +52,8 @@ onMounted(async () => {
         collected: nftInstancesData?.data?.length || 0,
         likes: Math.floor(Math.random() * 2000)
       },
-      bio: accountData.account?.about || `NFT collector and creator on the Steem blockchain.`,
-      joinedDate: accountData.account?.created || '2023-01-01',
-      socialLinks: {
-        twitter: accountData.account?.twitter,
-        website: accountData.account?.website
-      }
+      bio: `NFT collector and creator on the Steem blockchain.`,
+      joinedDate: accountData.account?.created || '2023-01-01'
     }
     
     userNFTs.value = nftInstancesData?.data || []

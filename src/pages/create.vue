@@ -40,11 +40,11 @@ const nftForm = ref({
   name: '',
   description: '',
   coverUrl: '',
-  properties: {}
+  metadata: {}
 });
 
-// Dynamic properties for NFT
-const nftProperties = ref([
+// Dynamic metadata for NFT
+const nftMetadata = ref([
   { trait_type: '', value: '' }
 ]);
 
@@ -146,27 +146,27 @@ async function createNFT() {
   try {
     loading.value = true;
     
-    // Build properties object from the dynamic properties array
-    const properties: Record<string, any> = {};
-    nftProperties.value.forEach(prop => {
+    // Build metadata object from the dynamic metadata array
+    const metadata: Record<string, any> = {};
+    nftMetadata.value.forEach(prop => {
       if (prop.trait_type && prop.value) {
-        properties[prop.trait_type] = prop.value;
+        metadata[prop.trait_type] = prop.value;
       }
     });
 
-    // Add name and description to properties if provided
+    // Add name and description to metadata if provided
     if (nftForm.value.name) {
-      properties['name'] = nftForm.value.name;
+      metadata['name'] = nftForm.value.name;
     }
     if (nftForm.value.description) {
-      properties['description'] = nftForm.value.description;
+      metadata['description'] = nftForm.value.description;
     }
 
     // Build mint data object
     const mintData: any = {
       collectionSymbol: nftForm.value.collectionSymbol,
       owner: nftForm.value.owner || auth.state.username,
-      properties,
+      metadata,
       coverUrl: nftForm.value.coverUrl
     };
 
@@ -178,7 +178,7 @@ async function createNFT() {
     const result = await txService.mintNFT(
       mintData.collectionSymbol,
       mintData.owner,
-      mintData.properties,
+      mintData.metadata,
       mintData.coverUrl
     );
     
@@ -193,9 +193,9 @@ async function createNFT() {
           name: '',
           description: '',
           coverUrl: '',
-          properties: {}
+          metadata: {}
         };
-        nftProperties.value = [{ trait_type: '', value: '' }];
+        nftMetadata.value = [{ trait_type: '', value: '' }];
       } else if (status.status === 'FAILED') {
         alert('Failed to create NFT: ' + (status.error || 'Unknown error'));
       }
@@ -208,15 +208,15 @@ async function createNFT() {
   }
 }
 
-// Add property to NFT
-function addProperty() {
-  nftProperties.value.push({ trait_type: '', value: '' });
+// Add metadata to NFT
+function addMetadata() {
+  nftMetadata.value.push({ trait_type: '', value: '' });
 }
 
-// Remove property from NFT
-function removeProperty(index: number) {
-  if (nftProperties.value.length > 1) {
-    nftProperties.value.splice(index, 1);
+// Remove metadata from NFT
+function removeMetadata(index: number) {
+  if (nftMetadata.value.length > 1) {
+    nftMetadata.value.splice(index, 1);
   }
 }
 
@@ -353,11 +353,11 @@ function removeProperty(index: number) {
 
  
               <div>
-                <label class="block text-sm font-medium text-gray-300 mb-3">Properties</label>
+                <label class="block text-sm font-medium text-gray-300 mb-3">Metadata</label>
                 
                 <div class="space-y-3">
                   <div 
-                    v-for="(property, index) in nftProperties" 
+                    v-for="(property, index) in nftMetadata" 
                     :key="index"
                     class="flex gap-2 items-center">
                     <input 
@@ -371,8 +371,8 @@ function removeProperty(index: number) {
                       placeholder="Value (e.g., Blue)"
                       class="flex-1 rounded-lg px-4 py-2 border-2 border-purple-800/50 bg-gray-900/80 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500">
                     <button 
-                      v-if="nftProperties.length > 1"
-                      @click="removeProperty(index)"
+                      v-if="nftMetadata.length > 1"
+                      @click="removeMetadata(index)"
                       class="text-red-400 hover:text-red-300 transition-colors p-2">
                       <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -382,7 +382,7 @@ function removeProperty(index: number) {
                 </div>
                 
                 <button 
-                  @click="addProperty"
+                  @click="addMetadata"
                   type="button"
                   class="mt-3 text-cyan-400 font-medium flex items-center hover:text-cyan-300 transition-colors">
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24"

@@ -83,7 +83,7 @@ onMounted(async () => {
         price: listing.price ? parseFloat(listing.price) : undefined,
         currency: listing.paymentTokenSymbol || 'STEEM',
         isListed: listing.status === 'ACTIVE',
-        properties: listing.properties || [],
+        metadata: listing.metadata || [],
         royalties: listing.royalties || 0,
         createdAt: listing.listedAt || new Date().toISOString(),
         likes: 0,

@@ -37,14 +37,24 @@ export const useCoinPricesStore = defineStore('coinPrices', {
         const url = `https://api.coingecko.com/api/v3/simple/price?ids=${ids}&vs_currencies=${FIAT}&include_24hr_change=true&include_market_cap=true`;
         const res = await fetch(url);
         const data = await res.json();
-        // data is like { steem: { usd: 0.15, usd_24h_change: -2.34, usd_market_cap: 123456 }, ... }
         this.prices = {};
         this.changes = {};
         this.marketCaps = {};
         for (const [symbol, id] of Object.entries(COINGECKO_IDS)) {
-          this.prices[symbol] = data[id]?.[FIAT] ?? null;
-          this.changes[symbol] = data[id]?.[`${FIAT}_24h_change`] ?? null;
-          this.marketCaps[symbol] = data[id]?.[`${FIAT}_market_cap`] ?? null;
+          if(symbol === 'STEEM') {
+            this.prices['TESTS'] = Number(data[id]?.[FIAT] ?? 0);
+            this.changes['TESTS'] = Number(data[id]?.[`${FIAT}_24h_change`] ?? 0);
+            this.marketCaps['TESTS'] = Number(data[id]?.[`${FIAT}_market_cap`] ?? 0);
+          }
+          if(symbol === 'SBD') {
+            this.prices['TBD'] = Number(data[id]?.[FIAT] ?? 0);
+            this.changes['TBD'] = Number(data[id]?.[`${FIAT}_24h_change`] ?? 0);
+            this.marketCaps['TBD'] = Number(data[id]?.[`${FIAT}_market_cap`] ?? 0);
+          }
+          this.prices[symbol.toUpperCase()] = Number(data[id]?.[FIAT] ?? 0);
+          this.changes[symbol.toUpperCase()] = Number(data[id]?.[`${FIAT}_24h_change`] ?? 0);
+          this.marketCaps[symbol.toUpperCase()] = Number(data[id]?.[`${FIAT}_market_cap`] ?? 0);
+
         }
       } catch (e: any) {
         this.error = e.message || 'Unknown error';

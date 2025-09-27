@@ -73,7 +73,7 @@ const performSearch = async () => {
     searchResults.value = {
       nfts: (nftResp?.data || []).map((inst: any) => ({
         id: inst.instanceId,
-        name: inst.properties?.name || `${inst.collectionSymbol} #${inst.instanceId}`,
+        name: inst.metadata?.name || `${inst.collectionSymbol} #${inst.instanceId}`,
         image: inst.uri,
         collection: inst.collectionSymbol,
         price: inst.price,
@@ -276,7 +276,7 @@ const clearFilters = () => {
               v-for="nft in filteredResults.nfts" 
               :key="`${nft.collection}-${nft.id}`"
               class="nft-panel p-0 overflow-hidden hover:transform hover:scale-105 transition-all cursor-pointer"
-              @click="$router.push(`/nft/${nft.collection}/${nft.id}`)"
+              @click="router.push(`/nft/${nft.collection}/${nft.id}`)"
             >
               <div class="aspect-square">
                 <img 
@@ -302,7 +302,7 @@ const clearFilters = () => {
               v-for="collection in filteredResults.collections" 
               :key="collection.id"
               class="nft-panel hover:transform hover:scale-105 transition-all cursor-pointer"
-              @click="$router.push(`/collections/${collection.id}`)"
+              @click="router.push(`/collections/${collection.id}`)"
             >
               <div class="h-32 mb-4 rounded-lg overflow-hidden">
                 <img 
@@ -329,7 +329,7 @@ const clearFilters = () => {
               v-for="user in filteredResults.users" 
               :key="user.username"
               class="nft-panel hover:transform hover:scale-105 transition-all cursor-pointer"
-              @click="$router.push(`/profile/${user.username}`)"
+              @click="router.push(`/profile/${user.username}`)"
             >
               <div class="flex items-center space-x-4">
                 <div class="w-16 h-16 bg-gradient-to-br from-cyan-400 to-purple-600 rounded-full flex items-center justify-center">

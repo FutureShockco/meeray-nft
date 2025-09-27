@@ -2,7 +2,7 @@
 import { ref, computed } from 'vue';
 
 const isOpen = ref(false);
-const activeTab = ref('basic'); // basic, properties, royalties
+const activeTab = ref('basic'); // basic, metadata, royalties
 const isLoading = ref(false);
 const previewImage = ref('');
 const fileInput = ref<HTMLInputElement | null>(null);
@@ -13,7 +13,7 @@ const nftData = ref({
   description: '',
   image: null as File | null,
   collection: '',
-  properties: [{ trait_type: '', value: '' }],
+  metadata: [{ trait_type: '', value: '' }],
   royalties: 10, // Default 10%
 });
 
@@ -45,19 +45,19 @@ function close() {
     description: '',
     image: null,
     collection: '',
-    properties: [{ trait_type: '', value: '' }],
+    metadata: [{ trait_type: '', value: '' }],
     royalties: 10,
   };
   previewImage.value = '';
   activeTab.value = 'basic';
 }
 
-function addProperty() {
-  nftData.value.properties.push({ trait_type: '', value: '' });
+function addMetadata() {
+  nftData.value.metadata.push({ trait_type: '', value: '' });
 }
 
-function removeProperty(index: number) {
-  nftData.value.properties.splice(index, 1);
+function removeMetadata(index: number) {
+  nftData.value.metadata.splice(index, 1);
 }
 
 function handleImageUpload(event: Event) {
@@ -134,15 +134,15 @@ defineExpose({
               Basic Info
             </button>
             <button 
-              @click="activeTab = 'properties'" 
+              @click="activeTab = 'metadata'" 
               :class="[
                 'py-2 px-4 font-medium',
-                activeTab === 'properties' 
+                activeTab === 'metadata' 
                   ? 'border-b-2 border-primary-500 text-primary-600' 
                   : 'text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300'
               ]"
             >
-              Properties
+              Metadata
             </button>
             <button 
               @click="activeTab = 'royalties'" 
@@ -219,22 +219,22 @@ defineExpose({
             </div>
           </div>
 
-          <div v-if="activeTab === 'properties'" class="space-y-4">
+          <div v-if="activeTab === 'metadata'" class="space-y-4">
             <div class="flex justify-between items-center">
-              <h4 class="text-lg font-medium text-gray-900 dark:text-white">Properties</h4>
+              <h4 class="text-lg font-medium text-gray-900 dark:text-white">Metadata</h4>
               <button 
-                @click="addProperty" 
+                @click="addMetadata" 
                 class="px-3 py-1 bg-primary-50 dark:bg-gray-800 text-primary-600 rounded-md hover:bg-primary-100 dark:hover:bg-gray-700 transition"
               >
-                Add Property
+                Add Metadata
               </button>
             </div>
             
-            <div v-if="nftData.properties.length === 0" class="text-center py-4">
-              <p class="text-gray-500 dark:text-gray-400">No properties added yet</p>
+            <div v-if="nftData.metadata.length === 0" class="text-center py-4">
+              <p class="text-gray-500 dark:text-gray-400">No metadata added yet</p>
             </div>
-            
-            <div v-for="(property, index) in nftData.properties" :key="index" class="flex gap-4 items-center">
+
+            <div v-for="(property, index) in nftData.metadata" :key="index" class="flex gap-4 items-center">
               <div class="flex-1">
                 <input 
                   v-model="property.trait_type" 
@@ -251,7 +251,7 @@ defineExpose({
                   placeholder="Value (e.g. Blue)"
                 >
               </div>
-              <button @click="removeProperty(index)" class="text-gray-400 hover:text-red-500">
+              <button @click="removeMetadata(index)" class="text-gray-400 hover:text-red-500">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                 </svg>

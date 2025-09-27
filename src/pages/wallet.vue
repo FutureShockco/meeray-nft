@@ -9,7 +9,7 @@ import { useMeerayAccountStore } from '../stores/meerayAccount'
 const api = useApiService()
 const auth = useAuthStore()
 const meeray = useMeerayAccountStore()
-const { usdPrice } = useTokenUsdPrice('USDT')
+const usdPrice = useTokenUsdPrice('USDT')
 const router = useRouter()
 
 // State
@@ -36,13 +36,20 @@ onMounted(async () => {
 
   try {
     loading.value = true
-    
+
     const [accountData, nftInstancesData] = await Promise.all([
       api.getAccount(auth.state.username),
       api.getNftInstancesByOwner(auth.state.username)
     ])
-    
-    tokens.value = accountData.account.balances || []
+
+    tokens.value = Array.isArray(accountData.account.balances)
+      ? accountData.account.balances
+      : accountData.account.balances
+        ? Object.entries(accountData.account.balances).map(([symbol, data]) => ({
+          symbol,
+          ...data
+        }))
+        : []
     nfts.value = nftInstancesData?.data || []
     portfolio.value = accountData
   } catch (err) {
@@ -95,46 +102,46 @@ const getTokenIcon = (symbol: string) => {
 <template>
   <div class="nft-bg-pattern min-h-screen">
     <div class="max-w-7xl mx-auto px-4 py-8">
-      
+
       <div v-if="!auth.state.isAuthenticated" class="text-center py-16">
         <div class="nft-panel p-8">
           <h2 class="text-2xl font-bold text-white mb-4">Authentication Required</h2>
           <p class="text-gray-300 mb-6">Please log in to view your wallet</p>
-          <button @click="$router.push('/marketplace')" class="nft-btn">
+          <button @click="router.push('/marketplace')" class="nft-btn">
             Go to Marketplace
           </button>
         </div>
       </div>
 
       <template v-else>
-        
+
         <div class="mb-8">
           <h1 class="text-3xl font-bold text-white mb-2">My Wallet</h1>
           <p class="text-gray-300">Manage your tokens and NFTs</p>
         </div>
 
-        
+
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          
+
           <div class="nft-panel">
             <div class="text-sm text-gray-400 mb-2">Total Portfolio Value</div>
             <div class="text-2xl font-bold text-white">${{ totalPortfolioValue.toFixed(2) }}</div>
           </div>
 
-          
+
           <div class="nft-panel">
             <div class="text-sm text-gray-400 mb-2">Token Types</div>
             <div class="text-2xl font-bold text-cyan-400">{{ tokens.length }}</div>
           </div>
 
-          
+
           <div class="nft-panel">
             <div class="text-sm text-gray-400 mb-2">Owned NFTs</div>
             <div class="text-2xl font-bold text-purple-400">{{ nfts.length }}</div>
           </div>
         </div>
 
-        
+
         <div class="flex flex-wrap gap-4 mb-8">
           <button @click="showDepositModal = true" class="nft-btn">
             💰 Deposit
@@ -142,45 +149,37 @@ const getTokenIcon = (symbol: string) => {
           <button @click="showWithdrawModal = true" class="nft-btn bg-purple-600">
             💸 Withdraw
           </button>
-          <button @click="$router.push('/create')" class="nft-btn bg-green-600">
+          <button @click="router.push('/create')" class="nft-btn bg-green-600">
             ✨ Create NFT
           </button>
         </div>
 
-        
+
         <div class="flex space-x-1 mb-8">
-          <button
-            v-for="tab in tabs"
-            :key="tab.id"
-            @click="activeTab = tab.id"
-            :class="[
-              'flex items-center space-x-2 px-6 py-3 rounded-lg font-medium transition-all',
-              activeTab === tab.id
-                ? 'bg-cyan-500 text-white'
-                : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
-            ]"
-          >
+          <button v-for="tab in tabs" :key="tab.id" @click="activeTab = tab.id" :class="[
+            'flex items-center space-x-2 px-6 py-3 rounded-lg font-medium transition-all',
+            activeTab === tab.id
+              ? 'bg-cyan-500 text-white'
+              : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
+          ]">
             <span>{{ tab.icon }}</span>
             <span>{{ tab.name }}</span>
           </button>
         </div>
 
-        
+
         <div v-if="loading" class="flex justify-center py-16">
           <div class="steem-auth-spinner"></div>
         </div>
 
-        
+
         <div v-else-if="activeTab === 'tokens'">
           <div class="nft-panel">
             <h3 class="text-xl font-bold text-white mb-6">Token Balances</h3>
-            
+
             <div v-if="tokens.length" class="space-y-4">
-              <div 
-                v-for="token in tokens" 
-                :key="token.symbol"
-                class="flex items-center justify-between p-4 bg-gray-800 rounded-lg hover:bg-gray-700 transition-colors"
-              >
+              <div v-for="token in tokens" :key="token.symbol"
+                class="flex items-center justify-between p-4 bg-gray-800 rounded-lg hover:bg-gray-700 transition-colors">
                 <div class="flex items-center space-x-4">
                   <div class="text-2xl">{{ getTokenIcon(token.symbol) }}</div>
                   <div>
@@ -188,7 +187,7 @@ const getTokenIcon = (symbol: string) => {
                     <div class="text-sm text-gray-400">{{ token.name || token.symbol }}</div>
                   </div>
                 </div>
-                
+
                 <div class="text-right">
                   <div class="font-bold text-white">{{ formatBalance(parseFloat(token.balance)) }}</div>
                   <div class="text-sm text-gray-400">
@@ -197,14 +196,14 @@ const getTokenIcon = (symbol: string) => {
                 </div>
               </div>
             </div>
-            
+
             <div v-else class="text-center py-8 text-gray-400">
               No tokens found in your wallet
             </div>
           </div>
         </div>
 
-        
+
         <div v-else-if="activeTab === 'nfts'">
           <div v-if="Object.keys(groupedNFTs).length" class="space-y-8">
             <div v-for="(collectionNFTs, collection) in groupedNFTs" :key="collection">
@@ -212,20 +211,14 @@ const getTokenIcon = (symbol: string) => {
                 <span>{{ collection }}</span>
                 <span class="text-sm text-gray-400">({{ collectionNFTs.length }})</span>
               </h3>
-              
+
               <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-                <div 
-                  v-for="nft in collectionNFTs" 
-                  :key="nft.id"
+                <div v-for="nft in collectionNFTs" :key="nft.id"
                   class="nft-panel p-0 overflow-hidden hover:transform hover:scale-105 transition-all cursor-pointer"
-                  @click="$router.push(`/nft/${collection}/${nft.id}`)"
-                >
+                  @click="router.push(`/nft/${collection}/${nft.id}`)">
                   <div class="aspect-square">
-                    <img 
-                      :src="nft.coverUrl || '/images/nfts/01.png'" 
-                      :alt="nft.name"
-                      class="w-full h-full object-cover"
-                    >
+                    <img :src="nft.coverUrl || '/images/nfts/01.png'" :alt="nft.name"
+                      class="w-full h-full object-cover">
                   </div>
                   <div class="p-3">
                     <div class="font-medium text-white text-sm mb-1">{{ nft.name }}</div>
@@ -235,20 +228,20 @@ const getTokenIcon = (symbol: string) => {
               </div>
             </div>
           </div>
-          
+
           <div v-else class="text-center py-16">
             <div class="nft-panel p-8">
               <div class="text-6xl mb-4">🖼️</div>
               <h3 class="text-xl font-bold text-white mb-2">No NFTs Found</h3>
               <p class="text-gray-400 mb-6">You don't own any NFTs yet</p>
-              <button @click="$router.push('/marketplace')" class="nft-btn">
+              <button @click="router.push('/marketplace')" class="nft-btn">
                 Browse Marketplace
               </button>
             </div>
           </div>
         </div>
 
-        
+
         <div v-else-if="activeTab === 'activity'">
           <div class="nft-panel">
             <h3 class="text-xl font-bold text-white mb-6">Recent Activity</h3>
@@ -260,7 +253,7 @@ const getTokenIcon = (symbol: string) => {
       </template>
     </div>
 
-    
+
     <div v-if="showDepositModal" class="steem-auth-modal-overlay" @click="showDepositModal = false">
       <div class="steem-auth-modal-content" @click.stop>
         <div class="steem-auth-modal-header">
@@ -276,7 +269,7 @@ const getTokenIcon = (symbol: string) => {
       </div>
     </div>
 
-    
+
     <div v-if="showWithdrawModal" class="steem-auth-modal-overlay" @click="showWithdrawModal = false">
       <div class="steem-auth-modal-content" @click.stop>
         <div class="steem-auth-modal-header">
@@ -286,7 +279,8 @@ const getTokenIcon = (symbol: string) => {
         <div class="steem-auth-modal-body">
           <div class="text-center">
             <p class="text-gray-300 mb-4">Withdraw functionality coming soon...</p>
-            <p class="text-sm text-gray-400">You can currently withdraw tokens through the Steem blockchain directly.</p>
+            <p class="text-sm text-gray-400">You can currently withdraw tokens through the Steem blockchain directly.
+            </p>
           </div>
         </div>
       </div>

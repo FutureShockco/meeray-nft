@@ -38,7 +38,7 @@ export interface UINFT {
   price?: number;
   currency?: string;
   isListed: boolean;
-  properties: TraitProperty[];
+  metadata: TraitProperty[];
   royalties: number;
   createdAt: string;
   likes: number;

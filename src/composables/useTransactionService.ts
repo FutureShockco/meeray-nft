@@ -286,11 +286,11 @@ export const useTransactionService = () => {
     }, 'CREATE_COLLECTION')
   }
 
-  const mintNFT = async (collectionSymbol: string, owner: string, properties?: any, coverUrl?: string) => {
+  const mintNFT = async (collectionSymbol: string, owner: string, metadata?: any, coverUrl?: string) => {
     return sendNFTTransaction('nft_mint', {
       collectionSymbol,
       owner,
-      properties,
+      metadata,
       coverUrl,
     }, 'MINT_NFT')
   }

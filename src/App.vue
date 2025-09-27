@@ -1,5 +1,24 @@
 <script setup lang="ts">
+import { useTokenListStore } from './stores/useTokenList';
+import { useAuthStore } from 'steem-auth-vue';
+import { useMeerayAccountStore } from './stores/meerayAccount';
+import { useCoinPricesStore } from './stores/useCoinPrices';
 
+const coinPrices = useCoinPricesStore();
+const auth = useAuthStore();
+const meeray = useMeerayAccountStore();
+const tokenListStore = useTokenListStore();
+onMounted(() => {
+  if (auth.state.username) {
+    meeray.loadAccount(auth.state.username).catch((error) => {
+      console.error('Failed to load Meeray account:', error);
+    });
+  }
+ 
+  coinPrices.fetchPrices();
+  if (!tokenListStore.tokens.length) tokenListStore.fetchTokens();
+
+});
 </script>
 
 <template>

@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue'
 import { useApiService } from '../composables/useApiService'
+import { useRouter, useRoute } from 'vue-router';
 
 const api = useApiService()
-
+const router = useRouter();
+const route = useRoute();
 // State
 const activities = ref<any[]>([])
 const loading = ref(true)
@@ -127,7 +129,7 @@ const timeAgo = (timestamp: string) => {
           v-for="activity in filteredActivities" 
           :key="activity.id"
           class="nft-panel hover:transform hover:scale-[1.01] transition-all cursor-pointer"
-          @click="$router.push(`/nft/${activity.collection}/${activity.nftId}`)"
+          @click="router.push(`/nft/${activity.collection}/${activity.nftId}`)"
         >
           <div class="flex items-center space-x-4">
             <div class="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">

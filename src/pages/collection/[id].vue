@@ -55,9 +55,9 @@ async function loadData() {
 
     nfts.value = (instancesResp.data || []).map((inst: any) => {
       const traits: Array<{ trait_type: string; value: string }> = [];
-      if (inst?.properties && typeof inst.properties === 'object') {
-        for (const key of Object.keys(inst.properties)) {
-          const value = inst.properties[key];
+      if (inst?.metadata && typeof inst.metadata === 'object') {
+        for (const key of Object.keys(inst.metadata)) {
+          const value = inst.metadata[key];
           if (['string', 'number', 'boolean'].includes(typeof value)) {
             traits.push({ trait_type: key, value: String(value) });
           }
@@ -76,7 +76,7 @@ async function loadData() {
         price: undefined,
         currency: undefined,
         isListed: false,
-        properties: traits,
+        metadata: traits,
         royalties: 0,
         createdAt: inst.createdAt || new Date().toISOString(),
         likes: 0,

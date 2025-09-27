@@ -19,7 +19,7 @@ const emit = defineEmits<{
 }>();
 
 // State
-const activeTab = ref('info'); // info, properties, history, offers
+const activeTab = ref('info'); // info, metadata, history, offers
 const offerPrice = ref('');
 const transferAddress = ref('');
 const listPrice = ref('');
@@ -186,15 +186,15 @@ function cancelBurn() {
                     Info
                   </button>
                   <button 
-                    @click="activeTab = 'properties'" 
+                    @click="activeTab = 'metadata'" 
                     :class="[
                       'py-2 px-4 font-medium text-sm border-b-2 transition-colors focus:outline-none',
-                      activeTab === 'properties'
+                      activeTab === 'metadata'
                         ? 'border-cyan-500 text-cyan-400'
                         : 'border-transparent text-gray-400 hover:text-white'
                     ]"
                   >
-                    Properties
+                    Metadata
                   </button>
                   <button 
                     @click="activeTab = 'history'" 
@@ -326,19 +326,19 @@ function cancelBurn() {
                 </div>
               </div>
               
-              <div v-if="activeTab === 'properties'" class="space-y-4">
-                <div v-if="nft.properties && nft.properties.length > 0" class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+              <div v-if="activeTab === 'metadata'" class="space-y-4">
+                <div v-if="nft.metadata && nft.metadata.length > 0" class="grid grid-cols-2 sm:grid-cols-3 gap-3">
                   <div 
-                    v-for="(property, index) in nft.properties" 
+                    v-for="(meta, index) in nft.metadata" 
                     :key="index"
                     class="bg-primary-50 dark:bg-gray-800 rounded-md p-3 text-center"
                   >
-                    <p class="text-xs text-primary-600 dark:text-primary-400 uppercase">{{ property.trait_type }}</p>
-                    <p class="text-sm font-medium text-gray-900 dark:text-white truncate">{{ property.value }}</p>
+                    <p class="text-xs text-primary-600 dark:text-primary-400 uppercase">{{ meta.trait_type }}</p>
+                    <p class="text-sm font-medium text-gray-900 dark:text-white truncate">{{ meta.value }}</p>
                   </div>
                 </div>
                 <div v-else class="text-center py-8">
-                  <p class="text-gray-500 dark:text-gray-400">No properties found for this NFT</p>
+                  <p class="text-gray-500 dark:text-gray-400">No metadata found for this NFT</p>
                 </div>
               </div>
 

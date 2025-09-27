@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router';
 import { useApiService } from '../../composables/useApiService'
 
-const route = useRoute()
+const router = useRouter();
+const route = useRoute();
 const api = useApiService()
 
 // Route params
@@ -95,7 +96,7 @@ onMounted(async () => {
   // Map NFTs to a simple UI shape expected by this page
   nfts.value = (nftResp?.data || []).map((inst: any) => ({
     id: inst.instanceId,
-    name: inst.properties?.name || `${inst.collectionSymbol} #${inst.instanceId}`,
+    name: inst.metadata?.name || `${inst.collectionSymbol} #${inst.instanceId}`,
     image: inst.uri,
     collection: inst.collectionSymbol,
     creator: inst.creator || inst.owner,
@@ -247,7 +248,7 @@ const allCategories = computed(() => {
             v-for="collection in collections" 
             :key="collection.id"
             class="nft-panel hover:transform hover:scale-105 transition-all cursor-pointer"
-            @click="$router.push(`/collections/${collection.id}`)"
+            @click="router.push(`/collections/${collection.id}`)"
           >
             <div class="h-32 mb-4 rounded-lg overflow-hidden">
               <img 
@@ -274,7 +275,7 @@ const allCategories = computed(() => {
             v-for="nft in sortedNFTs" 
             :key="`${nft.collection}-${nft.id}`"
             class="nft-panel p-0 overflow-hidden hover:transform hover:scale-105 transition-all cursor-pointer"
-            @click="$router.push(`/nft/${nft.collection}/${nft.id}`)"
+            @click="router.push(`/nft/${nft.collection}/${nft.id}`)"
           >
             <div class="aspect-square">
               <img 
@@ -300,7 +301,7 @@ const allCategories = computed(() => {
             v-for="nft in sortedNFTs" 
             :key="`${nft.collection}-${nft.id}`"
             class="nft-panel hover:transform hover:scale-[1.01] transition-all cursor-pointer"
-            @click="$router.push(`/nft/${nft.collection}/${nft.id}`)"
+            @click="router.push(`/nft/${nft.collection}/${nft.id}`)"
           >
             <div class="flex items-center space-x-4">
               <div class="w-20 h-20 rounded-lg overflow-hidden flex-shrink-0">
@@ -333,7 +334,7 @@ const allCategories = computed(() => {
             <div class="text-6xl mb-4">{{ currentCategory.icon }}</div>
             <h3 class="text-xl font-bold text-white mb-2">No Items Found</h3>
             <p class="text-gray-400 mb-6">No NFTs found in this category yet.</p>
-            <button @click="$router.push('/marketplace')" class="nft-btn">
+            <button @click="router.push('/marketplace')" class="nft-btn">
               Browse All Items
             </button>
           </div>

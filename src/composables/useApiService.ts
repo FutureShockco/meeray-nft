@@ -1,10 +1,25 @@
-// --- NFT Platform Types ---
-// Account related
+export interface AccountResponse {
+  success: boolean;
+  account: Account;
+}
+
 export interface Account {
+  _id?: string;
+  id?: string;
   name: string;
-  totalVoteWeight?: number;
+  created: string;
+  tokens?: Record<string, number>;
+  nfts: Record<string, unknown>;
+  totalVoteWeight?: {
+    amount: string;
+    rawAmount: string;
+  };
+  votedWitnesses: string[];
   witnessPublicKey?: string;
-  [key: string]: any;
+  balances?: Record<string, {
+    amount: string;
+    rawAmount: string;
+  }>;
 }
 
 export interface AccountList {
@@ -93,7 +108,7 @@ export interface NFTInstance {
   collectionSymbol: string;
   instanceId: string;
   owner: string;
-  properties?: Record<string, any>;
+  metadata?: Record<string, any>;
   uri?: string;
   createdAt: string;
   [key: string]: any;
@@ -176,6 +191,12 @@ export function useApiService() {
     if (params?.sortBy) query.append('sortBy', params.sortBy);
     if (params?.sortDirection) query.append('sortDirection', params.sortDirection);
     return fetcher(`${API_BASE}/accounts?${query.toString()}`) as Promise<AccountList>;
+  };
+
+  const getAccountDetails = (name: string) => {
+    console.log('API: Calling getAccountDetails for:', name);
+    console.log('API: Full URL:', `${API_BASE}/accounts/${name}`);
+    return fetcher(`${API_BASE}/accounts/${name}`) as Promise<AccountResponse>;
   };
   const getAccountHistory = (account: string, params?: { limit?: number; offset?: number; type?: number }) => {
     const query = new URLSearchParams();
@@ -356,6 +377,7 @@ export function useApiService() {
     // Account Management
     getAccount,
     getAccounts,
+    getAccountDetails,
     getAccountHistory,
     getAccountTokens,
 

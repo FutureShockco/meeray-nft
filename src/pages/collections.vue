@@ -50,7 +50,7 @@ onMounted(async () => {
     // Load NFT collections from API
     console.log('Loading collections...');
     const collectionsResponse = await api.getNftCollections({ limit: 50 });
-    
+    console.log('Collections loaded:', collectionsResponse);
     // Map API response to expected format
     nftCollections.value = (collectionsResponse.data || []).map(collection => ({
       id: collection.symbol,
@@ -58,12 +58,12 @@ onMounted(async () => {
       creator: collection.creator,
       logoUrl: collection.logoUrl || '/images/collections/placeholder.jpg',
       bannerImage: collection.bannerImage || '/images/collections/placeholder-banner.jpg',
-      floorPrice: 0, // Would need separate API call to calculate
+      floorPrice: collection.floorPrice || 0, // Would need separate API call to calculate
       items: collection.currentSupply  || 0,
       maxSupply: collection.maxSupply === 9007199254740991 ? "∞" : ( collection.maxSupply || 0),
       description: collection.description || '',
       owners: 0, // Would need separate API call
-      volume: 0, // Would need separate API call
+      volume: collection.volume || 0, // Would need separate API call
       links: {
         website: collection.websiteUrl || '',
         twitter: '',
@@ -85,7 +85,9 @@ onMounted(async () => {
       price: undefined,
       currency: undefined,
       isListed: false,
-      properties: [],
+      floorPrice: 0,
+      volume: 0,
+      metadata: [],
       royalties: 0,
       createdAt: inst.createdAt || new Date().toISOString(),
       likes: 0,

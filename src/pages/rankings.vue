@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 import { useApiService } from '../composables/useApiService'
+import { useRouter, useRoute } from 'vue-router';
 
 const api = useApiService()
-
+const router = useRouter();
+const route = useRoute();
 // State
 const collections = ref<any[]>([])
 const trending = ref<any[]>([])
@@ -122,7 +124,7 @@ const getChangeColor = (change: number) => {
             <tbody>
               <tr v-for="(collection, index) in collections" :key="collection.id"
                 class="border-b border-gray-800 hover:bg-gray-800/50 transition-colors cursor-pointer"
-                @click="$router.push(`/collections/${collection.id}`)">
+                @click="router.push(`/collections/${collection.id}`)">
                 <td class="py-4">
                   <span class="text-gray-400 font-medium">{{ index + 1 }}</span>
                 </td>
@@ -164,7 +166,7 @@ const getChangeColor = (change: number) => {
       <div v-else-if="activeTab === 'trending'" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <div v-for="nft in trending" :key="nft.id"
           class="nft-panel hover:transform hover:scale-105 transition-all cursor-pointer"
-          @click="$router.push(`/nft/${nft.collection}/${nft.id}`)">
+          @click="router.push(`/nft/${nft.collection}/${nft.id}`)">
           <div class="aspect-square mb-4 rounded-lg overflow-hidden">
             <img :src="nft.coverUrl || '/images/nfts/01.png'" :alt="nft.name" class="w-full h-full object-cover">
           </div>
@@ -219,7 +221,7 @@ const getChangeColor = (change: number) => {
                   <div class="text-gray-300">{{ creator.followers }}</div>
                 </td>
                 <td class="py-4">
-                  <button @click="$router.push(`/profile/${creator.username}`)"
+                  <button @click="router.push(`/profile/${creator.username}`)"
                     class="px-4 py-2 bg-cyan-500 text-white rounded-lg hover:bg-cyan-600 transition-colors">
                     View Profile
                   </button>
