@@ -243,6 +243,9 @@ const copyItemUrl = async () => {
     console.error('Failed to copy URL:', err)
   }
 }
+
+const showImageModal = ref(false)
+const modalImageUrl = computed(() => nft.value?.coverUrl || '/images/nfts/01.png')
 </script>
 
 <template>
@@ -267,7 +270,12 @@ const copyItemUrl = async () => {
         <div class="space-y-6">
 
           <div class="nft-panel p-0 overflow-hidden">
-            <img :src="nft.coverUrl || '/images/nfts/01.png'" :alt="nft.name" class="w-full aspect-square object-cover">
+            <img
+              :src="nft.coverUrl || '/images/nfts/01.png'"
+              :alt="nft.name"
+              class="w-full aspect-square object-cover cursor-pointer"
+              @click="showImageModal = true"
+            />
           </div>
 
 
@@ -375,7 +383,7 @@ const copyItemUrl = async () => {
 
             <div class="space-y-3">
               <button v-if="canBuy" @click="buyNFT" class="nft-btn w-full py-4 text-lg">
-                Buy for {{ nft.listing ? (Number(nft.listing.price) / Math.pow(10, (tokenOptions.find(t => t.symbol === nft.listing.paymentToken)?.decimals || 3))) : '' }} {{ nft.listing?.paymentToken || '' }}
+                Buy for {{ nft.listing ? (Number(nft.listing.price) / Math.pow(10, (tokenOptions.find(t => t.listing.paymentToken)?.decimals || 3))) : '' }} {{ nft.listing?.paymentToken || '' }}
               </button>
 
               <button v-if="canBid" @click="showBidModal = true" class="nft-btn w-full py-4 text-lg bg-purple-600">
@@ -623,6 +631,21 @@ const copyItemUrl = async () => {
           </div>
         </div>
       </div>
+    </div>
+
+
+    <div v-if="showImageModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80" @click="showImageModal = false">
+      <img
+        :src="modalImageUrl"
+        :alt="nft.name"
+        class="max-w-full max-h-[80vh] rounded-lg shadow-lg"
+        @click.stop
+      />
+      <button
+        class="absolute top-6 right-6 text-white text-3xl font-bold"
+        @click="showImageModal = false"
+        style="background: none; border: none;"
+      >&times;</button>
     </div>
   </div>
 </template>
