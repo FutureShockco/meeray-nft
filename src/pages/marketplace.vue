@@ -316,9 +316,9 @@ function handleFilterChange(filters: any) {
               </div>
 
 
-              <div class="absolute inset-0 flex items-center justify-between p-4">
+              <div class="absolute inset-0 flex items-center justify-between p-4 pointer-events-none">
                 <button @click="prevSlide"
-                  class="w-12 h-12 rounded-full bg-gray-900/50 backdrop-blur-sm text-white flex items-center justify-center hover:bg-gray-900/80 transition-colors"
+                  class="w-12 h-12 rounded-full bg-gray-900/50 backdrop-blur-sm text-white flex items-center justify-center hover:bg-gray-900/80 transition-colors pointer-events-auto"
                   aria-label="Previous slide">
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
                     stroke="currentColor">
@@ -326,7 +326,7 @@ function handleFilterChange(filters: any) {
                   </svg>
                 </button>
                 <button @click="nextSlide"
-                  class="w-12 h-12 rounded-full bg-gray-900/50 backdrop-blur-sm text-white flex items-center justify-center hover:bg-gray-900/80 transition-colors"
+                  class="w-12 h-12 rounded-full bg-gray-900/50 backdrop-blur-sm text-white flex items-center justify-center hover:bg-gray-900/80 transition-colors pointer-events-auto"
                   aria-label="Next slide">
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
                     stroke="currentColor">
