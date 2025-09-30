@@ -130,7 +130,7 @@ const getChangeColor = (change: number) => {
                 </td>
                 <td class="py-4">
                   <div class="flex items-center space-x-3">
-                    <img :src="collection.logoUrl || '/images/collections/cryptoheroes.jpg'" :alt="collection.name"
+                    <img :src="collection.image || '/images/collections/cryptoheroes.jpg'" :alt="collection.name"
                       class="w-12 h-12 rounded-lg object-cover">
                     <div>
                       <div class="font-semibold text-white">{{ collection.name }}</div>
