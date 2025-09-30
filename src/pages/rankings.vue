@@ -124,7 +124,7 @@ const getChangeColor = (change: number) => {
             <tbody>
               <tr v-for="(collection, index) in collections" :key="collection.id"
                 class="border-b border-gray-800 hover:bg-gray-800/50 transition-colors cursor-pointer"
-                @click="router.push(`/collections/${collection.id}`)">
+                @click="router.push(`/collection/${collection.id}`)">
                 <td class="py-4">
                   <span class="text-gray-400 font-medium">{{ index + 1 }}</span>
                 </td>
