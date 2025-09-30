@@ -222,12 +222,19 @@ const listNFT = async () => {
 }
 
 const delistNFT = async () => {
-  if (!nft.value?.listingId) return
+  // Use underscores for listingId format
+  const listingId = `${collection}_${nftId}_${auth.state.username}`;
+  if (!listingId) {
+    console.warn('No listingId could be constructed for this NFT');
+    return;
+  }
 
   try {
-    const result = await txService.delistNFT(nft.value.listingId)
-
-
+    const result = await txService.delistNFT(listingId);
+    console.log('Delist result:', result);
+    // Reload NFT data to update UI
+    const nftData = await api.getNftInstance(`${collection}_${nftId}`)
+    nft.value = nftData
   } catch (err) {
     console.error('Failed to delist NFT:', err)
   }
@@ -569,7 +576,7 @@ const modalImageUrl = computed(() => nft.value?.coverUrl || '/images/nfts/01.png
                 <input v-model="listingForm.price" type="number" step="0.001" placeholder="0.00"
                   class=" steem-auth-input w-16">
                 <select v-model="listingForm.paymentToken" class="steem-auth-input w-16">
-                  <option v-for="token in tokenOptions" :key="token.symbol" :value="token.symbol">
+                  <option v-for="token in tokenOptions" :key="token.symbol" :value="token.symbol" >
                     {{ token.symbol }}
                   </option>
                 </select>
@@ -586,8 +593,8 @@ const modalImageUrl = computed(() => nft.value?.coverUrl || '/images/nfts/01.png
                 <div class="flex space-x-3">
                   <input v-model="listingForm.price" type="number" step="0.001" placeholder="0.00"
                     class="steem-auth-input w-16">
-                  <select v-model="listingForm.paymentToken" class="steem-auth-input w-16">
-                    <option v-for="token in tokenOptions" :key="token.symbol" :value="token.symbol">
+                  <select v-model="listingForm.paymentToken" class="steem-auth-input w-16" >
+                    <option v-for="token in tokenOptions" :key="token.symbol" :value="token.symbol" >
                       {{ token.symbol }}
                     </option>
                   </select>
