@@ -42,7 +42,7 @@ const tokenOptions = computed(() =>
 // Listing form data
 const listingForm = ref({
   price: '',
-  paymentToken: 'STEEM',
+  paymentToken: 'MRY',
   listingType: 'FIXED_PRICE' as 'FIXED_PRICE' | 'AUCTION' | 'RESERVE_AUCTION',
   auctionEndTime: '',
   reservePrice: '',
