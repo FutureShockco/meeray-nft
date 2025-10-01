@@ -573,7 +573,7 @@ const modalImageUrl = computed(() => nft.value?.coverUrl || '/images/nfts/01.png
             <div v-if="listingForm.listingType === 'FIXED_PRICE'">
               <label class="block text-sm font-medium text-gray-300 mb-2">Sale Price</label>
               <div class="flex space-x-3">
-                <input v-model="listingForm.price" type="number" step="0.001" placeholder="0.00"
+                <input v-model="listingForm.price" type="number" step="0.001" min="0" placeholder="0.00"
                   class=" steem-auth-input w-16">
                 <select v-model="listingForm.paymentToken" class="steem-auth-input w-16">
                   <option v-for="token in tokenOptions" :key="token.symbol" :value="token.symbol" >
@@ -591,7 +591,7 @@ const modalImageUrl = computed(() => nft.value?.coverUrl || '/images/nfts/01.png
                   {{ listingForm.listingType === 'AUCTION' ? 'Starting Price' : 'Starting Bid' }}
                 </label>
                 <div class="flex space-x-3">
-                  <input v-model="listingForm.price" type="number" step="0.001" placeholder="0.00"
+                  <input v-model="listingForm.price" type="number" step="0.001" min="0" placeholder="0.00"
                     class="steem-auth-input w-16">
                   <select v-model="listingForm.paymentToken" class="steem-auth-input w-16" >
                     <option v-for="token in tokenOptions" :key="token.symbol" :value="token.symbol" >
@@ -604,7 +604,7 @@ const modalImageUrl = computed(() => nft.value?.coverUrl || '/images/nfts/01.png
 
               <div v-if="listingForm.listingType === 'RESERVE_AUCTION'">
                 <label class="block text-sm font-medium text-gray-300 mb-2">Reserve Price</label>
-                <input v-model="listingForm.reservePrice" type="number" step="0.001"
+                <input v-model="listingForm.reservePrice" type="number" step="0.001" min="0"
                   placeholder="Minimum price to accept" class="w-full steem-auth-input">
               </div>
 
@@ -617,7 +617,7 @@ const modalImageUrl = computed(() => nft.value?.coverUrl || '/images/nfts/01.png
 
               <div>
                 <label class="block text-sm font-medium text-gray-300 mb-2">Minimum Bid Increment</label>
-                <input v-model="listingForm.minimumBidIncrement" type="number" step="0.001" placeholder="0.1"
+                <input v-model="listingForm.minimumBidIncrement" type="number" step="0.001" min="0" placeholder="0.1"
                   class="w-full steem-auth-input">
               </div>
 
