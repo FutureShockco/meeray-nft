@@ -329,8 +329,12 @@ const modalImageUrl = computed(() => nft.value?.coverUrl || '/images/nfts/01.png
               </span>
               <span>•</span>
               <span>Created by
-                <router-link :to="`/profile/${nft.creator}`" class="text-cyan-400 hover:text-cyan-300">
-                  {{ nft.creator }}
+                 <router-link
+                  v-if="collectionData?.creator"
+                  :to="`/profile/${collectionData.creator}`"
+                  class="text-cyan-400 hover:text-cyan-300"
+                >
+                  {{ collectionData.creator }}
                 </router-link>
               </span>
             </div>
@@ -360,7 +364,7 @@ const modalImageUrl = computed(() => nft.value?.coverUrl || '/images/nfts/01.png
                 <div v-if="nft.listing.listingType === 'AUCTION' || nft.listing.listingType === 'RESERVE_AUCTION'">
                   <div class="text-sm text-gray-400">Auction End Time</div>
                   <div class="text-white mb-2">{{ nft.listing.auctionEndTime ? new Date(nft.listing.auctionEndTime).toLocaleString() : 'N/A' }}</div>
-                  <div class="text-sm text-gray-400">Minimum Bid Increment</div>
+                  <div class="text-sm text-gray-400 mb-2">Minimum Bid Increment</div>
                   <div class="text-white mb-2">
                     {{ Number(nft.listing.minimumBidIncrement) / Math.pow(10, (tokenOptions.find(t => t.symbol === nft.listing.paymentToken)?.decimals || 3)) }}
                     {{ nft.listing.paymentToken }}
