@@ -119,7 +119,7 @@ const followUser = async () => {
 
       
       <div v-else-if="error" class="text-center py-16">
-        <div class="nft-panel p-8">
+        <div class="bg-white dark:bg-gradient-to-br dark:from-primary-900 dark:to-primary-800 border border-gray-200 dark:border-primary-700 rounded-lg overflow-hidden p-6 p-8">
           <h2 class="text-2xl font-bold text-red-400 mb-4">Profile Not Found</h2>
           <p class="text-gray-300 mb-6">{{ error }}</p>
           <button @click="router.push('/marketplace')" class="nft-btn">
@@ -131,7 +131,7 @@ const followUser = async () => {
       
       <div v-else-if="user">
         
-        <div class="nft-panel mb-8">
+        <div class="bg-white dark:bg-gradient-to-br dark:from-primary-900 dark:to-primary-800 border border-gray-200 dark:border-primary-700 rounded-lg overflow-hidden p-6 mb-8">
           
           <div class="h-48 -m-6 mb-0 rounded-t-lg bg-gradient-to-r from-cyan-500 to-purple-600 relative">
             <div class="absolute inset-0 bg-black/20"></div>
@@ -231,7 +231,7 @@ const followUser = async () => {
                 <div 
                   v-for="nft in collectionNFTs" 
                   :key="nft._id"
-                  class="nft-panel p-0 overflow-hidden hover:transform hover:scale-105 transition-all cursor-pointer"
+                  class="bg-white dark:bg-gradient-to-br dark:from-primary-900 dark:to-primary-800 border border-gray-200 dark:border-primary-700 rounded-lg overflow-hidden p-6 p-0 overflow-hidden hover:transform hover:scale-105 transition-all cursor-pointer"
                   @click="router.push(`/nft/${collection}/${nft.tokenId}`)"
                 >
                   <div class="aspect-square">
@@ -251,7 +251,7 @@ const followUser = async () => {
           </div>
           
           <div v-else class="text-center py-16">
-            <div class="nft-panel p-8">
+            <div class="bg-white dark:bg-gradient-to-br dark:from-primary-900 dark:to-primary-800 border border-gray-200 dark:border-primary-700 rounded-lg overflow-hidden p-6 p-8">
               <div class="text-6xl mb-4">🖼️</div>
               <h3 class="text-xl font-bold text-white mb-2">No NFTs Collected</h3>
               <p class="text-gray-400">{{ isOwnProfile ? 'You haven\'t collected any NFTs yet' : `${username} hasn't collected any NFTs yet` }}</p>
@@ -274,7 +274,7 @@ const followUser = async () => {
                 <div 
                   v-for="nft in collectionNFTs" 
                   :key="nft._id"
-                  class="nft-panel p-0 overflow-hidden hover:transform hover:scale-105 transition-all cursor-pointer"
+                  class="bg-white dark:bg-gradient-to-br dark:from-primary-900 dark:to-primary-800 border border-gray-200 dark:border-primary-700 rounded-lg overflow-hidden p-6 p-0 overflow-hidden hover:transform hover:scale-105 transition-all cursor-pointer"
                   @click="router.push(`/nft/${collection}/${nft.tokenId}`)"
                 >
                   <div class="aspect-square">
@@ -294,7 +294,7 @@ const followUser = async () => {
           </div>
           
           <div v-else class="text-center py-16">
-            <div class="nft-panel p-8">
+            <div class="bg-white dark:bg-gradient-to-br dark:from-primary-900 dark:to-primary-800 border border-gray-200 dark:border-primary-700 rounded-lg overflow-hidden p-6 p-8">
               <div class="text-6xl mb-4">✨</div>
               <h3 class="text-xl font-bold text-white mb-2">No NFTs Created</h3>
               <p class="text-gray-400">{{ isOwnProfile ? 'You haven\'t created any NFTs yet' : `${username} hasn't created any NFTs yet` }}</p>
@@ -311,7 +311,7 @@ const followUser = async () => {
             <div 
               v-for="collection in userCollections" 
               :key="collection.symbol"
-              class="nft-panel hover:transform hover:scale-105 transition-all cursor-pointer"
+              class="bg-white dark:bg-gradient-to-br dark:from-primary-900 dark:to-primary-800 border border-gray-200 dark:border-primary-700 rounded-lg overflow-hidden p-6 hover:transform hover:scale-105 transition-all cursor-pointer"
               @click="router.push(`/collection/${collection.symbol}`)"
             >
               <div class="h-32 mb-4 rounded-lg overflow-hidden">
@@ -331,7 +331,7 @@ const followUser = async () => {
           </div>
           
           <div v-else class="text-center py-16">
-            <div class="nft-panel p-8">
+            <div class="bg-white dark:bg-gradient-to-br dark:from-primary-900 dark:to-primary-800 border border-gray-200 dark:border-primary-700 rounded-lg overflow-hidden p-6 p-8">
               <div class="text-6xl mb-4">📚</div>
               <h3 class="text-xl font-bold text-white mb-2">No Collections</h3>
               <p class="text-gray-400">{{ isOwnProfile ? 'You haven\'t created any collections yet' : `${username} hasn't created any collections yet` }}</p>
@@ -344,7 +344,7 @@ const followUser = async () => {
 
         
         <div v-else-if="activeTab === 'activity'">
-          <div class="nft-panel">
+          <div class="bg-white dark:bg-gradient-to-br dark:from-primary-900 dark:to-primary-800 border border-gray-200 dark:border-primary-700 rounded-lg overflow-hidden p-6">
             <h3 class="text-xl font-bold text-white mb-6">Recent Activity</h3>
             <div class="text-center py-8 text-gray-400">
               Activity history coming soon...

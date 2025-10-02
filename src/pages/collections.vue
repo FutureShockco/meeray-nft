@@ -46,7 +46,7 @@ const nftCollections = ref<NFTCollection[]>([]);
 onMounted(async () => {
   try {
     isLoading.value = true;
-    
+
     // Load NFT collections from API
     console.log('Loading collections...');
     const collectionsResponse = await api.getNftCollections({ limit: 50 });
@@ -59,8 +59,8 @@ onMounted(async () => {
       logoUrl: collection.logoUrl || '/images/collections/placeholder.jpg',
       bannerImage: collection.bannerImage || '/images/collections/placeholder-banner.jpg',
       floorPrice: collection.floorPrice || 0, // Would need separate API call to calculate
-      items: collection.currentSupply  || 0,
-      maxSupply: collection.maxSupply === 9007199254740991 ? "∞" : ( collection.maxSupply || 0),
+      items: collection.currentSupply || 0,
+      maxSupply: collection.maxSupply === 9007199254740991 ? "∞" : (collection.maxSupply || 0),
       description: collection.description || '',
       owners: 0, // Would need separate API call
       volume: collection.volume || 0, // Would need separate API call
@@ -70,7 +70,7 @@ onMounted(async () => {
         discord: ''
       }
     }));
-    
+
     // Load NFT instances from API
     const nftsResponse = await api.getNftInstances({ limit: 100 });
     // Map API instances to grid-friendly shape to avoid undefined errors
@@ -94,7 +94,7 @@ onMounted(async () => {
       views: 0,
       history: []
     }));
-    
+
   } catch (error) {
     console.error('Failed to load collections data:', error);
   } finally {
@@ -160,18 +160,19 @@ function handleFilterChange(filters: any) {
 
 <template>
   <div class="pb-16">
-    <div class="nft-bg-pattern min-h-screen">
+    <div class="min-h-screen bg-white dark:bg-primary-900 text-gray-900 dark:text-white">
       <div class="max-w-7xl mx-auto px-4 py-8">
         <div v-if="isLoading" class="flex flex-col items-center justify-center py-20">
           <div
             class="w-16 h-16 border-4 border-t-cyan-400 border-r-purple-600 border-b-cyan-400 border-l-purple-600 rounded-full animate-spin">
           </div>
-          <p class="mt-4 text-gray-400 text-lg">Loading the NFT collections...</p>
+          <p class="mt-4 text-gray-600 dark:text-gray-400 text-lg">Loading the NFT collections...</p>
         </div>
 
-        <div v-else-if="!selectedCollection" class="nft-panel">
+        <div v-else-if="!selectedCollection"
+          class="bg-white dark:bg-gradient-to-br dark:from-primary-900 dark:to-primary-800 border border-gray-200 dark:border-primary-700 rounded-lg overflow-hidden p-6 relative">
           <div class="flex justify-between items-center mb-8">
-            <h2 class="text-2xl font-bold text-white flex items-center">
+            <h2 class="text-2xl font-bold text-gray-900 dark:text-white flex items-center">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 text-orange-400" fill="none"
                 viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -181,32 +182,34 @@ function handleFilterChange(filters: any) {
             </h2>
           </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             <div v-for="collection in nftCollections" :key="collection.id"
               @click="router.push(`/collection/${collection.id}`)"
-              class="nft-card cursor-pointer relative rounded-xl overflow-hidden">
+              class="nft-card cursor-pointer relative rounded-xl overflow-hidden bg-white dark:bg-primary-800 border border-gray-200 dark:border-primary-700">
               <div class="h-40 overflow-hidden">
                 <img :src="collection.logoUrl" :alt="collection.title"
                   class="w-full h-full object-cover transform hover:scale-110 transition-transform duration-500" />
               </div>
-
-              <div class="bg-gray-900 p-4 border-t-2 border-cyan-500">
+              <div class="p-4 bg-white dark:bg-primary-800 border-t-2 border-primary-600">
                 <div class="relative -mt-12 mb-2">
                   <img :src="collection.logoUrl" :alt="collection.title"
-                    class="w-16 h-16 rounded-full border-4 border-gray-900 object-cover" />
+                    class="w-16 h-16 rounded-full border-4 border-white dark:border-primary-800 object-cover" />
                 </div>
-                <h3 class="text-lg font-bold text-white">{{ collection.title }}</h3>
-                <p class="text-sm text-gray-400">by <router-link :to="`/profile/${collection.creator}`" class="text-cyan-400">{{ collection.creator }}</router-link></p>
+                <h3 class="text-lg font-bold text-gray-900 dark:text-white">{{ collection.title }}</h3>
+                <p class="text-sm text-gray-600 dark:text-gray-400">by <router-link
+                    :to="`/profile/${collection.creator}`" class="text-cyan-600 dark:text-cyan-400">{{
+                    collection.creator }}</router-link></p>
 
                 <div class="mt-4 flex items-center justify-between">
                   <div>
-                    <p class="text-xs text-gray-500">Floor Price</p>
-                    <p class="text-lg font-bold text-white">{{ collection.floorPrice }} <span
-                        class="text-sm text-cyan-400">STEEM</span></p>
+                    <p class="text-xs text-gray-500 dark:text-gray-400">Floor Price</p>
+                    <p class="text-lg font-bold text-gray-900 dark:text-white">{{ collection.floorPrice }} <span
+                        class="text-sm text-cyan-600 dark:text-cyan-400">STEEM</span></p>
                   </div>
                   <div>
-                    <p class="text-xs text-gray-500">Items</p>
-                    <p class="text-lg font-bold text-white">{{ collection.items }} / {{ collection.maxSupply }}</p>
+                    <p class="text-xs text-gray-500 dark:text-gray-400">Items</p>
+                    <p class="text-lg font-bold text-gray-900 dark:text-white">{{ collection.items }} / {{
+                      collection.maxSupply }}</p>
                   </div>
                 </div>
               </div>
@@ -217,7 +220,7 @@ function handleFilterChange(filters: any) {
         <div v-else-if="selectedCollection" class="mb-16">
           <section class="relative mb-8">
             <button @click="closeCollectionDetail"
-              class="absolute top-4 left-4 z-10 flex items-center px-3 py-1.5 bg-gray-900/70 rounded-lg text-gray-100 hover:bg-gray-800 transition-colors backdrop-blur-sm">
+              class="absolute top-4 left-4 z-10 flex items-center px-3 py-1.5 bg-white/70 dark:bg-primary-800/70 rounded-lg text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-primary-700 transition-colors backdrop-blur-sm">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24"
                 stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
@@ -228,17 +231,21 @@ function handleFilterChange(filters: any) {
             <div class="h-64 w-full rounded-t-xl overflow-hidden relative">
               <img :src="selectedCollection.logoUrl" :alt="selectedCollection.title"
                 class="w-full h-full object-cover" />
-              <div class="absolute inset-0 bg-gradient-to-t from-gray-900/80 to-transparent"></div>
+              <div class="absolute inset-0 bg-gradient-to-t from-gray-200/70 to-transparent dark:from-primary-900/80">
+              </div>
             </div>
 
-            <div class="bg-gray-900/80 backdrop-blur-sm rounded-b-xl border border-purple-800/30 overflow-hidden">
+            <div
+              class="bg-white/80 dark:bg-primary-800/80 backdrop-blur-sm rounded-b-xl border border-purple-800/30 overflow-hidden">
               <div class="px-6 py-5 flex items-center">
                 <img :src="selectedCollection.logoUrl" :alt="selectedCollection.title"
-                  class="w-24 h-24 rounded-lg border-4 border-gray-900 bg-gray-900 object-cover mr-4" />
+                  class="w-24 h-24 rounded-lg border-4 border-white dark:border-primary-800 bg-white dark:bg-primary-800 object-cover mr-4" />
                 <div>
-                  <h1 class="text-3xl font-bold text-white mb-1">{{ selectedCollection.title }}</h1>
+                  <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-1">{{ selectedCollection.title }}</h1>
                   <div class="flex items-center">
-                    <p class="text-gray-300">by <router-link :to="`/profile/${selectedCollection.creator}`" class="text-cyan-400">{{ selectedCollection.creator }}</router-link></p>
+                    <p class="text-gray-600 dark:text-gray-300">by <router-link
+                        :to="`/profile/${selectedCollection.creator}`" class="text-cyan-600 dark:text-cyan-400">{{
+                        selectedCollection.creator }}</router-link></p>
                     <div class="ml-3 px-2 py-0.5 bg-cyan-500/20 rounded-full flex items-center">
                       <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-cyan-400 mr-1" fill="none"
                         viewBox="0 0 24 24" stroke="currentColor">
@@ -277,24 +284,24 @@ function handleFilterChange(filters: any) {
                 </div>
               </div>
 
-              <div class="grid grid-cols-4 border-t border-gray-800">
+              <div class="grid grid-cols-4 border-t border-gray-200 dark:border-primary-700">
                 <div class="p-4 text-center">
-                  <p class="text-sm text-gray-400 mb-1">Items</p>
-                  <p class="text-2xl font-bold text-white">{{ selectedCollection.items }}</p>
+                  <p class="text-sm text-gray-600 dark:text-gray-400 mb-1">Items</p>
+                  <p class="text-2xl font-bold text-gray-900 dark:text-white">{{ selectedCollection.items }}</p>
                 </div>
                 <div class="p-4 text-center">
-                  <p class="text-sm text-gray-400 mb-1">Owners</p>
-                  <p class="text-2xl font-bold text-white">{{ selectedCollection.owners }}</p>
+                  <p class="text-sm text-gray-600 dark:text-gray-400 mb-1">Owners</p>
+                  <p class="text-2xl font-bold text-gray-900 dark:text-white">{{ selectedCollection.owners }}</p>
                 </div>
                 <div class="p-4 text-center">
-                  <p class="text-sm text-gray-400 mb-1">Floor Price</p>
-                  <p class="text-2xl font-bold text-white">{{ selectedCollection.floorPrice }} <span
-                      class="text-sm text-cyan-400">STEEM</span></p>
+                  <p class="text-sm text-gray-600 dark:text-gray-400 mb-1">Floor Price</p>
+                  <p class="text-2xl font-bold text-gray-900 dark:text-white">{{ selectedCollection.floorPrice }} <span
+                      class="text-sm text-cyan-600 dark:text-cyan-400">STEEM</span></p>
                 </div>
                 <div class="p-4 text-center">
-                  <p class="text-sm text-gray-400 mb-1">Volume</p>
-                  <p class="text-2xl font-bold text-white">{{ selectedCollection.volume }} <span
-                      class="text-sm text-cyan-400">STEEM</span></p>
+                  <p class="text-sm text-gray-600 dark:text-gray-400 mb-1">Volume</p>
+                  <p class="text-2xl font-bold text-gray-900 dark:text-white">{{ selectedCollection.volume }} <span
+                      class="text-sm text-cyan-600 dark:text-cyan-400">STEEM</span></p>
                 </div>
               </div>
             </div>

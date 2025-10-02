@@ -264,7 +264,7 @@ const modalImageUrl = computed(() => nft.value?.coverUrl || '/images/nfts/01.png
       </div>
 
       <div v-else-if="error" class="text-center py-16">
-        <div class="nft-panel p-8">
+        <div class="bg-white dark:bg-gradient-to-br dark:from-primary-900 dark:to-primary-800 border border-gray-200 dark:border-primary-700 rounded-lg overflow-hidden p-6 p-8">
           <h2 class="text-2xl font-bold text-red-400 mb-4">Error Loading NFT</h2>
           <p class="text-gray-300">{{ error }}</p>
           <button @click="router.back()" class="nft-btn mt-4">Go Back</button>
@@ -276,7 +276,7 @@ const modalImageUrl = computed(() => nft.value?.coverUrl || '/images/nfts/01.png
 
         <div class="space-y-6">
 
-          <div class="nft-panel p-0 overflow-hidden">
+          <div class="bg-white dark:bg-gradient-to-br dark:from-primary-900 dark:to-primary-800 border border-gray-200 dark:border-primary-700 rounded-lg overflow-hidden p-6 p-0 overflow-hidden">
             <img
               :src="nft.coverUrl || '/images/nfts/01.png'"
               :alt="nft.name"
@@ -286,7 +286,7 @@ const modalImageUrl = computed(() => nft.value?.coverUrl || '/images/nfts/01.png
           </div>
 
 
-          <div class="nft-panel">
+          <div class="bg-white dark:bg-gradient-to-br dark:from-primary-900 dark:to-primary-800 border border-gray-200 dark:border-primary-700 rounded-lg overflow-hidden p-6">
             <h3 class="text-lg font-bold text-white mb-4">Metadata</h3>
             <div v-if="nft.metadata && nft.metadata" class="grid grid-cols-2 md:grid-cols-3 gap-3">
               <div v-for="(value, key) in nft.metadata" :key="key"
@@ -342,7 +342,7 @@ const modalImageUrl = computed(() => nft.value?.coverUrl || '/images/nfts/01.png
 
 
 
-          <div class="nft-panel">
+          <div class="bg-white dark:bg-gradient-to-br dark:from-primary-900 dark:to-primary-800 border border-gray-200 dark:border-primary-700 rounded-lg overflow-hidden p-6">
             <template v-if="nft.listing">
               <div class="mb-6">
                 <div class="text-sm text-gray-400 mb-2">Listing Type</div>
@@ -423,7 +423,7 @@ const modalImageUrl = computed(() => nft.value?.coverUrl || '/images/nfts/01.png
           </div>
 
 
-          <div class="nft-panel">
+          <div class="bg-white dark:bg-gradient-to-br dark:from-primary-900 dark:to-primary-800 border border-gray-200 dark:border-primary-700 rounded-lg overflow-hidden p-6">
             <div class="flex border-b border-gray-700 mb-4">
               <button v-for="tab in ['details', 'history', 'offers']" :key="tab" @click="activeTab = tab" :class="[
                 'px-4 py-2 font-medium capitalize transition-colors',

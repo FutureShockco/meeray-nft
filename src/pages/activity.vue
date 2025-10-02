@@ -164,7 +164,7 @@ const formatPrice = (raw, symbol) => {
       <p class="text-gray-300">Latest marketplace activity across all collections</p>
     </div>
 
-    <div class="nft-panel mb-8">
+    <div class="bg-white dark:bg-gradient-to-br dark:from-primary-900 dark:to-primary-800 border border-gray-200 dark:border-primary-700 rounded-lg overflow-hidden p-6 relative mb-8">
       <div class="flex flex-wrap gap-3">
         <button v-for="filterOption in filters" :key="filterOption.value" @click="filter = filterOption.value" :class="[
           'px-4 py-2 rounded-lg font-medium transition-all',
@@ -183,7 +183,7 @@ const formatPrice = (raw, symbol) => {
 
     <div v-else-if="filteredActivities.length" class="space-y-4">
       <div v-for="activity in filteredActivities" :key="activity._id"
-        class="nft-panel hover:transform hover:scale-[1.01] transition-all cursor-pointer"
+        class="bg-white dark:bg-gradient-to-br dark:from-primary-900 dark:to-primary-800 border border-gray-200 dark:border-primary-700 rounded-lg overflow-hidden p-6 hover:transform hover:scale-[1.01] transition-all cursor-pointer"
         @click="goToActivity(activity)">
         <div class="flex items-center space-x-4">
           <div class="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
@@ -262,7 +262,7 @@ const formatPrice = (raw, symbol) => {
     </div>
 
     <div v-else class="text-center py-16">
-      <div class="nft-panel p-8">
+      <div class="bg-white dark:bg-gradient-to-br dark:from-primary-900 dark:to-primary-800 border border-gray-200 dark:border-primary-700 rounded-lg overflow-hidden p-6 p-8">
         <div class="text-6xl mb-4">📊</div>
         <h3 class="text-xl font-bold text-white mb-2">No Activity Found</h3>
         <p class="text-gray-400">No marketplace activity for the selected filter.</p>

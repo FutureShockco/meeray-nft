@@ -107,7 +107,7 @@ const getChangeColor = (change: number) => {
       </div>
 
 
-      <div v-else-if="activeTab === 'collections'" class="nft-panel">
+      <div v-else-if="activeTab === 'collections'" class="bg-white dark:bg-gradient-to-br dark:from-primary-900 dark:to-primary-800 border border-gray-200 dark:border-primary-700 rounded-lg overflow-hidden p-6">
         <div class="overflow-x-auto">
           <table class="w-full">
             <thead>
@@ -165,7 +165,7 @@ const getChangeColor = (change: number) => {
 
       <div v-else-if="activeTab === 'trending'" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <div v-for="nft in trending" :key="nft.id"
-          class="nft-panel hover:transform hover:scale-105 transition-all cursor-pointer"
+          class="bg-white dark:bg-gradient-to-br dark:from-primary-900 dark:to-primary-800 border border-gray-200 dark:border-primary-700 rounded-lg overflow-hidden p-6 hover:transform hover:scale-105 transition-all cursor-pointer"
           @click="router.push(`/nft/${nft.collection}/${nft.id}`)">
           <div class="aspect-square mb-4 rounded-lg overflow-hidden">
             <img :src="nft.coverUrl || '/images/nfts/01.png'" :alt="nft.name" class="w-full h-full object-cover">
@@ -180,7 +180,7 @@ const getChangeColor = (change: number) => {
       </div>
 
 
-      <div v-else-if="activeTab === 'creators'" class="nft-panel">
+      <div v-else-if="activeTab === 'creators'" class="bg-white dark:bg-gradient-to-br dark:from-primary-900 dark:to-primary-800 border border-gray-200 dark:border-primary-700 rounded-lg overflow-hidden p-6">
         <div class="overflow-x-auto">
           <table class="w-full">
             <thead>
@@ -234,7 +234,7 @@ const getChangeColor = (change: number) => {
 
 
       <div v-if="!loading && collections.length === 0 && activeTab === 'collections'" class="text-center py-16">
-        <div class="nft-panel p-8">
+        <div class="bg-white dark:bg-gradient-to-br dark:from-primary-900 dark:to-primary-800 border border-gray-200 dark:border-primary-700 rounded-lg overflow-hidden p-6 p-8">
           <div class="text-6xl mb-4">🏆</div>
           <h3 class="text-xl font-bold text-white mb-2">No Collections Found</h3>
           <p class="text-gray-400">No collection rankings available yet.</p>

@@ -104,7 +104,7 @@ const getTokenIcon = (symbol: string) => {
     <div class="max-w-7xl mx-auto px-4 py-8">
 
       <div v-if="!auth.state.isAuthenticated" class="text-center py-16">
-        <div class="nft-panel p-8">
+        <div class="bg-white dark:bg-gradient-to-br dark:from-primary-900 dark:to-primary-800 border border-gray-200 dark:border-primary-700 rounded-lg overflow-hidden p-6 p-8">
           <h2 class="text-2xl font-bold text-white mb-4">Authentication Required</h2>
           <p class="text-gray-300 mb-6">Please log in to view your wallet</p>
           <button @click="router.push('/marketplace')" class="nft-btn">
@@ -123,19 +123,19 @@ const getTokenIcon = (symbol: string) => {
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
 
-          <div class="nft-panel">
+          <div class="bg-white dark:bg-gradient-to-br dark:from-primary-900 dark:to-primary-800 border border-gray-200 dark:border-primary-700 rounded-lg overflow-hidden p-6">
             <div class="text-sm text-gray-400 mb-2">Total Portfolio Value</div>
             <div class="text-2xl font-bold text-white">${{ totalPortfolioValue.toFixed(2) }}</div>
           </div>
 
 
-          <div class="nft-panel">
+          <div class="bg-white dark:bg-gradient-to-br dark:from-primary-900 dark:to-primary-800 border border-gray-200 dark:border-primary-700 rounded-lg overflow-hidden p-6">
             <div class="text-sm text-gray-400 mb-2">Token Types</div>
             <div class="text-2xl font-bold text-cyan-400">{{ tokens.length }}</div>
           </div>
 
 
-          <div class="nft-panel">
+          <div class="bg-white dark:bg-gradient-to-br dark:from-primary-900 dark:to-primary-800 border border-gray-200 dark:border-primary-700 rounded-lg overflow-hidden p-6">
             <div class="text-sm text-gray-400 mb-2">Owned NFTs</div>
             <div class="text-2xl font-bold text-purple-400">{{ nfts.length }}</div>
           </div>
@@ -174,7 +174,7 @@ const getTokenIcon = (symbol: string) => {
 
 
         <div v-else-if="activeTab === 'tokens'">
-          <div class="nft-panel">
+          <div class="bg-white dark:bg-gradient-to-br dark:from-primary-900 dark:to-primary-800 border border-gray-200 dark:border-primary-700 rounded-lg overflow-hidden p-6">
             <h3 class="text-xl font-bold text-white mb-6">Token Balances</h3>
 
             <div v-if="tokens.length" class="space-y-4">
@@ -214,7 +214,7 @@ const getTokenIcon = (symbol: string) => {
 
               <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
                 <div v-for="nft in collectionNFTs" :key="nft.id"
-                  class="nft-panel p-0 overflow-hidden hover:transform hover:scale-105 transition-all cursor-pointer"
+                  class="bg-white dark:bg-gradient-to-br dark:from-primary-900 dark:to-primary-800 border border-gray-200 dark:border-primary-700 rounded-lg overflow-hidden p-6 p-0 overflow-hidden hover:transform hover:scale-105 transition-all cursor-pointer"
                   @click="router.push(`/nft/${collection}/${nft.id}`)">
                   <div class="aspect-square">
                     <img :src="nft.coverUrl || '/images/nfts/01.png'" :alt="nft.name"
@@ -230,7 +230,7 @@ const getTokenIcon = (symbol: string) => {
           </div>
 
           <div v-else class="text-center py-16">
-            <div class="nft-panel p-8">
+            <div class="bg-white dark:bg-gradient-to-br dark:from-primary-900 dark:to-primary-800 border border-gray-200 dark:border-primary-700 rounded-lg overflow-hidden p-6 p-8">
               <div class="text-6xl mb-4">🖼️</div>
               <h3 class="text-xl font-bold text-white mb-2">No NFTs Found</h3>
               <p class="text-gray-400 mb-6">You don't own any NFTs yet</p>
@@ -243,7 +243,7 @@ const getTokenIcon = (symbol: string) => {
 
 
         <div v-else-if="activeTab === 'activity'">
-          <div class="nft-panel">
+          <div class="bg-white dark:bg-gradient-to-br dark:from-primary-900 dark:to-primary-800 border border-gray-200 dark:border-primary-700 rounded-lg overflow-hidden p-6">
             <h3 class="text-xl font-bold text-white mb-6">Recent Activity</h3>
             <div class="text-center py-8 text-gray-400">
               Activity history coming soon...

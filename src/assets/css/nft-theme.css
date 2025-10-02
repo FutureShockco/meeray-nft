@@ -118,16 +118,6 @@
   position: relative;
 }
 
-/* nft gradient panel */
-.nft-panel {
-  background: linear-gradient(to bottom right, var(--nft-bg-panel), var(--nft-bg-dark));
-  border: 1px solid rgba(102, 16, 242, 0.2);
-  border-radius: 8px;
-  overflow: hidden;
-  padding: 1.5rem;
-  position: relative;
-} 
-
 /* NFT Theme Utility Classes */
 .neon-text {
     color: var(--steem-auth-primary-color);

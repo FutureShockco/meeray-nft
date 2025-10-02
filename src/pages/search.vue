@@ -179,7 +179,7 @@ const clearFilters = () => {
       </div>
 
       
-      <div class="nft-panel mb-8">
+      <div class="bg-white dark:bg-gradient-to-br dark:from-primary-900 dark:to-primary-800 border border-gray-200 dark:border-primary-700 rounded-lg overflow-hidden p-6 mb-8">
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
           
           <div>
@@ -275,7 +275,7 @@ const clearFilters = () => {
             <div 
               v-for="nft in filteredResults.nfts" 
               :key="`${nft.collection}-${nft.id}`"
-              class="nft-panel p-0 overflow-hidden hover:transform hover:scale-105 transition-all cursor-pointer"
+              class="bg-white dark:bg-gradient-to-br dark:from-primary-900 dark:to-primary-800 border border-gray-200 dark:border-primary-700 rounded-lg overflow-hidden p-6 p-0 overflow-hidden hover:transform hover:scale-105 transition-all cursor-pointer"
               @click="router.push(`/nft/${nft.collection}/${nft.id}`)"
             >
               <div class="aspect-square">
@@ -301,7 +301,7 @@ const clearFilters = () => {
             <div 
               v-for="collection in filteredResults.collections" 
               :key="collection.id"
-              class="nft-panel hover:transform hover:scale-105 transition-all cursor-pointer"
+              class="bg-white dark:bg-gradient-to-br dark:from-primary-900 dark:to-primary-800 border border-gray-200 dark:border-primary-700 rounded-lg overflow-hidden p-6 hover:transform hover:scale-105 transition-all cursor-pointer"
               @click="router.push(`/collections/${collection.id}`)"
             >
               <div class="h-32 mb-4 rounded-lg overflow-hidden">
@@ -328,7 +328,7 @@ const clearFilters = () => {
             <div 
               v-for="user in filteredResults.users" 
               :key="user.username"
-              class="nft-panel hover:transform hover:scale-105 transition-all cursor-pointer"
+              class="bg-white dark:bg-gradient-to-br dark:from-primary-900 dark:to-primary-800 border border-gray-200 dark:border-primary-700 rounded-lg overflow-hidden p-6 hover:transform hover:scale-105 transition-all cursor-pointer"
               @click="router.push(`/profile/${user.username}`)"
             >
               <div class="flex items-center space-x-4">
@@ -347,7 +347,7 @@ const clearFilters = () => {
         
         <div v-if="!filteredResults.nfts?.length && !filteredResults.collections?.length && !filteredResults.users?.length">
           <div class="text-center py-16">
-            <div class="nft-panel p-8">
+            <div class="bg-white dark:bg-gradient-to-br dark:from-primary-900 dark:to-primary-800 border border-gray-200 dark:border-primary-700 rounded-lg overflow-hidden p-6 p-8">
               <div class="text-6xl mb-4">🔍</div>
               <h3 class="text-xl font-bold text-white mb-2">No Results Found</h3>
               <p class="text-gray-400 mb-6">Try adjusting your search terms or filters</p>
@@ -361,7 +361,7 @@ const clearFilters = () => {
 
       
       <div v-else class="text-center py-16">
-        <div class="nft-panel p-8">
+        <div class="bg-white dark:bg-gradient-to-br dark:from-primary-900 dark:to-primary-800 border border-gray-200 dark:border-primary-700 rounded-lg overflow-hidden p-6 p-8">
           <div class="text-6xl mb-4">🔍</div>
           <h3 class="text-xl font-bold text-white mb-2">Start Searching</h3>
           <p class="text-gray-400">Enter a search term to find NFTs, collections, and users</p>

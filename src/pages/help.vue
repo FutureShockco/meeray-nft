@@ -70,7 +70,7 @@ const faqs = {
       <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
         
         <div class="lg:col-span-1">
-          <div class="nft-panel p-6 sticky top-8">
+          <div class="bg-white dark:bg-gradient-to-br dark:from-primary-900 dark:to-primary-800 border border-gray-200 dark:border-primary-700 rounded-lg overflow-hidden p-6 p-6 sticky top-8">
             <h3 class="text-lg font-bold text-white mb-4">Topics</h3>
             <nav class="space-y-2">
               <button
@@ -95,7 +95,7 @@ const faqs = {
         <div class="lg:col-span-3">
           
           <div v-if="activeSection === 'getting-started'" class="space-y-6">
-            <div class="nft-panel">
+            <div class="bg-white dark:bg-gradient-to-br dark:from-primary-900 dark:to-primary-800 border border-gray-200 dark:border-primary-700 rounded-lg overflow-hidden p-6">
               <h2 class="text-2xl font-bold text-white mb-6">🚀 Getting Started</h2>
               <div class="space-y-6">
                 <div v-for="faq in faqs['getting-started']" :key="faq.question" class="border-b border-gray-700 pb-6 last:border-b-0 last:pb-0">
@@ -108,7 +108,7 @@ const faqs = {
 
           
           <div v-else-if="activeSection === 'buying-selling'" class="space-y-6">
-            <div class="nft-panel">
+            <div class="bg-white dark:bg-gradient-to-br dark:from-primary-900 dark:to-primary-800 border border-gray-200 dark:border-primary-700 rounded-lg overflow-hidden p-6">
               <h2 class="text-2xl font-bold text-white mb-6">💰 Buying & Selling</h2>
               <div class="space-y-6">
                 <div v-for="faq in faqs['buying-selling']" :key="faq.question" class="border-b border-gray-700 pb-6 last:border-b-0 last:pb-0">
@@ -121,7 +121,7 @@ const faqs = {
 
           
           <div v-else-if="activeSection === 'creating'" class="space-y-6">
-            <div class="nft-panel">
+            <div class="bg-white dark:bg-gradient-to-br dark:from-primary-900 dark:to-primary-800 border border-gray-200 dark:border-primary-700 rounded-lg overflow-hidden p-6">
               <h2 class="text-2xl font-bold text-white mb-6">✨ Creating NFTs</h2>
               <div class="space-y-6">
                 <div v-for="faq in faqs['creating']" :key="faq.question" class="border-b border-gray-700 pb-6 last:border-b-0 last:pb-0">
@@ -134,7 +134,7 @@ const faqs = {
 
           
           <div v-else-if="activeSection === 'wallet'" class="space-y-6">
-            <div class="nft-panel">
+            <div class="bg-white dark:bg-gradient-to-br dark:from-primary-900 dark:to-primary-800 border border-gray-200 dark:border-primary-700 rounded-lg overflow-hidden p-6">
               <h2 class="text-2xl font-bold text-white mb-6">🔒 Wallet & Security</h2>
               <div class="space-y-6">
                 <div class="border-b border-gray-700 pb-6">
@@ -155,7 +155,7 @@ const faqs = {
 
           
           <div v-else-if="activeSection === 'technical'" class="space-y-6">
-            <div class="nft-panel">
+            <div class="bg-white dark:bg-gradient-to-br dark:from-primary-900 dark:to-primary-800 border border-gray-200 dark:border-primary-700 rounded-lg overflow-hidden p-6">
               <h2 class="text-2xl font-bold text-white mb-6">🔧 Technical Support</h2>
               <div class="space-y-6">
                 <div class="border-b border-gray-700 pb-6">
@@ -176,7 +176,7 @@ const faqs = {
 
           
           <div v-else-if="activeSection === 'contact'" class="space-y-6">
-            <div class="nft-panel">
+            <div class="bg-white dark:bg-gradient-to-br dark:from-primary-900 dark:to-primary-800 border border-gray-200 dark:border-primary-700 rounded-lg overflow-hidden p-6">
               <h2 class="text-2xl font-bold text-white mb-6">📞 Contact Us</h2>
               <div class="space-y-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">

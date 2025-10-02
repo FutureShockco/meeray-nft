@@ -11,7 +11,7 @@ const lastUpdated = '2024-01-15'
         <p class="text-gray-300">Last updated: {{ lastUpdated }}</p>
       </div>
 
-      <div class="nft-panel prose prose-invert max-w-none">
+      <div class="bg-white dark:bg-gradient-to-br dark:from-primary-900 dark:to-primary-800 border border-gray-200 dark:border-primary-700 rounded-lg overflow-hidden p-6 prose prose-invert max-w-none">
         <div class="space-y-8">
           
           <section>

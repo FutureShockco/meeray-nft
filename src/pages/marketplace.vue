@@ -236,12 +236,12 @@ function handleFilterChange(filters: any) {
 
 <template>
   <div class="pb-16 max-w-7xl mx-auto">
-    <div class="max-w-7xl mx-auto px-4 py-8">
+    <div class="max-w-7xl mx-auto px-4 py-8 min-h-screen bg-white dark:bg-primary-900 text-gray-900 dark:text-white">
       <div v-if="isLoading" class="flex flex-col items-center justify-center py-20">
         <div
           class="w-16 h-16 border-4 border-t-cyan-400 border-r-purple-600 border-b-cyan-400 border-l-purple-600 rounded-full animate-spin">
         </div>
-        <p class="mt-4 text-gray-400 text-lg">Loading the NFT marketplace...</p>
+        <p class="mt-4 text-gray-600 dark:text-gray-400 text-lg">Loading the NFT marketplace...</p>
       </div>
 
 
@@ -258,7 +258,7 @@ function handleFilterChange(filters: any) {
 
                 <div class="relative h-[500px]">
                   <img :src="collection.logoUrl" :alt="collection.title" class="w-full h-full object-cover" />
-                  <div class="absolute inset-0 bg-gradient-to-r from-gray-900/95 to-gray-900/50"></div>
+                  <div class="absolute inset-0 bg-gradient-to-r from-gray-900/95 to-gray-900/50 dark:from-primary-900/95 dark:to-primary-800/50"></div>
                 </div>
 
 
@@ -346,7 +346,7 @@ function handleFilterChange(filters: any) {
 
         <section class="mb-16">
           <div class="flex items-center justify-between mb-6">
-            <h2 class="text-2xl font-bold text-white flex items-center">
+            <h2 class="text-2xl font-bold text-gray-900 dark:text-white flex items-center">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 text-cyan-400" fill="none" viewBox="0 0 24 24"
                 stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
@@ -361,7 +361,7 @@ function handleFilterChange(filters: any) {
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             <div v-for="collection in nftCollections.slice(0, 3)" :key="collection.id"
               @click="router.push('/collection/' + collection.id)"
-              class="nft-card cursor-pointer relative rounded-xl overflow-hidden">
+              class="nft-card cursor-pointer relative rounded-xl overflow-hidden bg-white dark:bg-primary-800 border border-gray-200 dark:border-primary-700">
 
               <div class="h-40 overflow-hidden">
                 <img :src="collection.logoUrl" :alt="collection.title"
@@ -369,24 +369,24 @@ function handleFilterChange(filters: any) {
               </div>
 
 
-              <div class="bg-gray-900 p-4 border-t-2 border-cyan-500">
+              <div class="p-4 bg-white dark:bg-primary-800 border-t-2 border-primary-600">
                 <div class="relative -mt-12 mb-2">
                   <img :src="collection.logoUrl" :alt="collection.title"
-                    class="w-16 h-16 rounded-full border-4 border-gray-900 object-cover" />
+                    class="w-16 h-16 rounded-full border-4 border-white dark:border-primary-800 object-cover" />
                 </div>
-                <h3 class="text-lg font-bold text-white">{{ collection.title }}</h3>
-                <p class="text-sm text-gray-400">by <span class="text-cyan-400">{{ collection.creator }}</span>
+                <h3 class="text-lg font-bold text-gray-900 dark:text-white">{{ collection.title }}</h3>
+                <p class="text-sm text-gray-600 dark:text-gray-400">by <span class="text-cyan-600 dark:text-cyan-400">{{ collection.creator }}</span>
                 </p>
 
                 <div class="mt-4 flex items-center justify-between">
                   <div>
-                    <p class="text-xs text-gray-500">Floor Price</p>
-                    <p class="text-lg font-bold text-white">{{ collection.floorPrice }} <span
-                        class="text-sm text-cyan-400">STEEM</span></p>
+                    <p class="text-xs text-gray-500 dark:text-gray-400">Floor Price</p>
+                    <p class="text-lg font-bold text-gray-900 dark:text-white">{{ collection.floorPrice }} <span
+                        class="text-sm text-cyan-600 dark:text-cyan-400">STEEM</span></p>
                   </div>
                   <div>
-                    <p class="text-xs text-gray-500">Items</p>
-                    <p class="text-lg font-bold text-white">{{ collection.items }}</p>
+                    <p class="text-xs text-gray-500 dark:text-gray-400">Items</p>
+                    <p class="text-lg font-bold text-gray-900 dark:text-white">{{ collection.items }}</p>
                   </div>
                 </div>
               </div>
@@ -397,7 +397,7 @@ function handleFilterChange(filters: any) {
 
         <section class="mb-16">
           <div class="flex items-center justify-between mb-6">
-            <h2 class="text-2xl font-bold text-white flex items-center">
+            <h2 class="text-2xl font-bold text-gray-900 dark:text-white flex items-center">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 text-pink-500" fill="none" viewBox="0 0 24 24"
                 stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -423,8 +423,8 @@ function handleFilterChange(filters: any) {
 
 
         <section>
-          <div class="flex items-center justify-between mb-6">
-            <h2 class="text-2xl font-bold text-white flex items-center">
+            <div class="flex items-center justify-between mb-6">
+            <h2 class="text-2xl font-bold text-gray-900 dark:text-white flex items-center">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 text-purple-400" fill="none"
                 viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

@@ -155,7 +155,7 @@ const allCategories = computed(() => {
       </div>
 
       
-      <div class="nft-panel mb-8">
+      <div class="bg-white dark:bg-gradient-to-br dark:from-primary-900 dark:to-primary-800 border border-gray-200 dark:border-primary-700 rounded-lg overflow-hidden p-6 mb-8">
         <h3 class="text-lg font-bold text-white mb-4">Browse Categories</h3>
         <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
           <router-link
@@ -177,19 +177,19 @@ const allCategories = computed(() => {
 
       
       <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
-        <div class="nft-panel text-center">
+        <div class="bg-white dark:bg-gradient-to-br dark:from-primary-900 dark:to-primary-800 border border-gray-200 dark:border-primary-700 rounded-lg overflow-hidden p-6 text-center">
           <div class="text-2xl font-bold text-cyan-400">{{ nfts.length }}</div>
           <div class="text-sm text-gray-400">Items</div>
         </div>
-        <div class="nft-panel text-center">
+        <div class="bg-white dark:bg-gradient-to-br dark:from-primary-900 dark:to-primary-800 border border-gray-200 dark:border-primary-700 rounded-lg overflow-hidden p-6 text-center">
           <div class="text-2xl font-bold text-purple-400">{{ collections.length }}</div>
           <div class="text-sm text-gray-400">Collections</div>
         </div>
-        <div class="nft-panel text-center">
+        <div class="bg-white dark:bg-gradient-to-br dark:from-primary-900 dark:to-primary-800 border border-gray-200 dark:border-primary-700 rounded-lg overflow-hidden p-6 text-center">
           <div class="text-2xl font-bold text-green-400">-</div>
           <div class="text-sm text-gray-400">Floor Price</div>
         </div>
-        <div class="nft-panel text-center">
+        <div class="bg-white dark:bg-gradient-to-br dark:from-primary-900 dark:to-primary-800 border border-gray-200 dark:border-primary-700 rounded-lg overflow-hidden p-6 text-center">
           <div class="text-2xl font-bold text-yellow-400">-</div>
           <div class="text-sm text-gray-400">Volume</div>
         </div>
@@ -247,7 +247,7 @@ const allCategories = computed(() => {
           <div 
             v-for="collection in collections" 
             :key="collection.id"
-            class="nft-panel hover:transform hover:scale-105 transition-all cursor-pointer"
+            class="bg-white dark:bg-gradient-to-br dark:from-primary-900 dark:to-primary-800 border border-gray-200 dark:border-primary-700 rounded-lg overflow-hidden p-6 hover:transform hover:scale-105 transition-all cursor-pointer"
             @click="router.push(`/collections/${collection.id}`)"
           >
             <div class="h-32 mb-4 rounded-lg overflow-hidden">
@@ -274,7 +274,7 @@ const allCategories = computed(() => {
           <div 
             v-for="nft in sortedNFTs" 
             :key="`${nft.collection}-${nft.id}`"
-            class="nft-panel p-0 overflow-hidden hover:transform hover:scale-105 transition-all cursor-pointer"
+            class="bg-white dark:bg-gradient-to-br dark:from-primary-900 dark:to-primary-800 border border-gray-200 dark:border-primary-700 rounded-lg overflow-hidden p-6 p-0 overflow-hidden hover:transform hover:scale-105 transition-all cursor-pointer"
             @click="router.push(`/nft/${nft.collection}/${nft.id}`)"
           >
             <div class="aspect-square">
@@ -300,7 +300,7 @@ const allCategories = computed(() => {
           <div 
             v-for="nft in sortedNFTs" 
             :key="`${nft.collection}-${nft.id}`"
-            class="nft-panel hover:transform hover:scale-[1.01] transition-all cursor-pointer"
+            class="bg-white dark:bg-gradient-to-br dark:from-primary-900 dark:to-primary-800 border border-gray-200 dark:border-primary-700 rounded-lg overflow-hidden p-6 hover:transform hover:scale-[1.01] transition-all cursor-pointer"
             @click="router.push(`/nft/${nft.collection}/${nft.id}`)"
           >
             <div class="flex items-center space-x-4">
@@ -330,7 +330,7 @@ const allCategories = computed(() => {
       
       <div v-else-if="!loading && !sortedNFTs.length">
         <div class="text-center py-16">
-          <div class="nft-panel p-8">
+          <div class="bg-white dark:bg-gradient-to-br dark:from-primary-900 dark:to-primary-800 border border-gray-200 dark:border-primary-700 rounded-lg overflow-hidden p-6 p-8">
             <div class="text-6xl mb-4">{{ currentCategory.icon }}</div>
             <h3 class="text-xl font-bold text-white mb-2">No Items Found</h3>
             <p class="text-gray-400 mb-6">No NFTs found in this category yet.</p>
