@@ -100,7 +100,7 @@ const getTokenIcon = (symbol: string) => {
 </script>
 
 <template>
-  <div class="nft-bg-pattern min-h-screen">
+  <div class="bg-primary-50 dark:bg-primary-400 nft-bg-pattern min-h-screen">
     <div class="max-w-7xl mx-auto px-4 py-8">
 
       <div v-if="!auth.state.isAuthenticated" class="text-center py-16">

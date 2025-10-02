@@ -105,8 +105,8 @@ const isKafkaConnected = txService.isConnected;
 </script>
 
 <template>
-  <header class="border-b border-gray-800 py-4">
-    <div class="max-w-7xl mx-auto px-4">
+  <header class="fixed top-0 left-0 w-full z-50 bg-white dark:bg-gray-900 text-gray-900 dark:text-white border-b border-gray-200 dark:border-gray-800 shadow-sm font-sans h-16">
+    <div class="max-w-7xl mx-auto flex items-center justify-between h-16 px-6">
       <div class="flex items-center justify-between">
         <div class="flex items-center space-x-10">
           <router-link to="/" class="flex items-center">
@@ -118,7 +118,7 @@ const isKafkaConnected = txService.isConnected;
                   d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
               </svg>
             </div>
-            <h1 class="ml-2 text-xl font-bold text-white">MeeRayNFT</h1>
+            <h1 class="ml-2 text-xl font-bold dark:text-white text-primary-900">MeeRayNFT</h1>
           </router-link>
 
           <nav class="hidden md:flex space-x-8">

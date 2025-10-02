@@ -23,13 +23,13 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="min-h-screen nft-container ">
+  <div class="min-h-screen bg-white dark:bg-primary-900 nft-bg-pattern dark:text-white relative">
     <AppNavbar>
       <template #logo>
         <span class="font-extrabold text-2xl tracking-tight text-primary-400">EchelonDex</span>
       </template>
     </AppNavbar>
-    <router-view class="container mx-auto"/>
+    <router-view class="mx-auto mt-16"/>
     <ToastContainer />
     <footer class="bg-gray-100 border-t mt-auto">
       <div class="container mx-auto text-center text-gray-600">
