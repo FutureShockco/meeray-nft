@@ -326,7 +326,8 @@ export function useApiService() {
   const getNftMarketListings = (params?: {
     limit?: number;
     offset?: number;
-    collectionSymbol?: string;
+    collectionId?: string;
+    tokenId?: string | number;
     seller?: string;
     priceMin?: number;
     priceMax?: number;
@@ -337,16 +338,18 @@ export function useApiService() {
     const query = new URLSearchParams();
     if (params?.limit) query.append('limit', params.limit.toString());
     if (params?.offset) query.append('offset', params.offset.toString());
-    if (params?.collectionSymbol) query.append('collectionSymbol', params.collectionSymbol);
+    if (params?.tokenId) query.append('tokenId', params.tokenId.toString());
+    if (params?.collectionId) query.append('collectionId', params.collectionId);
     if (params?.seller) query.append('seller', params.seller);
     if (params?.priceMin) query.append('priceMin', params.priceMin.toString());
     if (params?.priceMax) query.append('priceMax', params.priceMax.toString());
     if (params?.paymentSymbol) query.append('paymentSymbol', params.paymentSymbol);
     if (params?.sortBy) query.append('sortBy', params.sortBy);
     if (params?.sortDirection) query.append('sortDirection', params.sortDirection);
+    console.log('Fetching NFT Market Listings with URL:', `${API_BASE}/nfts/listings?${query.toString()}`);
     return fetcher(`${API_BASE}/nfts/listings?${query.toString()}`) as Promise<{ data: NFTMarketListing[]; total: number; limit: number; skip: number }>;
   };
-  const getNftMarketListing = (nftId: string) => fetcher(`${API_BASE}/nfts/listings/nft/${nftId}`) as Promise<NFTMarketListing>;
+  const getNftMarketListing = (nftId: string) => fetcher(`${API_BASE}/nfts/listings/id/${nftId}`) as Promise<NFTMarketListing>;
   const getNftMarketListingsBySeller = (seller: string, params?: { limit?: number; offset?: number }) => {
     const query = new URLSearchParams();
     if (params?.limit) query.append('limit', params.limit.toString());

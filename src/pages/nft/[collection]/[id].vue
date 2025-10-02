@@ -90,6 +90,23 @@ onMounted(async () => {
     ])
     nft.value = nftData
     collectionData.value = collectionInfo
+    if (nftData && collectionInfo) {
+      console.log('Fetched NFT Data:', nftData)
+      console.log('Fetched Collection Data:', collectionInfo)
+      // Pre-load token details for the payment token used in the listing
+      const listingDetail = await api.getNftMarketListings({
+        collectionId: collectionInfo.symbol,
+        tokenId: nftData.index,
+      })
+      console.log('Fetched NFT Market Listing:', listingDetail)
+      // If API returned a listing array, attach the first listing to nft.listing
+      if (Array.isArray(listingDetail) && listingDetail.length > 0) {
+        // normalize listing shape used across this component
+        const listing = listingDetail[0]
+        listing.listingId = listing._id || listing.listingId
+        nft.value.listing = listing
+      }
+    }
   } catch (err) {
     error.value = err instanceof Error ? err.message : 'Failed to load NFT'
   } finally {
@@ -264,7 +281,8 @@ const modalImageUrl = computed(() => nft.value?.coverUrl || '/images/nfts/01.png
       </div>
 
       <div v-else-if="error" class="text-center py-16">
-        <div class="bg-white dark:bg-gradient-to-br dark:from-primary-900 dark:to-primary-800 border border-gray-200 dark:border-primary-700 rounded-lg overflow-hidden p-6 p-8">
+        <div
+          class="bg-white dark:bg-gradient-to-br dark:from-primary-900 dark:to-primary-800 border border-gray-200 dark:border-primary-700 rounded-lg overflow-hidden p-6 p-8">
           <h2 class="text-2xl font-bold text-red-400 mb-4">Error Loading NFT</h2>
           <p class="text-gray-300">{{ error }}</p>
           <button @click="router.back()" class="nft-btn mt-4">Go Back</button>
@@ -276,21 +294,18 @@ const modalImageUrl = computed(() => nft.value?.coverUrl || '/images/nfts/01.png
 
         <div class="space-y-6">
 
-          <div class="bg-white dark:bg-gradient-to-br dark:from-primary-900 dark:to-primary-800 border border-gray-200 dark:border-primary-700 rounded-lg overflow-hidden p-6 p-0 overflow-hidden">
-            <img
-              :src="nft.coverUrl || '/images/nfts/01.png'"
-              :alt="nft.name"
-              class="w-full aspect-square object-cover cursor-pointer"
-              @click="showImageModal = true"
-            />
+          <div
+            class="bg-white dark:bg-gradient-to-br dark:from-primary-900 dark:to-primary-800 border border-gray-200 dark:border-primary-700 rounded-lg overflow-hidden p-6 p-0 overflow-hidden">
+            <img :src="nft.coverUrl || '/images/nfts/01.png'" :alt="nft.name"
+              class="w-full aspect-square object-cover cursor-pointer" @click="showImageModal = true" />
           </div>
 
 
-          <div class="bg-white dark:bg-gradient-to-br dark:from-primary-900 dark:to-primary-800 border border-gray-200 dark:border-primary-700 rounded-lg overflow-hidden p-6">
+          <div
+            class="bg-white dark:bg-gradient-to-br dark:from-primary-900 dark:to-primary-800 border border-gray-200 dark:border-primary-700 rounded-lg overflow-hidden p-6">
             <h3 class="text-lg font-bold text-white mb-4">Metadata</h3>
             <div v-if="nft.metadata && nft.metadata" class="grid grid-cols-2 md:grid-cols-3 gap-3">
-              <div v-for="(value, key) in nft.metadata" :key="key"
-                class="bg-gray-800 rounded-lg p-3 text-center">
+              <div v-for="(value, key) in nft.metadata" :key="key" class="bg-gray-800 rounded-lg p-3 text-center">
                 <div class="text-sm font-semibold text-white">{{ key }}</div>
                 <div class="text-sm font-semibold text-white">{{ value }}</div>
               </div>
@@ -307,16 +322,15 @@ const modalImageUrl = computed(() => nft.value?.coverUrl || '/images/nfts/01.png
           <div>
             <h1 class="text-3xl font-bold text-white mb-2 flex items-center">
               {{ nft.name || `${collection} #${nftId}` }}
-              <button
-                @click="copyItemUrl"
-                title="Copy item URL"
+              <button @click="copyItemUrl" title="Copy item URL"
                 class="ml-3 text-gray-400 hover:text-cyan-400 transition"
-                style="background: none; border: none; cursor: pointer;"
-              >
+                style="background: none; border: none; cursor: pointer;">
                 <!-- Copy icon SVG -->
-               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                 <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 0 1 1.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 0 0-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 0 1-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H9.75" />
-              </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                  stroke="currentColor" class="size-6">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 0 1 1.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 0 0-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 0 1-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H9.75" />
+                </svg>
 
               </button>
               <span v-if="copyUrlSuccess" class="ml-2 text-cyan-400 text-sm">Copied!</span>
@@ -329,11 +343,8 @@ const modalImageUrl = computed(() => nft.value?.coverUrl || '/images/nfts/01.png
               </span>
               <span>•</span>
               <span>Created by
-                 <router-link
-                  v-if="collectionData?.creator"
-                  :to="`/profile/${collectionData.creator}`"
-                  class="text-cyan-400 hover:text-cyan-300"
-                >
+                <router-link v-if="collectionData?.creator" :to="`/profile/${collectionData.creator}`"
+                  class="text-cyan-400 hover:text-cyan-300">
                   {{ collectionData.creator }}
                 </router-link>
               </span>
@@ -342,31 +353,36 @@ const modalImageUrl = computed(() => nft.value?.coverUrl || '/images/nfts/01.png
 
 
 
-          <div class="bg-white dark:bg-gradient-to-br dark:from-primary-900 dark:to-primary-800 border border-gray-200 dark:border-primary-700 rounded-lg overflow-hidden p-6">
+          <div
+            class="bg-white dark:bg-gradient-to-br dark:from-primary-900 dark:to-primary-800 border border-gray-200 dark:border-primary-700 rounded-lg overflow-hidden p-6">
             <template v-if="nft.listing">
               <div class="mb-6">
                 <div class="text-sm text-gray-400 mb-2">Listing Type</div>
                 <div class="text-lg font-semibold text-white mb-2">
-                  {{ nft.listing.listingType.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase()) }}
+                  {{nft.listing.listingType.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase())}}
                 </div>
                 <div class="text-sm text-gray-400 mb-2">Price</div>
                 <div class="text-3xl font-bold text-white mb-2">
-                  {{ Number(nft.listing.price) / Math.pow(10, (tokenOptions.find(t => t.symbol === nft.listing.paymentToken)?.decimals || 3)) }}
+                  {{Number(nft.listing.price) / Math.pow(10, (tokenOptions.find(t => t.symbol ===
+                    nft.listing.paymentToken)?.decimals || 3))}}
                   {{ nft.listing.paymentToken }}
                 </div>
                 <div v-if="nft.listing.listingType === 'RESERVE_AUCTION' && nft.listing.reservePrice" class="mb-2">
                   <div class="text-sm text-gray-400">Reserve Price</div>
                   <div class="text-white">
-                    {{ Number(nft.listing.reservePrice) / Math.pow(10, (tokenOptions.find(t => t.symbol === nft.listing.paymentToken)?.decimals || 3)) }}
+                    {{Number(nft.listing.reservePrice) / Math.pow(10, (tokenOptions.find(t => t.symbol ===
+                      nft.listing.paymentToken)?.decimals || 3))}}
                     {{ nft.listing.paymentToken }}
                   </div>
                 </div>
                 <div v-if="nft.listing.listingType === 'AUCTION' || nft.listing.listingType === 'RESERVE_AUCTION'">
                   <div class="text-sm text-gray-400">Auction End Time</div>
-                  <div class="text-white mb-2">{{ nft.listing.auctionEndTime ? new Date(nft.listing.auctionEndTime).toLocaleString() : 'N/A' }}</div>
+                  <div class="text-white mb-2">{{ nft.listing.auctionEndTime ? new
+                    Date(nft.listing.auctionEndTime).toLocaleString() : 'N/A' }}</div>
                   <div class="text-sm text-gray-400 mb-2">Minimum Bid Increment</div>
                   <div class="text-white mb-2">
-                    {{ Number(nft.listing.minimumBidIncrement) / Math.pow(10, (tokenOptions.find(t => t.symbol === nft.listing.paymentToken)?.decimals || 3)) }}
+                    {{Number(nft.listing.minimumBidIncrement) / Math.pow(10, (tokenOptions.find(t => t.symbol ===
+                      nft.listing.paymentToken)?.decimals || 3))}}
                     {{ nft.listing.paymentToken }}
                   </div>
                   <div class="text-sm text-gray-400">Allow Buy Now</div>
@@ -376,7 +392,8 @@ const modalImageUrl = computed(() => nft.value?.coverUrl || '/images/nfts/01.png
                   <div class="text-sm text-gray-400">Current Highest Bid</div>
                   <div class="text-white mb-2">
                     <template v-if="nft.listing.currentHighestBid">
-                      {{ Number(nft.listing.currentHighestBid) / Math.pow(10, (tokenOptions.find(t => t.symbol === nft.listing.paymentToken)?.decimals || 3)) }}
+                      {{Number(nft.listing.currentHighestBid) / Math.pow(10, (tokenOptions.find(t => t.symbol ===
+                        nft.listing.paymentToken)?.decimals || 3))}}
                       {{ nft.listing.paymentToken }}
                     </template>
                     <template v-else>
@@ -394,7 +411,8 @@ const modalImageUrl = computed(() => nft.value?.coverUrl || '/images/nfts/01.png
 
             <div class="space-y-3">
               <button v-if="canBuy" @click="buyNFT" class="nft-btn w-full py-4 text-lg">
-                Buy for {{ nft.listing ? (Number(nft.listing.price) / Math.pow(10, (tokenOptions.find(t => t.symbol === nft.listing.paymentToken)?.decimals || 3))) : '' }} {{ nft.listing?.paymentToken || '' }}
+                Buy for {{nft.listing ? (Number(nft.listing.price) / Math.pow(10, (tokenOptions.find(t => t.symbol ===
+                  nft.listing.paymentToken)?.decimals || 3))) : ''}} {{ nft.listing?.paymentToken || '' }}
               </button>
 
               <button v-if="canBid" @click="showBidModal = true" class="nft-btn w-full py-4 text-lg bg-purple-600">
@@ -415,15 +433,22 @@ const modalImageUrl = computed(() => nft.value?.coverUrl || '/images/nfts/01.png
                 </button>
               </div>
 
-              <button v-if="!isOwner && auth.state.isAuthenticated" @click="showOfferModal = true"
-                class="nft-btn w-full py-3 bg-gray-600">
-                Make Offer
-              </button>
+              <div v-if="!isOwner && auth.state.isAuthenticated">
+                <button v-if="nft.listing.listingType === 'FIXED_PRICE'" @click="showOfferModal = true"
+                  class="nft-btn w-full py-3 bg-gray-600">
+                  Buy now
+                </button>
+                <button v-else @click="showOfferModal = true" class="nft-btn w-full py-3 bg-gray-600 mt-3">
+                  Make Offer
+                </button>
+              </div>
+
             </div>
           </div>
 
 
-          <div class="bg-white dark:bg-gradient-to-br dark:from-primary-900 dark:to-primary-800 border border-gray-200 dark:border-primary-700 rounded-lg overflow-hidden p-6">
+          <div
+            class="bg-white dark:bg-gradient-to-br dark:from-primary-900 dark:to-primary-800 border border-gray-200 dark:border-primary-700 rounded-lg overflow-hidden p-6">
             <div class="flex border-b border-gray-700 mb-4">
               <button v-for="tab in ['details', 'history', 'offers']" :key="tab" @click="activeTab = tab" :class="[
                 'px-4 py-2 font-medium capitalize transition-colors',
@@ -446,16 +471,76 @@ const modalImageUrl = computed(() => nft.value?.coverUrl || '/images/nfts/01.png
                     <span class="text-white">{{ nftId }}</span>
                   </div>
                   <div class="flex justify-between">
-                    <span class="text-gray-400">Instance ID</span>
-                    <span class="text-white">{{ nft.instanceId || nftId }}</span>
-                  </div>
-                  <div class="flex justify-between">
                     <span class="text-gray-400">Collection</span>
-                    <span class="text-white">{{ collectionData?.name || collection }}</span>
+                    <span class="text-white">{{ collectionData?.name || collection }} [{{ collectionData?.symbol ||
+                      collection
+                    }}]</span>
                   </div>
                   <div v-if="nft.royalties" class="flex justify-between">
                     <span class="text-gray-400">Creator Royalties</span>
                     <span class="text-white">{{ nft.royalties }}%</span>
+                  </div>
+                </div>
+                <div v-if="nft.listing" class="mt-4 bg-gray-800 p-3 rounded-lg text-sm">
+                  <div class="text-gray-400 mb-2">Listing Details</div>
+                  <div class="grid grid-cols-5 gap-4">
+                    <div class="col-span-2 space-y-2">
+                      <div class="flex justify-between"><span class="text-gray-400">Seller</span><span
+                          class="text-white">{{
+                            nft.listing.seller }}</span></div>
+                      <div class="flex justify-between"><span class="text-gray-400">Status</span><span
+                          class="text-white">{{
+                            nft.listing.status }}</span></div>
+                      <div class="flex justify-between"><span class="text-gray-400">Listing Type</span><span
+                          class="text-white">{{
+                            nft.listing.listingType }}</span></div>
+                      <div class="flex justify-between"><span class="text-gray-400">Price</span>
+                        <span class="text-white">{{ $formatRawNumber(nft.listing.price, nft.listing.paymentToken)
+                        }} {{
+                            nft.listing.paymentToken }}</span>
+                      </div>
+                      <div class="flex justify-between"><span class="text-gray-400">Payment Token</span><span
+                          class="text-white">{{
+                            nft.listing.paymentToken }}</span></div>
+                      <div class="flex justify-between"><span class="text-gray-400">Minimum Bid Increment</span>
+                        <span class="text-white">{{ $formatRawNumber(nft.listing.minimumBidIncrement,
+                          nft.listing.paymentToken) }}
+                          {{ nft.listing.paymentToken }}</span>
+                      </div>
+                      <div class="flex justify-between"><span class="text-gray-400">Current Highest Bid</span>
+                        <span class="text-white">{{nft.listing.currentHighestBid ?
+                          (nft.listing._display?.currentHighestBid ||
+                            (Number(nft.listing.currentHighestBid) / Math.pow(10, (tokenOptions.find(t => t.symbol ===
+                              nft.listing.paymentToken)?.decimals || 3)))) : 'N/A'}}</span>
+                      </div>
+                    </div>
+                    <div class="col-span-3 space-y-2">
+                      <div class="flex justify-between"><span class="text-gray-400">Current Highest Bidder</span><span
+                          class="text-white">{{ nft.listing.currentHighestBidder || 'N/A' }}</span></div>
+                      <div class="flex justify-between"><span class="text-gray-400">Total Bids</span><span
+                          class="text-white">{{
+                            nft.listing.totalBids }}</span></div>
+                      <div class="flex justify-between"><span class="text-gray-400">Allow Buy Now</span><span
+                          class="text-white">{{
+                            nft.listing.allowBuyNow ? 'Yes' : 'No' }}</span></div>
+                      <div class="flex justify-between"><span class="text-gray-400">Reserve Price</span>
+                        <span class="text-white">{{nft.listing.reservePrice ? (nft.listing._display?.reservePrice ||
+                          (Number(nft.listing.reservePrice) / Math.pow(10, (tokenOptions.find(t => t.symbol ===
+                            nft.listing.paymentToken)?.decimals || 3)))) : 'N/A'}}</span>
+                      </div>
+                      <div class="flex justify-between"><span class="text-gray-400">Auction End Time</span><span
+                          class="text-white">{{ nft.listing.auctionEndTime ? new
+                            Date(nft.listing.auctionEndTime).toLocaleString() :
+                            'N/A' }}</span></div>
+                      <div class="flex justify-between"><span class="text-gray-400">Created At</span><span
+                          class="text-white">{{
+                            nft.listing.createdAt ? new Date(nft.listing.createdAt).toLocaleString() : 'N/A' }}</span>
+                      </div>
+                      <div class="flex justify-between"><span class="text-gray-400">Last Updated</span><span
+                          class="text-white">{{
+                            nft.listing.lastUpdatedAt ? new Date(nft.listing.lastUpdatedAt).toLocaleString() : 'N/A'
+                          }}</span></div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -580,7 +665,7 @@ const modalImageUrl = computed(() => nft.value?.coverUrl || '/images/nfts/01.png
                 <input v-model="listingForm.price" type="number" step="0.001" min="0" placeholder="0.00"
                   class=" steem-auth-input w-16">
                 <select v-model="listingForm.paymentToken" class="steem-auth-input w-16">
-                  <option v-for="token in tokenOptions" :key="token.symbol" :value="token.symbol" >
+                  <option v-for="token in tokenOptions" :key="token.symbol" :value="token.symbol">
                     {{ token.symbol }}
                   </option>
                 </select>
@@ -597,8 +682,8 @@ const modalImageUrl = computed(() => nft.value?.coverUrl || '/images/nfts/01.png
                 <div class="flex space-x-3">
                   <input v-model="listingForm.price" type="number" step="0.001" min="0" placeholder="0.00"
                     class="steem-auth-input w-16">
-                  <select v-model="listingForm.paymentToken" class="steem-auth-input w-16" >
-                    <option v-for="token in tokenOptions" :key="token.symbol" :value="token.symbol" >
+                  <select v-model="listingForm.paymentToken" class="steem-auth-input w-16">
+                    <option v-for="token in tokenOptions" :key="token.symbol" :value="token.symbol">
                       {{ token.symbol }}
                     </option>
                   </select>
@@ -643,18 +728,11 @@ const modalImageUrl = computed(() => nft.value?.coverUrl || '/images/nfts/01.png
         </div>
       </div>
     </div>
-    <div v-if="showImageModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80" @click="showImageModal = false">
-  <img
-    :src="modalImageUrl"
-    :alt="nft.name"
-    class="max-w-full max-h-[80vh] rounded-lg shadow-lg"
-    @click.stop
-  />
-  <button
-    class="absolute top-6 right-6 text-white text-3xl font-bold"
-    @click="showImageModal = false"
-    style="background: none; border: none;"
-  >&times;</button>
-</div>
+    <div v-if="showImageModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80"
+      @click="showImageModal = false">
+      <img :src="modalImageUrl" :alt="nft.name" class="max-w-full max-h-[80vh] rounded-lg shadow-lg" @click.stop />
+      <button class="absolute top-6 right-6 text-white text-3xl font-bold" @click="showImageModal = false"
+        style="background: none; border: none;">&times;</button>
+    </div>
   </div>
 </template>
