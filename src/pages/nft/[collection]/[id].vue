@@ -434,7 +434,7 @@ const modalImageUrl = computed(() => nft.value?.coverUrl || '/images/nfts/01.png
               </div>
 
               <div v-if="!isOwner && auth.state.isAuthenticated">
-                <button v-if="nft.listing.listingType === 'FIXED_PRICE'" @click="showOfferModal = true"
+                <button v-if="nft.listing && nft.listing.listingType === 'FIXED_PRICE'" @click="showOfferModal = true"
                   class="nft-btn w-full py-3 bg-gray-600">
                   Buy now
                 </button>
