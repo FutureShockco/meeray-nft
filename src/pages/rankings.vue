@@ -34,7 +34,7 @@ onMounted(async () => {
       name: c.name,
       creator: c.creator,
       image: c.logoUrl,
-      floorPrice: 0,
+      floorPrice: c.floorPrice || 0,
       volume: 0,
       items: c.currentSupply || c.maxSupply || 0,
       owners: 0,
