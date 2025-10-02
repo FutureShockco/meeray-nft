@@ -30,6 +30,7 @@ onMounted(() => {
       </template>
     </AppNavbar>
     <router-view class="container mx-auto"/>
+    <ToastContainer />
     <footer class="bg-gray-100 border-t mt-auto">
       <div class="container mx-auto text-center text-gray-600">
         <p>&copy; {{ new Date().getFullYear() }} MeeRayNFT</p>

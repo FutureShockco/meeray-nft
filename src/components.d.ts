@@ -18,6 +18,8 @@ declare module 'vue' {
     NoSidechainAccountModal: typeof import('./components/NoSidechainAccountModal.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    Toast: typeof import('./components/Toast.vue')['default']
+    ToastContainer: typeof import('./components/ToastContainer.vue')['default']
     UserProfilePage: typeof import('./components/nft/UserProfilePage.vue')['default']
   }
 }

@@ -1,14 +1,17 @@
 <script setup lang="ts">
+import { ref } from 'vue';
+import { SteemAuth, useAuthStore } from 'steem-auth-vue';
+import { useTransactionService } from '../composables/useTransactionService';
 
-import { ref, computed } from 'vue';
-import { SteemAuth, SteemTransactions, MeerayTransactions, useAuthStore } from 'steem-auth-vue';
 import { useRoute, useRouter } from 'vue-router';
 const auth = useAuthStore();
 const route = useRoute();
 const router = useRouter();
 
 const searchQuery = ref('');
-
+const isDarkTheme = ref(false);
+const toggleTheme = () => { isDarkTheme.value = !isDarkTheme.value; handleThemeChange(isDarkTheme.value); };
+const THEME_STORAGE_KEY = 'steem-auth-theme';
 
 function handleSearch() {
   if (searchQuery.value.trim()) {
@@ -16,12 +19,89 @@ function handleSearch() {
   }
 }
 
+function isActive(item: any) {
+  // For exact match or startsWith for subroutes
+  if (!item.href) return false;
+  const path = item.href.startsWith('/') ? item.href : '/' + item.href;
+  return route.path === path || route.path.startsWith(path + '/');
+}
 
-const isDarkTheme = ref(false);
 const handleThemeChange = (isDark: boolean): void => {
   console.log('Theme changed:', isDark ? 'dark' : 'light');
   isDarkTheme.value = isDark;
+  applyTheme(isDark);
 };
+
+const applyTheme = (isDark: boolean) => {
+  if (typeof document !== 'undefined') {
+    if (isDark) {
+      document.documentElement.classList.add('dark-theme');
+    } else {
+      document.documentElement.classList.remove('dark-theme');
+    }
+  }
+  if (typeof window !== 'undefined' && window.localStorage) {
+    localStorage.setItem(THEME_STORAGE_KEY, isDark ? 'dark' : 'light');
+  }
+};
+
+const initTheme = () => {
+  if (typeof window === 'undefined') return;
+  const storedTheme = localStorage.getItem(THEME_STORAGE_KEY);
+  if (storedTheme) {
+    isDarkTheme.value = storedTheme === 'dark';
+  } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    // Use system preference if no stored theme
+    isDarkTheme.value = true;
+  }
+
+  applyTheme(isDarkTheme.value);
+
+  if (window.matchMedia) {
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+      if (!localStorage.getItem(THEME_STORAGE_KEY)) {
+        isDarkTheme.value = e.matches;
+        applyTheme(isDarkTheme.value);
+      }
+    });
+  }
+};
+
+function handleModalOpen() {
+  document.body.classList.add('steem-auth-modal-open');
+  setTimeout(() => {
+    const row = document.querySelector('.steem-auth-accounts-row') as (Element & { _wheelHandler?: (e: WheelEvent) => void, scrollLeft?: number });
+    if (row && !row._wheelHandler) {
+      row._wheelHandler = function (e: WheelEvent) {
+        if (e.deltaY !== 0) {
+          e.preventDefault();
+          if (typeof row.scrollLeft === 'number') {
+            row.scrollLeft += e.deltaY;
+          }
+        }
+      };
+      row.addEventListener('wheel', row._wheelHandler, { passive: false });
+    }
+  }, 0);
+}
+
+function handleModalClose() {
+  document.body.classList.remove('steem-auth-modal-open');
+  const row = document.querySelector('.steem-auth-accounts-row') as (Element & { _wheelHandler?: (e: WheelEvent) => void });
+  if (row && row._wheelHandler) {
+    row.removeEventListener('wheel', row._wheelHandler);
+    delete row._wheelHandler;
+  }
+}
+
+onMounted(() => {
+  initTheme();
+
+});
+
+const txService = useTransactionService();
+const isKafkaConnected = txService.isConnected;
+
 </script>
 
 <template>
@@ -91,7 +171,15 @@ const handleThemeChange = (isDark: boolean): void => {
         </div>
 
         <div class="flex items-center space-x-4">
-          <SteemAuth @theme-change="handleThemeChange" appName="future.app" displayDarkModeToggle
+          <div class="flex items-center mr-2" title="Kafka connection status">
+            <span
+              :class="['inline-block w-3 h-3 rounded-full mr-2', isKafkaConnected ? 'bg-green-500' : 'bg-red-500']"></span>
+            <span class="text-sm text-gray-500 dark:text-gray-300">Kafka</span>
+          </div>
+          <button class="steem-auth-theme-toggle" @click="toggleTheme" type="button">
+            {{ isDarkTheme ? '☀️' : '🌙' }}
+          </button>
+          <SteemAuth  appName="future.app" 
             callbackURL="https://nft.meeray.com" steemApi="https://testapi.moecki.online"
             :steemApiOptions="{ addressPrefix: 'MTN', chainId: '1aa939649afcc54c67e01a809967f75b8bee5d928aa6bdf237d0d5d6bfbc5c22' }" />
           <router-link :to="`/profile/${auth.state.username}`" class="relative" v-if="auth.state.isAuthenticated">

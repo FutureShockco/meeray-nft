@@ -5,7 +5,7 @@ import { useApiService } from '../../../composables/useApiService'
 import { useTransactionService } from '../../../composables/useTransactionService'
 import { useTokenFormatting } from '../../../composables/useTokenFormatting'
 import { useAuthStore } from 'steem-auth-vue'
-import { useTokenListStore } from '../../../stores/useTokenList'
+import { useTokenListStore } from '../../../stores/useTokenList';
 
 const route = useRoute()
 const router = useRouter()

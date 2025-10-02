@@ -1,8 +1,10 @@
 
 :root {
   /* Main Colors */
+  --nft-bg-light: #cccccc;
   --nft-bg-dark: #0a0a0f;
   --nft-bg-panel: #151530;
+  --nft-bg-panel-light: #2a2a36;
   --nft-neon-primary: #00ffea;
   --nft-neon-secondary: #ff00c8;
   --nft-purple: #6a0dad;
@@ -90,15 +92,29 @@
   left: 100%;
 }
 
-/* Background patterns */
+
 .nft-bg-pattern {
+  background-color: var(--nft-bg-light);
+  background-image: radial-gradient(var(--nft-bg-panel-light) 2px, transparent 2px);
+  background-size: 30px 30px;
+}
+
+.dark-theme .nft-bg-pattern {
   background-color: var(--nft-bg-dark);
   background-image: radial-gradient(var(--nft-bg-panel) 2px, transparent 2px);
   background-size: 30px 30px;
 }
 
+
 /* nft section container */
 .nft-container {
+  background-color: var(--nft-bg-light);
+  color: white;
+  padding: 0 2rem;
+  position: relative;
+}
+
+.dark-theme .nft-container {
   background-color: var(--nft-bg-dark);
   color: white;
   padding: 0 2rem;
@@ -114,3 +130,24 @@
   padding: 1.5rem;
   position: relative;
 } 
+
+/* NFT Theme Utility Classes */
+.neon-text {
+    color: var(--steem-auth-primary-color);
+    text-shadow: 0 0 5px rgba(0, 255, 234, 0.5);
+}
+
+.neon-text-pulse {
+    color: var(--steem-auth-primary-color);
+    animation: neonPulse 2s infinite;
+}
+
+.neon-border {
+    border: 1px solid var(--steem-auth-primary-color);
+    box-shadow: 0 0 5px rgba(0, 255, 234, 0.3);
+}
+
+.neon-glow {
+    animation: neonGlow 3s infinite;
+}
+

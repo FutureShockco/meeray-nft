@@ -563,28 +563,3 @@ select.steem-auth-input:focus {
     outline: none;
 }
 
-/* NFT Theme Utility Classes */
-.neon-text {
-    color: var(--steem-auth-primary-color);
-    text-shadow: 0 0 5px rgba(0, 255, 234, 0.5);
-}
-
-.neon-text-pulse {
-    color: var(--steem-auth-primary-color);
-    animation: neonPulse 2s infinite;
-}
-
-.neon-border {
-    border: 1px solid var(--steem-auth-primary-color);
-    box-shadow: 0 0 5px rgba(0, 255, 234, 0.3);
-}
-
-.neon-glow {
-    animation: neonGlow 3s infinite;
-}
-
-.nft-bg-pattern {
-    background-color: var(--steem-auth-background);
-    background-image: radial-gradient(var(--steem-auth-card-background) 2px, transparent 2px);
-    background-size: 30px 30px;
-}
