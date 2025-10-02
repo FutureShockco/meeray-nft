@@ -80,12 +80,12 @@ const getChangeColor = (change: number) => {
 </script>
 
 <template>
-  <div class="nft-bg-pattern min-h-screen">
+  <div class="min-h-screen bg-white dark:bg-primary-900 text-gray-900 dark:text-white">
     <div class="max-w-7xl mx-auto px-4 py-8">
 
       <div class="mb-8">
-        <h1 class="text-3xl font-bold text-white mb-4">Rankings</h1>
-        <p class="text-gray-300">Top performing collections, trending NFTs, and leading creators</p>
+        <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-4">Rankings</h1>
+        <p class="text-gray-600 dark:text-gray-400">Top performing collections, trending NFTs, and leading creators</p>
       </div>
 
 
@@ -94,7 +94,7 @@ const getChangeColor = (change: number) => {
           'flex items-center space-x-2 px-6 py-3 rounded-lg font-medium transition-all',
           activeTab === tab.id
             ? 'bg-cyan-500 text-white'
-            : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
+            : 'bg-gray-100 text-gray-900 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700'
         ]">
           <span>{{ tab.icon }}</span>
           <span>{{ tab.name }}</span>
@@ -107,7 +107,7 @@ const getChangeColor = (change: number) => {
       </div>
 
 
-      <div v-else-if="activeTab === 'collections'" class="bg-white dark:bg-gradient-to-br dark:from-primary-900 dark:to-primary-800 border border-gray-200 dark:border-primary-700 rounded-lg overflow-hidden p-6">
+      <div v-else-if="activeTab === 'collections'" class="bg-white bg-gradient-to-br dark:bg-gradient-to-br dark:from-primary-900 dark:to-primary-800 border border-gray-200 dark:border-primary-700 rounded-lg overflow-hidden p-6">
         <div class="overflow-x-auto">
           <table class="w-full">
             <thead>
@@ -123,27 +123,27 @@ const getChangeColor = (change: number) => {
             </thead>
             <tbody>
               <tr v-for="(collection, index) in collections" :key="collection.id"
-                class="border-b border-gray-800 hover:bg-gray-800/50 transition-colors cursor-pointer"
+                class="border-b border-gray-200 dark:border-primary-700 hover:bg-gray-100 dark:hover:bg-gray-800/50 transition-colors cursor-pointer"
                 @click="router.push(`/collection/${collection.id}`)">
                 <td class="py-4">
-                  <span class="text-gray-400 font-medium">{{ index + 1 }}</span>
+                  <span class="text-gray-600 dark:text-gray-400 font-medium">{{ index + 1 }}</span>
                 </td>
                 <td class="py-4">
                   <div class="flex items-center space-x-3">
                     <img :src="collection.image || '/images/collections/cryptoheroes.jpg'" :alt="collection.name"
                       class="w-12 h-12 rounded-lg object-cover">
                     <div>
-                      <div class="font-semibold text-white">{{ collection.name }}</div>
-                      <div class="text-sm text-gray-400">by <router-link :to="`/profile/${collection.creator}`"
-                          class="text-cyan-400">{{ collection.creator }}</router-link></div>
+                      <div class="font-semibold text-gray-900 dark:text-white">{{ collection.name }}</div>
+                      <div class="text-sm text-gray-600 dark:text-gray-400">by <router-link :to="`/profile/${collection.creator}`"
+                          class="text-cyan-400 dark:text-cyan-300">{{ collection.creator }}</router-link></div>
                     </div>
                   </div>
                 </td>
                 <td class="py-4">
-                  <div class="font-medium text-white">{{ collection.floorPrice || '0' }} STEEM</div>
+                  <div class="font-medium text-gray-900 dark:text-white">{{ collection.floorPrice || '0' }} STEEM</div>
                 </td>
                 <td class="py-4">
-                  <div class="font-medium text-white">{{ formatVolume(collection.volume || 0) }} STEEM</div>
+                  <div class="font-medium text-gray-900 dark:text-white">{{ formatVolume(collection.volume || 0) }} STEEM</div>
                 </td>
                 <td class="py-4">
                   <div :class="getChangeColor(collection.change24h || 0)">
@@ -151,10 +151,10 @@ const getChangeColor = (change: number) => {
                   </div>
                 </td>
                 <td class="py-4">
-                  <div class="text-gray-300">{{ collection.items || 0 }}</div>
+                  <div class="text-gray-600 dark:text-gray-400">{{ collection.items || 0 }}</div>
                 </td>
                 <td class="py-4">
-                  <div class="text-gray-300">{{ collection.owners || 0 }}</div>
+                  <div class="text-gray-600 dark:text-gray-400">{{ collection.owners || 0 }}</div>
                 </td>
               </tr>
             </tbody>

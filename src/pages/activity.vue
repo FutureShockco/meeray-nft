@@ -158,10 +158,10 @@ const formatPrice = (raw, symbol) => {
 </script>
 
 <template>
-  <div class="max-w-7xl mx-auto">
+  <div class="max-w-7xl mx-auto bg-white dark:bg-primary-900 text-gray-900 dark:text-white">
     <div class="mb-8">
-      <h1 class="text-3xl font-bold text-white mb-4">Activity</h1>
-      <p class="text-gray-300">Latest marketplace activity across all collections</p>
+      <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-4">Activity</h1>
+      <p class="text-gray-600 dark:text-gray-400">Latest marketplace activity across all collections</p>
     </div>
 
     <div class="bg-white dark:bg-gradient-to-br dark:from-primary-900 dark:to-primary-800 border border-gray-200 dark:border-primary-700 rounded-lg overflow-hidden p-6 relative mb-8">
@@ -170,7 +170,7 @@ const formatPrice = (raw, symbol) => {
           'px-4 py-2 rounded-lg font-medium transition-all',
           filter === filterOption.value
             ? 'bg-cyan-500 text-white'
-            : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
+            : 'bg-gray-100 text-gray-900 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700'
         ]">
           {{ filterOption.label }}
         </button>
@@ -192,67 +192,67 @@ const formatPrice = (raw, symbol) => {
 
           <div class="flex-1 min-w-0">
             <div class="flex items-center space-x-2 mb-1">
-              <span class="text-lg">{{ getActivityIcon(activity.action) }}</span>
-              <span class="font-semibold text-white">{{ getActivityName(activity) }}</span>
-              <span v-if="getActivityCollection(activity)" class="text-gray-400">in</span>
-              <router-link v-if="getActivityCollection(activity)" :to="`/collection/${getActivityCollection(activity)}`"
-                class="text-cyan-400 hover:text-cyan-300 font-medium" @click.stop>
-                {{ getActivityCollection(activity) }}
-              </router-link>
-            </div>
+                  <span class="text-lg">{{ getActivityIcon(activity.action) }}</span>
+                  <span class="font-semibold text-gray-900 dark:text-white">{{ getActivityName(activity) }}</span>
+                  <span v-if="getActivityCollection(activity)" class="text-gray-600 dark:text-gray-400">in</span>
+                  <router-link v-if="getActivityCollection(activity)" :to="`/collection/${getActivityCollection(activity)}`"
+                    class="text-cyan-400 hover:text-cyan-300 font-medium dark:text-cyan-300" @click.stop>
+                    {{ getActivityCollection(activity) }}
+                  </router-link>
+                </div>
 
-            <div class="flex items-center space-x-4 text-sm text-gray-400">
-              <span :class="getActivityColor(activity.action)" class="capitalize font-medium">
-                {{ activity.action.replace('_', ' ') }}
-              </span>
-              <span>by
-                <router-link :to="`/profile/${activity.actor}`" class="text-cyan-400 hover:text-cyan-300" @click.stop>
-                  {{ activity.actor }}
-                </router-link>
-              </span>
-              <span>{{ timeAgo(activity.timestamp) }}</span>
-            </div>
+                <div class="flex items-center space-x-4 text-sm text-gray-600 dark:text-gray-400">
+                  <span :class="getActivityColor(activity.action)" class="capitalize font-medium">
+                    {{ activity.action.replace('_', ' ') }}
+                  </span>
+                  <span>by
+                    <router-link :to="`/profile/${activity.actor}`" class="text-cyan-400 hover:text-cyan-300 dark:text-cyan-300" @click.stop>
+                      {{ activity.actor }}
+                    </router-link>
+                  </span>
+                  <span>{{ timeAgo(activity.timestamp) }}</span>
+                </div>
             <div v-if="activity.action === 'listed'">
-              <span class="text-sm text-gray-400">Type:</span>
-              <span class="text-white">{{ activity.data.listingType?.replace('_', ' ') }}</span>
-              <span class="text-sm text-gray-400 ml-4">Price:</span>
-              <span class="text-white">{{ formatPrice(activity.data.price, activity.data.paymentToken) }} {{
+              <span class="text-sm text-gray-600 dark:text-gray-400">Type:</span>
+              <span class="text-gray-900 dark:text-white">{{ activity.data.listingType?.replace('_', ' ') }}</span>
+              <span class="text-sm text-gray-600 dark:text-gray-400 ml-4">Price:</span>
+              <span class="text-gray-900 dark:text-white">{{ formatPrice(activity.data.price, activity.data.paymentToken) }} {{
                 activity.data.paymentToken }}</span>
             </div>
             <div v-else-if="activity.action === 'sold'">
-              <span class="text-sm text-gray-400">Sold to:</span>
-              <span class="text-white">{{ activity.data.buyer }}</span>
-              <span class="text-sm text-gray-400 ml-4">Price:</span>
-              <span class="text-white">{{ formatPrice(activity.data.finalPrice || activity.data.price,
+              <span class="text-sm text-gray-600 dark:text-gray-400">Sold to:</span>
+              <span class="text-gray-900 dark:text-white">{{ activity.data.buyer }}</span>
+              <span class="text-sm text-gray-600 dark:text-gray-400 ml-4">Price:</span>
+              <span class="text-gray-900 dark:text-white">{{ formatPrice(activity.data.finalPrice || activity.data.price,
                 activity.data.paymentToken) }} {{ activity.data.paymentToken }}</span>
             </div>
             <div v-else-if="activity.action === 'mint'">
-              <span class="text-sm text-gray-400">Token:</span>
-              <span class="text-white">{{ activity.data.fullInstanceId }}</span>
+              <span class="text-sm text-gray-600 dark:text-gray-400">Token:</span>
+              <span class="text-gray-900 dark:text-white">{{ activity.data.fullInstanceId }}</span>
               <span v-if="activity.data.properties?.name || activity.data.metadata?.rarity"
-                class="text-sm text-gray-400 ml-4">Name:</span>
-              <span v-if="activity.data.properties?.name" class="text-white">{{ activity.data.properties.name
+                class="text-sm text-gray-600 dark:text-gray-400 ml-4">Name:</span>
+              <span v-if="activity.data.properties?.name" class="text-gray-900 dark:text-white">{{ activity.data.properties.name
               }}</span>
-              <span v-else-if="activity.data.metadata?.rarity" class="text-white">{{
+              <span v-else-if="activity.data.metadata?.rarity" class="text-gray-900 dark:text-white">{{
                 activity.data.metadata.rarity }}</span>
             </div>
             <div v-else-if="activity.action === 'transfer'">
-              <span class="text-sm text-gray-400">From:</span>
-              <span class="text-white">{{ activity.data.from }}</span>
-              <span class="text-sm text-gray-400 ml-4">To:</span>
-              <span class="text-white">{{ activity.data.to }}</span>
-              <span v-if="activity.data.memo" class="text-sm text-gray-400 ml-4">Memo:</span>
-              <span v-if="activity.data.memo" class="text-white">{{ activity.data.memo }}</span>
+              <span class="text-sm text-gray-600 dark:text-gray-400">From:</span>
+              <span class="text-gray-900 dark:text-white">{{ activity.data.from }}</span>
+              <span class="text-sm text-gray-600 dark:text-gray-400 ml-4">To:</span>
+              <span class="text-gray-900 dark:text-white">{{ activity.data.to }}</span>
+              <span v-if="activity.data.memo" class="text-sm text-gray-600 dark:text-gray-400 ml-4">Memo:</span>
+              <span v-if="activity.data.memo" class="text-gray-900 dark:text-white">{{ activity.data.memo }}</span>
             </div>
             <div v-else-if="activity.action === 'collection_created'">
-              <span class="text-sm text-gray-400">Collection:</span>
-              <span class="text-white">{{ activity.data.symbol }}</span>
-              <span class="text-sm text-gray-400 ml-4">Name:</span>
-              <span class="text-white">{{ activity.data.name }}</span>
+              <span class="text-sm text-gray-600 dark:text-gray-400">Collection:</span>
+              <span class="text-gray-900 dark:text-white">{{ activity.data.symbol }}</span>
+              <span class="text-sm text-gray-600 dark:text-gray-400 ml-4">Name:</span>
+              <span class="text-gray-900 dark:text-white">{{ activity.data.name }}</span>
             </div>
           </div>
 
-          <div class="text-gray-400">
+          <div class="text-gray-600 dark:text-gray-400">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
             </svg>
@@ -260,12 +260,11 @@ const formatPrice = (raw, symbol) => {
         </div>
       </div>
     </div>
-
     <div v-else class="text-center py-16">
       <div class="bg-white dark:bg-gradient-to-br dark:from-primary-900 dark:to-primary-800 border border-gray-200 dark:border-primary-700 rounded-lg overflow-hidden p-6 p-8">
         <div class="text-6xl mb-4">📊</div>
-        <h3 class="text-xl font-bold text-white mb-2">No Activity Found</h3>
-        <p class="text-gray-400">No marketplace activity for the selected filter.</p>
+        <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">No Activity Found</h3>
+        <p class="text-gray-600 dark:text-gray-400">No marketplace activity for the selected filter.</p>
       </div>
     </div>
   </div>
